@@ -1,2 +1,7 @@
 app-contect.txt
 
+.env
+
+node_modules
+
+database
