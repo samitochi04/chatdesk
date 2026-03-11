@@ -7,6 +7,7 @@ const adminRoutes = require("./admin.routes");
 const exportRoutes = require("./export.routes");
 const contactRoutes = require("./contact.routes");
 const crmRoutes = require("./crm.routes");
+const quickReplyRoutes = require("./quickReply.routes");
 
 const router = Router();
 
@@ -18,5 +19,6 @@ router.use("/admin", adminRoutes);
 router.use("/export", exportRoutes);
 router.use("/contact", contactRoutes);
 router.use("/crm", crmRoutes);
+router.use("/quick-replies", quickReplyRoutes);
 
 module.exports = router;
