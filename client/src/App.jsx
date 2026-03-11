@@ -1,8 +1,20 @@
+import { ThemeProvider } from "@/contexts/ThemeContext";
+import Logo from "@/components/ui/Logo";
+import ThemeToggle from "@/components/ui/ThemeToggle";
+
 function App() {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100">
-      <h1 className="text-4xl font-bold">ChatDesk</h1>
-    </div>
+    <ThemeProvider>
+      <div className="flex min-h-screen items-center justify-center bg-[var(--color-bg)]">
+        <div className="flex flex-col items-center gap-6">
+          <Logo className="h-16 w-auto" />
+          <h1 className="text-4xl font-bold text-[var(--color-text-primary)]">
+            ChatDesk
+          </h1>
+          <ThemeToggle />
+        </div>
+      </div>
+    </ThemeProvider>
   );
 }
 

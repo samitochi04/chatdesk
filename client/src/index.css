@@ -1,1 +1,91 @@
 @import "tailwindcss";
+
+/* ── Light theme (default) ── */
+:root {
+  --color-bg: #ffffff;
+  --color-bg-secondary: #f9fafb;
+  --color-surface: #ffffff;
+  --color-surface-hover: #f3f4f6;
+  --color-surface-active: #e5e7eb;
+  --color-border: #e5e7eb;
+  --color-border-light: #f3f4f6;
+  --color-text-primary: #111827;
+  --color-text-secondary: #6b7280;
+  --color-text-tertiary: #9ca3af;
+  --color-text-inverse: #ffffff;
+  --color-primary: #2563eb;
+  --color-primary-hover: #1d4ed8;
+  --color-primary-light: #dbeafe;
+  --color-primary-text: #ffffff;
+  --color-success: #16a34a;
+  --color-success-light: #dcfce7;
+  --color-warning: #d97706;
+  --color-warning-light: #fef3c7;
+  --color-danger: #dc2626;
+  --color-danger-light: #fee2e2;
+  --color-info: #0891b2;
+  --color-info-light: #cffafe;
+  --color-sidebar-bg: #ffffff;
+  --color-sidebar-hover: #f3f4f6;
+  --color-sidebar-active: #eff6ff;
+  --color-sidebar-text: #374151;
+  --color-sidebar-text-active: #2563eb;
+  --color-card-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* ── Dark theme ── */
+.dark {
+  --color-bg: #0a0a0a;
+  --color-bg-secondary: #111111;
+  --color-surface: #171717;
+  --color-surface-hover: #262626;
+  --color-surface-active: #333333;
+  --color-border: #262626;
+  --color-border-light: #1f1f1f;
+  --color-text-primary: #f5f5f5;
+  --color-text-secondary: #a3a3a3;
+  --color-text-tertiary: #737373;
+  --color-text-inverse: #0a0a0a;
+  --color-primary: #3b82f6;
+  --color-primary-hover: #2563eb;
+  --color-primary-light: #1e3a5f;
+  --color-primary-text: #ffffff;
+  --color-success: #22c55e;
+  --color-success-light: #14532d;
+  --color-warning: #f59e0b;
+  --color-warning-light: #78350f;
+  --color-danger: #ef4444;
+  --color-danger-light: #7f1d1d;
+  --color-info: #06b6d4;
+  --color-info-light: #164e63;
+  --color-sidebar-bg: #111111;
+  --color-sidebar-hover: #1f1f1f;
+  --color-sidebar-active: #1e293b;
+  --color-sidebar-text: #d4d4d4;
+  --color-sidebar-text-active: #3b82f6;
+  --color-card-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+/* ── Base resets ── */
+body {
+  margin: 0;
+  background-color: var(--color-bg);
+  color: var(--color-text-primary);
+  font-family:
+    system-ui,
+    -apple-system,
+    "Segoe UI",
+    Roboto,
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+*,
+*::before,
+*::after {
+  border-color: var(--color-border);
+}
