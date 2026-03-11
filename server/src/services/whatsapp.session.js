@@ -2,6 +2,7 @@ const { Client, LocalAuth } = require("whatsapp-web.js");
 const qrcode = require("qrcode");
 const path = require("path");
 const { supabaseAdmin } = require("../config/supabase");
+const { handleBroadcastAck } = require("./broadcast.service");
 const logger = require("../utils/logger");
 
 /**
@@ -191,6 +192,9 @@ function createSession(account, onMessage) {
         .from("messages")
         .update({ status: newStatus })
         .eq("whatsapp_message_id", message.id._serialized);
+
+      // Also update broadcast recipient status if applicable
+      await handleBroadcastAck(message.id._serialized, newStatus);
     } catch (err) {
       logger.error(
         `Error handling message_ack for ${accountId}: ${err.message}`,
