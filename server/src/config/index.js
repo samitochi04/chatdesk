@@ -13,6 +13,12 @@ const envSchema = Joi.object({
 
   OPENAI_API_KEY: Joi.string().allow("").default(""),
 
+  SMTP_HOST: Joi.string().default("smtp.gmail.com"),
+  SMTP_PORT: Joi.number().default(587),
+  SMTP_USER: Joi.string().allow("").default(""),
+  SMTP_PASS: Joi.string().allow("").default(""),
+  CONTACT_EMAIL: Joi.string().email().allow("").default(""),
+
   CORS_ORIGINS: Joi.string().default("http://localhost:5173"),
 
   RATE_LIMIT_WINDOW_MS: Joi.number().default(15 * 60 * 1000),
@@ -42,6 +48,14 @@ const config = {
 
   openai: {
     apiKey: env.OPENAI_API_KEY,
+  },
+
+  smtp: {
+    host: env.SMTP_HOST,
+    port: env.SMTP_PORT,
+    user: env.SMTP_USER,
+    pass: env.SMTP_PASS,
+    contactEmail: env.CONTACT_EMAIL,
   },
 
   cors: {
