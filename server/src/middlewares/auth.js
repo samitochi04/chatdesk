@@ -1,5 +1,3 @@
-const jwt = require("jsonwebtoken");
-const config = require("../config");
 const { supabaseAdmin } = require("../config/supabase");
 const ApiError = require("../utils/ApiError");
 const logger = require("../utils/logger");
@@ -17,18 +15,16 @@ const auth = async (req, _res, next) => {
 
     const token = header.split(" ")[1];
 
-    // Verify JWT with Supabase's JWT secret
-    let decoded;
-    try {
-      decoded = jwt.verify(token, config.supabase.jwtSecret);
-    } catch (err) {
+    // Verify JWT via Supabase Auth (supports both HS256 legacy and ES256 new keys)
+    const {
+      data: { user: authUser },
+      error: authError,
+    } = await supabaseAdmin.auth.getUser(token);
+    if (authError || !authUser) {
       throw ApiError.unauthorized("Invalid or expired token");
     }
 
-    const userId = decoded.sub;
-    if (!userId) {
-      throw ApiError.unauthorized("Token missing subject");
-    }
+    const userId = authUser.id;
 
     // Fetch profile with organization data
     const { data: profile, error } = await supabaseAdmin
