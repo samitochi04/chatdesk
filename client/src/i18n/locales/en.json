@@ -265,7 +265,10 @@
       "quickActions": "Quick Actions",
       "newConversation": "New Conversation",
       "addContact": "Add Contact",
-      "connectWhatsapp": "Connect WhatsApp"
+      "connectWhatsapp": "Connect WhatsApp",
+      "totalDeals": "Total Deals",
+      "totalBroadcasts": "Broadcasts",
+      "currentPlan": "Current Plan"
     },
     "conversations": {
       "title": "Conversations",
@@ -376,7 +379,14 @@
       "changePassword": "Change Password",
       "orgName": "Organization Name",
       "industry": "Industry",
-      "timezone": "Timezone"
+      "timezone": "Timezone",
+      "newPassword": "New Password",
+      "passwordMinLength": "Password must be at least 6 characters",
+      "notificationsHint": "Choose which notifications you'd like to receive.",
+      "notifyNewMessage": "New messages",
+      "notifyNewContact": "New contacts",
+      "notifyDealUpdate": "Deal updates",
+      "notifyBroadcast": "Broadcast completed"
     }
   },
   "admin": {

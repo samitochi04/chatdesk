@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { useState, useCallback } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "@/contexts/AuthContext";
 import Logo from "@/components/ui/Logo";
@@ -18,7 +18,27 @@ export default function Navbar() {
   const { t } = useTranslation();
   const { user } = useAuth();
   const location = useLocation();
+  const navigate = useNavigate();
   const [mobileOpen, setMobileOpen] = useState(false);
+
+  const handleHashLink = useCallback(
+    (e, href) => {
+      if (href.includes("#")) {
+        e.preventDefault();
+        const [path, hash] = href.split("#");
+        if (
+          location.pathname === path ||
+          (path === "/" && location.pathname === "/")
+        ) {
+          const el = document.getElementById(hash);
+          if (el) el.scrollIntoView({ behavior: "smooth" });
+        } else {
+          navigate(`${path}#${hash}`);
+        }
+      }
+    },
+    [location.pathname, navigate],
+  );
 
   return (
     <header className="sticky top-0 z-50 border-b border-[var(--color-border)] bg-[var(--color-surface)]/80 backdrop-blur-md">
@@ -37,6 +57,7 @@ export default function Navbar() {
             <Link
               key={l.key}
               to={l.href}
+              onClick={(e) => handleHashLink(e, l.href)}
               className={`rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
                 location.pathname === l.href
                   ? "text-[var(--color-primary)]"
@@ -115,7 +136,10 @@ export default function Navbar() {
                 <Link
                   key={l.key}
                   to={l.href}
-                  onClick={() => setMobileOpen(false)}
+                  onClick={(e) => {
+                    handleHashLink(e, l.href);
+                    setMobileOpen(false);
+                  }}
                   className="rounded-lg px-3 py-2.5 text-sm font-medium text-[var(--color-text-secondary)] transition-colors hover:bg-[var(--color-surface-hover)] hover:text-[var(--color-text-primary)]"
                 >
                   {t(l.key)}

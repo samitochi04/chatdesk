@@ -265,7 +265,10 @@
       "quickActions": "Actions rapides",
       "newConversation": "Nouvelle conversation",
       "addContact": "Ajouter un contact",
-      "connectWhatsapp": "Connecter WhatsApp"
+      "connectWhatsapp": "Connecter WhatsApp",
+      "totalDeals": "Total des affaires",
+      "totalBroadcasts": "Diffusions",
+      "currentPlan": "Forfait actuel"
     },
     "conversations": {
       "title": "Conversations",
@@ -376,7 +379,14 @@
       "changePassword": "Changer le mot de passe",
       "orgName": "Nom de l'organisation",
       "industry": "Secteur d'activité",
-      "timezone": "Fuseau horaire"
+      "timezone": "Fuseau horaire",
+      "newPassword": "Nouveau mot de passe",
+      "passwordMinLength": "Le mot de passe doit contenir au moins 6 caractères",
+      "notificationsHint": "Choisissez les notifications que vous souhaitez recevoir.",
+      "notifyNewMessage": "Nouveaux messages",
+      "notifyNewContact": "Nouveaux contacts",
+      "notifyDealUpdate": "Mises à jour des affaires",
+      "notifyBroadcast": "Diffusion terminée"
     }
   },
   "admin": {

@@ -1,4 +1,5 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import Logo from "@/components/ui/Logo";
 import { HiOutlineEnvelope } from "react-icons/hi2";
@@ -7,6 +8,27 @@ import { FaXTwitter, FaLinkedinIn, FaFacebookF } from "react-icons/fa6";
 export default function Footer() {
   const { t } = useTranslation();
   const year = new Date().getFullYear();
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const handleHashLink = useCallback(
+    (e, href) => {
+      if (href.includes("#")) {
+        e.preventDefault();
+        const [path, hash] = href.split("#");
+        if (
+          location.pathname === path ||
+          (path === "/" && location.pathname === "/")
+        ) {
+          const el = document.getElementById(hash);
+          if (el) el.scrollIntoView({ behavior: "smooth" });
+        } else {
+          navigate(`${path}#${hash}`);
+        }
+      }
+    },
+    [location.pathname, navigate],
+  );
 
   return (
     <footer className="border-t border-[var(--color-border)] bg-[var(--color-bg-secondary)]">
@@ -42,9 +64,19 @@ export default function Footer() {
               {t("footer.quickLinks")}
             </h4>
             <ul className="space-y-2 text-sm">
-              <FooterLink to="/#features">{t("nav.services")}</FooterLink>
+              <FooterLink
+                to="/#features"
+                onClick={(e) => handleHashLink(e, "/#features")}
+              >
+                {t("nav.services")}
+              </FooterLink>
               <FooterLink to="/guides">{t("nav.guides")}</FooterLink>
-              <FooterLink to="/#pricing">{t("nav.pricing")}</FooterLink>
+              <FooterLink
+                to="/#pricing"
+                onClick={(e) => handleHashLink(e, "/#pricing")}
+              >
+                {t("nav.pricing")}
+              </FooterLink>
               <FooterLink to="/contact">{t("nav.contact")}</FooterLink>
             </ul>
           </div>
@@ -84,11 +116,12 @@ export default function Footer() {
   );
 }
 
-function FooterLink({ to, children }) {
+function FooterLink({ to, children, onClick }) {
   return (
     <li>
       <Link
         to={to}
+        onClick={onClick}
         className="text-[var(--color-text-secondary)] transition-colors hover:text-[var(--color-primary)]"
       >
         {children}

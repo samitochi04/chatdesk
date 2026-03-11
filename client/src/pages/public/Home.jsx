@@ -101,19 +101,32 @@ function HeroSection({ t }) {
 }
 
 /* ─── Trusted By ─── */
+const countries = [
+  { flag: "🇳🇬", name: "Nigeria" },
+  { flag: "🇬🇭", name: "Ghana" },
+  { flag: "🇸🇳", name: "Senegal" },
+  { flag: "🇰🇪", name: "Kenya" },
+  { flag: "🇨🇲", name: "Cameroon" },
+  { flag: "🇨🇮", name: "Côte d'Ivoire" },
+  { flag: "🇿🇦", name: "South Africa" },
+  { flag: "🇷🇼", name: "Rwanda" },
+];
+
 function TrustedBySection({ t }) {
-  const flags = ["🇳🇬", "🇬🇭", "🇸🇳", "🇰🇪", "🇨🇲", "🇨🇮", "🇿🇦", "🇷🇼"];
   return (
     <section className="border-y border-[var(--color-border)] bg-[var(--color-bg-secondary)] py-10">
       <div className="mx-auto max-w-5xl px-4 text-center">
-        <p className="mb-6 text-sm font-medium uppercase tracking-wider text-[var(--color-text-tertiary)]">
+        <p className="mb-8 text-sm font-medium uppercase tracking-wider text-[var(--color-text-tertiary)]">
           {t("home.trustedBy.title")}
         </p>
-        <div className="flex flex-wrap items-center justify-center gap-6">
-          {flags.map((flag) => (
-            <span key={flag} className="text-4xl">
-              {flag}
-            </span>
+        <div className="flex flex-wrap items-center justify-center gap-8 sm:gap-10">
+          {countries.map((c) => (
+            <div key={c.name} className="flex flex-col items-center gap-1.5">
+              <span className="text-4xl">{c.flag}</span>
+              <span className="text-xs font-medium text-[var(--color-text-secondary)]">
+                {c.name}
+              </span>
+            </div>
           ))}
         </div>
       </div>
