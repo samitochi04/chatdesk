@@ -1,0 +1,22 @@
+version: "3.8"
+
+services:
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    container_name: chatdesk-server
+    restart: unless-stopped
+    ports:
+      - "${PORT:-4000}:4000"
+    env_file:
+      - ./server/.env
+    volumes:
+      - whatsapp_sessions:/app/whatsapp-sessions
+      - server_logs:/app/logs
+    environment:
+      - NODE_ENV=production
+
+volumes:
+  whatsapp_sessions:
+  server_logs:
