@@ -1,19 +1,24 @@
 import { ThemeProvider } from "@/contexts/ThemeContext";
-import Logo from "@/components/ui/Logo";
-import ThemeToggle from "@/components/ui/ThemeToggle";
+import { AuthProvider } from "@/contexts/AuthContext";
+import { Toaster } from "react-hot-toast";
+import AppRouter from "@/router/AppRouter";
 
 function App() {
   return (
     <ThemeProvider>
-      <div className="flex min-h-screen items-center justify-center bg-[var(--color-bg)]">
-        <div className="flex flex-col items-center gap-6">
-          <Logo className="h-16 w-auto" />
-          <h1 className="text-4xl font-bold text-[var(--color-text-primary)]">
-            ChatDesk
-          </h1>
-          <ThemeToggle />
-        </div>
-      </div>
+      <AuthProvider>
+        <AppRouter />
+        <Toaster
+          position="top-right"
+          toastOptions={{
+            style: {
+              background: "var(--color-surface)",
+              color: "var(--color-text-primary)",
+              border: "1px solid var(--color-border)",
+            },
+          }}
+        />
+      </AuthProvider>
     </ThemeProvider>
   );
 }
