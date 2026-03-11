@@ -1,4 +1,5 @@
 const { supabaseAdmin } = require("../config/supabase");
+const aiService = require("./ai.service");
 const logger = require("../utils/logger");
 
 /**
@@ -75,12 +76,34 @@ async function handleIncomingMessage(client, message, account) {
     await checkAutoReply(client, message, orgId, conversation);
   }
 
-  // 6. AI agent handling (placeholder — implemented in Step 3)
-  if (conversation.is_ai_handled && conversation.ai_agent_id) {
-    // Will be filled in Step 3: aiService.handleConversation(...)
-    logger.debug(
-      `AI agent ${conversation.ai_agent_id} should handle message in conv ${conversation.id}`,
-    );
+  // 6. AI agent handling
+  if (conversation.is_ai_handled && conversation.ai_agent_id && message.body) {
+    try {
+      const aiReply = await aiService.handleAIConversation(
+        conversation,
+        message.body,
+      );
+
+      if (aiReply) {
+        // Send AI reply via WhatsApp
+        await client.sendMessage(message.from, aiReply);
+
+        // Store AI reply in DB
+        await supabaseAdmin.from("messages").insert({
+          conversation_id: conversation.id,
+          organization_id: orgId,
+          sender_type: "ai_agent",
+          sender_id: conversation.ai_agent_id,
+          content: aiReply,
+          message_type: "text",
+          status: "sent",
+        });
+      }
+    } catch (err) {
+      logger.error(
+        `AI agent error for conv ${conversation.id}: ${err.message}`,
+      );
+    }
   }
 }
 
