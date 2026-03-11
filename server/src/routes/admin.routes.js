@@ -1,0 +1,94 @@
+const { Router } = require("express");
+const {
+  auth,
+  requireRole,
+  requireOrganization,
+} = require("../middlewares/auth");
+const validate = require("../middlewares/validate");
+const schemas = require("../validations/admin.validation");
+const ctrl = require("../controllers/admin.controller");
+
+const router = Router();
+
+/* ------------------------------------------------------------------ */
+/*  Super-admin routes — organization approval                         */
+/* ------------------------------------------------------------------ */
+
+router.get(
+  "/organizations/pending",
+  auth,
+  requireRole("super_admin"),
+  ctrl.listPendingOrgs,
+);
+
+router.get(
+  "/organizations",
+  auth,
+  requireRole("super_admin"),
+  ctrl.listAllOrgs,
+);
+
+router.post(
+  "/organizations/approve",
+  auth,
+  requireRole("super_admin"),
+  validate(schemas.approveOrg),
+  ctrl.approveOrg,
+);
+
+router.post(
+  "/organizations/reject",
+  auth,
+  requireRole("super_admin"),
+  validate(schemas.rejectOrg),
+  ctrl.rejectOrg,
+);
+
+/* ------------------------------------------------------------------ */
+/*  Org-scoped routes (require auth + org context)                     */
+/* ------------------------------------------------------------------ */
+
+router.use(auth, requireOrganization);
+
+/* ---- Team invitations ---- */
+
+router.post(
+  "/invitations",
+  requireRole("owner", "admin"),
+  validate(schemas.createInvitation),
+  ctrl.createInvitation,
+);
+
+router.get("/invitations", ctrl.listInvitations);
+
+router.post(
+  "/invitations/:id/cancel",
+  requireRole("owner", "admin"),
+  validate(schemas.idParam, "params"),
+  ctrl.cancelInvitation,
+);
+
+/* ---- Team members ---- */
+
+router.get("/team", ctrl.listTeamMembers);
+
+router.patch(
+  "/team/:id",
+  requireRole("owner", "admin"),
+  validate(schemas.idParam, "params"),
+  ctrl.updateTeamMember,
+);
+
+/* ---- Activity log ---- */
+
+router.get(
+  "/activity",
+  validate(schemas.activityQuery, "query"),
+  ctrl.listActivity,
+);
+
+/* ---- Dashboard ---- */
+
+router.get("/dashboard", ctrl.getDashboard);
+
+module.exports = router;
