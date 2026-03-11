@@ -6,6 +6,7 @@ const broadcastRoutes = require("./broadcast.routes");
 const adminRoutes = require("./admin.routes");
 const exportRoutes = require("./export.routes");
 const contactRoutes = require("./contact.routes");
+const crmRoutes = require("./crm.routes");
 
 const router = Router();
 
@@ -16,5 +17,6 @@ router.use("/broadcasts", broadcastRoutes);
 router.use("/admin", adminRoutes);
 router.use("/export", exportRoutes);
 router.use("/contact", contactRoutes);
+router.use("/crm", crmRoutes);
 
 module.exports = router;

@@ -61,3 +61,13 @@
 {"level":"info","message":"No WhatsApp sessions to restore","service":"chatdesk-server","timestamp":"2026-03-11 21:21:27"}
 {"level":"warn","message":"403 — No organization assigned","service":"chatdesk-server","timestamp":"2026-03-11 21:21:30"}
 {"level":"warn","message":"403 — No organization assigned","service":"chatdesk-server","timestamp":"2026-03-11 21:21:30"}
+{"level":"info","message":"ChatDesk server running on port 4000 [development]","service":"chatdesk-server","timestamp":"2026-03-11 21:30:09"}
+{"level":"info","message":"No WhatsApp sessions to restore","service":"chatdesk-server","timestamp":"2026-03-11 21:30:09"}
+{"level":"info","message":"ChatDesk server running on port 4000 [development]","service":"chatdesk-server","timestamp":"2026-03-11 21:32:03"}
+{"level":"info","message":"No WhatsApp sessions to restore","service":"chatdesk-server","timestamp":"2026-03-11 21:32:04"}
+{"level":"info","message":"ChatDesk server running on port 4000 [development]","service":"chatdesk-server","timestamp":"2026-03-11 21:32:06"}
+{"level":"info","message":"No WhatsApp sessions to restore","service":"chatdesk-server","timestamp":"2026-03-11 21:32:06"}
+{"level":"info","message":"ChatDesk server running on port 4000 [development]","service":"chatdesk-server","timestamp":"2026-03-11 21:34:23"}
+{"level":"info","message":"No WhatsApp sessions to restore","service":"chatdesk-server","timestamp":"2026-03-11 21:34:23"}
+{"level":"info","message":"ChatDesk server running on port 4000 [development]","service":"chatdesk-server","timestamp":"2026-03-11 21:34:28"}
+{"level":"info","message":"No WhatsApp sessions to restore","service":"chatdesk-server","timestamp":"2026-03-11 21:34:28"}
