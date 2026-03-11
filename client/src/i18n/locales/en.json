@@ -1,0 +1,404 @@
+{
+  "common": {
+    "appName": "ChatDesk",
+    "loading": "Loading...",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "create": "Create",
+    "confirm": "Confirm",
+    "search": "Search",
+    "filter": "Filter",
+    "export": "Export",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "submit": "Submit",
+    "close": "Close",
+    "yes": "Yes",
+    "no": "No",
+    "or": "or",
+    "and": "and",
+    "all": "All",
+    "none": "None",
+    "active": "Active",
+    "inactive": "Inactive",
+    "status": "Status",
+    "actions": "Actions",
+    "details": "Details",
+    "noResults": "No results found",
+    "error": "Something went wrong",
+    "success": "Success",
+    "perMonth": "/month"
+  },
+  "nav": {
+    "home": "Home",
+    "services": "Services",
+    "guides": "Guides",
+    "contact": "Contact",
+    "pricing": "Pricing",
+    "signIn": "Sign In",
+    "signUp": "Sign Up",
+    "dashboard": "Dashboard",
+    "logout": "Log Out"
+  },
+  "home": {
+    "hero": {
+      "title": "Manage Your WhatsApp Business Like a Pro",
+      "subtitle": "ChatDesk helps African businesses manage customer conversations, automate replies with AI, track sales pipelines, and run broadcast campaigns — all from a single dashboard.",
+      "cta": "Get Started",
+      "secondaryCta": "Learn More"
+    },
+    "trustedBy": {
+      "title": "Trusted by businesses across Africa"
+    },
+    "features": {
+      "title": "Everything You Need to Grow",
+      "subtitle": "Powerful tools designed for African businesses",
+      "whatsapp": {
+        "title": "WhatsApp Integration",
+        "description": "Connect your WhatsApp number and manage all conversations from one dashboard."
+      },
+      "aiReply": {
+        "title": "AI Auto-Reply",
+        "description": "Automate repetitive questions with smart AI agents that respond instantly."
+      },
+      "crm": {
+        "title": "Customer Database",
+        "description": "Auto-create customer profiles with tags, classification, and order history."
+      },
+      "pipeline": {
+        "title": "Sales Pipeline",
+        "description": "Track leads through stages: New Lead → Interested → Negotiating → Won."
+      },
+      "broadcast": {
+        "title": "Broadcast Campaigns",
+        "description": "Send promotional messages to filtered contacts with delivery tracking."
+      },
+      "analysis": {
+        "title": "Data Analysis",
+        "description": "AI-powered analytics on customer behaviour, conversations, and sales."
+      }
+    },
+    "howItWorks": {
+      "title": "How It Works",
+      "step1": {
+        "title": "Connect",
+        "description": "Link your WhatsApp number in seconds with a QR code scan."
+      },
+      "step2": {
+        "title": "Manage",
+        "description": "View all messages, assign AI agents, and collaborate with your team."
+      },
+      "step3": {
+        "title": "Grow",
+        "description": "Analyse data, run campaigns, and close more deals."
+      }
+    },
+    "pricing": {
+      "title": "Simple, Transparent Pricing",
+      "subtitle": "Choose the plan that fits your business",
+      "starter": {
+        "name": "Starter",
+        "price": "$12",
+        "description": "For small businesses getting started",
+        "features": [
+          "1 WhatsApp number",
+          "2 team members",
+          "Auto-reply & CRM",
+          "Sales pipeline"
+        ]
+      },
+      "growth": {
+        "name": "Growth",
+        "price": "$25",
+        "description": "For growing businesses",
+        "features": [
+          "3 WhatsApp numbers",
+          "5 team members",
+          "Everything in Starter",
+          "Broadcast campaigns",
+          "Analytics dashboard"
+        ]
+      },
+      "business": {
+        "name": "Business",
+        "price": "$49",
+        "description": "For established businesses",
+        "features": [
+          "10 WhatsApp numbers",
+          "Unlimited team members",
+          "Everything in Growth",
+          "Advanced automation",
+          "Export data (CSV)",
+          "AI data analysis"
+        ]
+      },
+      "cta": "Get Started"
+    },
+    "testimonials": {
+      "title": "What Our Customers Say"
+    },
+    "faq": {
+      "title": "Frequently Asked Questions",
+      "items": [
+        {
+          "question": "How do I connect my WhatsApp number?",
+          "answer": "Simply scan a QR code from your dashboard and your WhatsApp account will be linked in seconds."
+        },
+        {
+          "question": "Can multiple team members use the same WhatsApp number?",
+          "answer": "Yes! Your team can collaborate on the same number, assign conversations, and leave internal notes."
+        },
+        {
+          "question": "How does the AI auto-reply work?",
+          "answer": "You set trigger keywords and response templates. When a customer messages with a matching keyword, the AI responds automatically."
+        },
+        {
+          "question": "Is my data secure?",
+          "answer": "Absolutely. We use enterprise-grade encryption and your data is stored securely with Supabase."
+        },
+        {
+          "question": "Can I upgrade or downgrade my plan?",
+          "answer": "Yes, contact our support team and we'll adjust your plan immediately."
+        }
+      ]
+    },
+    "ctaBanner": {
+      "title": "Ready to Grow Your Business?",
+      "subtitle": "Join thousands of African businesses using ChatDesk to manage their WhatsApp customers.",
+      "cta": "Start Free Trial"
+    }
+  },
+  "contact": {
+    "title": "Contact Us",
+    "subtitle": "Have a question? We'd love to hear from you.",
+    "form": {
+      "name": "Full Name",
+      "email": "Email Address",
+      "subject": "Subject",
+      "message": "Message",
+      "submit": "Send Message",
+      "namePlaceholder": "John Doe",
+      "emailPlaceholder": "john@example.com",
+      "subjectPlaceholder": "How can we help?",
+      "messagePlaceholder": "Tell us more about your question..."
+    },
+    "success": "Your message has been sent successfully! We'll get back to you soon.",
+    "error": "Failed to send your message. Please try again.",
+    "info": {
+      "email": "support@chatdesk.app",
+      "response": "We typically respond within 24 hours."
+    }
+  },
+  "blog": {
+    "title": "Guides & Resources",
+    "subtitle": "Learn how to grow your business with WhatsApp",
+    "readMore": "Read More",
+    "backToGuides": "Back to Guides",
+    "by": "By",
+    "minRead": "min read",
+    "relatedPosts": "Related Articles",
+    "categories": {
+      "all": "All",
+      "gettingStarted": "Getting Started",
+      "tips": "Tips & Tricks",
+      "casStudies": "Case Studies",
+      "updates": "Updates"
+    }
+  },
+  "auth": {
+    "signIn": {
+      "title": "Welcome Back",
+      "subtitle": "Sign in to your ChatDesk account",
+      "email": "Email",
+      "password": "Password",
+      "submit": "Sign In",
+      "forgotPassword": "Forgot password?",
+      "noAccount": "Don't have an account?",
+      "signUpLink": "Sign up"
+    },
+    "signUp": {
+      "title": "Create Your Account",
+      "subtitle": "Start managing your WhatsApp business today",
+      "fullName": "Full Name",
+      "email": "Email",
+      "password": "Password",
+      "confirmPassword": "Confirm Password",
+      "submit": "Create Account",
+      "hasAccount": "Already have an account?",
+      "signInLink": "Sign in",
+      "checkEmail": "Check your email to confirm your account."
+    },
+    "forgotPassword": {
+      "title": "Reset Password",
+      "subtitle": "Enter your email and we'll send you a reset link",
+      "email": "Email",
+      "submit": "Send Reset Link",
+      "backToSignIn": "Back to sign in",
+      "success": "Password reset link sent to your email."
+    }
+  },
+  "dashboard": {
+    "sidebar": {
+      "overview": "Overview",
+      "conversations": "Conversations",
+      "contacts": "Contacts",
+      "pipeline": "Pipeline",
+      "whatsapp": "WhatsApp",
+      "aiAgents": "AI Agents",
+      "autoReplies": "Auto-Replies",
+      "broadcasts": "Broadcasts",
+      "analytics": "Analytics",
+      "quickReplies": "Quick Replies",
+      "team": "Team",
+      "activity": "Activity Log",
+      "settings": "Settings"
+    },
+    "overview": {
+      "title": "Dashboard",
+      "totalContacts": "Total Contacts",
+      "openConversations": "Open Conversations",
+      "messagesToday": "Messages Today",
+      "activeAccounts": "Active WhatsApp Accounts",
+      "quickActions": "Quick Actions",
+      "newConversation": "New Conversation",
+      "addContact": "Add Contact",
+      "connectWhatsapp": "Connect WhatsApp"
+    },
+    "conversations": {
+      "title": "Conversations",
+      "search": "Search conversations...",
+      "noConversations": "No conversations yet",
+      "open": "Open",
+      "pending": "Pending",
+      "closed": "Closed",
+      "archived": "Archived",
+      "assignAgent": "Assign AI Agent",
+      "typeMessage": "Type a message...",
+      "send": "Send"
+    },
+    "contacts": {
+      "title": "Contacts",
+      "addContact": "Add Contact",
+      "name": "Name",
+      "phone": "Phone",
+      "tags": "Tags",
+      "classification": "Classification",
+      "lastConversation": "Last Conversation",
+      "totalOrders": "Total Orders",
+      "created": "Created"
+    },
+    "pipeline": {
+      "title": "Sales Pipeline",
+      "addDeal": "Add Deal",
+      "newLead": "New Lead",
+      "interested": "Interested",
+      "negotiating": "Negotiating",
+      "won": "Won",
+      "lost": "Lost"
+    },
+    "whatsapp": {
+      "title": "WhatsApp Accounts",
+      "connect": "Connect Account",
+      "disconnect": "Disconnect",
+      "connected": "Connected",
+      "disconnected": "Disconnected",
+      "pending": "Pending",
+      "banned": "Banned",
+      "scanQr": "Scan this QR code with your WhatsApp",
+      "limitReached": "Account limit reached for your plan"
+    },
+    "aiAgents": {
+      "title": "AI Agents",
+      "create": "Create Agent",
+      "name": "Agent Name",
+      "type": "Type",
+      "model": "Model",
+      "systemPrompt": "System Prompt",
+      "temperature": "Temperature",
+      "maxTokens": "Max Tokens",
+      "marketing": "Marketing",
+      "followUp": "Follow-up",
+      "support": "Support",
+      "custom": "Custom"
+    },
+    "autoReplies": {
+      "title": "Auto-Reply Rules",
+      "create": "Create Rule",
+      "keywords": "Trigger Keywords",
+      "response": "Response Template",
+      "priority": "Priority",
+      "agent": "Agent"
+    },
+    "broadcasts": {
+      "title": "Broadcast Campaigns",
+      "create": "Create Campaign",
+      "name": "Campaign Name",
+      "message": "Message",
+      "recipients": "Recipients",
+      "schedule": "Schedule",
+      "sendNow": "Send Now",
+      "scheduleLater": "Schedule for Later",
+      "draft": "Draft",
+      "scheduled": "Scheduled",
+      "sending": "Sending",
+      "sent": "Sent",
+      "cancelled": "Cancelled",
+      "failed": "Failed"
+    },
+    "analytics": {
+      "title": "Analytics",
+      "messagesPerDay": "Messages per Day",
+      "conversationsByStatus": "Conversations by Status",
+      "contactClassification": "Contact Classification",
+      "pipelineFunnel": "Pipeline Funnel",
+      "broadcastDelivery": "Broadcast Delivery Rates"
+    },
+    "team": {
+      "title": "Team Management",
+      "invite": "Invite Member",
+      "email": "Email",
+      "role": "Role",
+      "owner": "Owner",
+      "admin": "Admin",
+      "agent": "Agent",
+      "pending": "Pending",
+      "removeMember": "Remove Member"
+    },
+    "settings": {
+      "title": "Settings",
+      "profile": "Profile",
+      "organization": "Organization",
+      "notifications": "Notifications",
+      "changeName": "Change Name",
+      "changePassword": "Change Password",
+      "orgName": "Organization Name",
+      "industry": "Industry",
+      "timezone": "Timezone"
+    }
+  },
+  "admin": {
+    "title": "Admin Panel",
+    "pendingOrgs": "Pending Organizations",
+    "allOrgs": "All Organizations",
+    "invitations": "Invitations",
+    "approve": "Approve",
+    "reject": "Reject",
+    "assignPlan": "Assign Plan"
+  },
+  "notFound": {
+    "title": "Page Not Found",
+    "message": "The page you're looking for doesn't exist or has been moved.",
+    "backHome": "Go Back Home"
+  },
+  "footer": {
+    "description": "WhatsApp CRM platform for African businesses.",
+    "quickLinks": "Quick Links",
+    "legal": "Legal",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service",
+    "copyright": "© {{year}} ChatDesk. All rights reserved."
+  }
+}
