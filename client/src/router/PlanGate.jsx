@@ -3,8 +3,11 @@ import { useTranslation } from "react-i18next";
 import { HiOutlineArrowUpCircle } from "react-icons/hi2";
 
 export default function PlanGate({ plan, children }) {
-  const { organization } = useAuth();
+  const { organization, profile } = useAuth();
   const { t } = useTranslation();
+
+  // super_admin bypasses all plan gates
+  if (profile?.role === "super_admin") return children;
 
   const planOrder = { starter: 0, growth: 1, business: 2 };
   const orgPlan = organization?.plan || "starter";

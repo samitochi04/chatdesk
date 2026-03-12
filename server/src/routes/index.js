@@ -8,6 +8,7 @@ const exportRoutes = require("./export.routes");
 const contactRoutes = require("./contact.routes");
 const crmRoutes = require("./crm.routes");
 const quickReplyRoutes = require("./quickReply.routes");
+const notificationRoutes = require("./notification.routes");
 
 const router = Router();
 
@@ -20,5 +21,6 @@ router.use("/export", exportRoutes);
 router.use("/contact", contactRoutes);
 router.use("/crm", crmRoutes);
 router.use("/quick-replies", quickReplyRoutes);
+router.use("/notifications", notificationRoutes);
 
 module.exports = router;

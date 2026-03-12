@@ -304,12 +304,13 @@ function AccountCard({ account, onConnect, onDisconnect, onDelete }) {
 
 export default function WhatsApp() {
   const { t } = useTranslation();
-  const { organization } = useAuth();
+  const { organization, profile } = useAuth();
   const [accounts, setAccounts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showRegister, setShowRegister] = useState(false);
   const [connectId, setConnectId] = useState(null);
 
+  const isSuperAdmin = profile?.role === "super_admin";
   const maxAccounts = organization?.max_whatsapp_numbers || 1;
 
   const fetchAccounts = useCallback(async () => {
@@ -347,7 +348,7 @@ export default function WhatsApp() {
     }
   };
 
-  const atLimit = accounts.length >= maxAccounts;
+  const atLimit = !isSuperAdmin && accounts.length >= maxAccounts;
 
   if (loading) {
     return (

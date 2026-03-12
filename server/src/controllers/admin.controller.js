@@ -355,19 +355,21 @@ const createInvitation = catchAsync(async (req, res) => {
   const orgId = req.organization.id;
   const { email, role } = req.body;
 
-  // Check team member limit
-  const { count, error: countErr } = await supabaseAdmin
-    .from("profiles")
-    .select("id", { count: "exact", head: true })
-    .eq("organization_id", orgId);
+  // Check team member limit (super_admin bypasses)
+  if (req.user.role !== "super_admin") {
+    const { count, error: countErr } = await supabaseAdmin
+      .from("profiles")
+      .select("id", { count: "exact", head: true })
+      .eq("organization_id", orgId);
 
-  if (countErr) throw ApiError.internal("Failed to check team size");
+    if (countErr) throw ApiError.internal("Failed to check team size");
 
-  const maxMembers = req.organization.maxTeamMembers;
-  if (maxMembers !== -1 && count >= maxMembers) {
-    throw ApiError.forbidden(
-      `Your plan allows a maximum of ${maxMembers} team member(s)`,
-    );
+    const maxMembers = req.organization.maxTeamMembers;
+    if (maxMembers !== -1 && count >= maxMembers) {
+      throw ApiError.forbidden(
+        `Your plan allows a maximum of ${maxMembers} team member(s)`,
+      );
+    }
   }
 
   // Check for existing pending invitation

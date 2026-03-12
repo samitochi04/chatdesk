@@ -109,7 +109,11 @@ export default function Sidebar({ open, onClose }) {
   const orgPlan = organization?.plan || "starter";
   const userRole = profile?.role;
 
+  const isSuperAdmin = userRole === "super_admin";
+
   const isVisible = (item) => {
+    // super_admin sees everything
+    if (isSuperAdmin) return true;
     if (item.plan && (planOrder[orgPlan] ?? 0) < (planOrder[item.plan] ?? 0)) {
       return false;
     }

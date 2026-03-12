@@ -512,6 +512,9 @@
       "profile": "Profile",
       "organization": "Organization",
       "notifications": "Notifications",
+      "accountInfo": "Account Information",
+      "email": "Email",
+      "role": "Role",
       "changeName": "Change Name",
       "changePassword": "Change Password",
       "orgName": "Organization Name",
@@ -523,7 +526,11 @@
       "notifyNewMessage": "New messages",
       "notifyNewContact": "New contacts",
       "notifyDealUpdate": "Deal updates",
-      "notifyBroadcast": "Broadcast completed"
+      "notifyBroadcast": "Broadcast completed",
+      "inApp": "In-App",
+      "emailNotif": "Email",
+      "noNotifications": "No notifications yet",
+      "markAllRead": "Mark all read"
     }
   },
   "admin": {

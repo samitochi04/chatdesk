@@ -107,7 +107,7 @@ function InviteModal({ onClose, onSaved }) {
 
 export default function Team() {
   const { t } = useTranslation();
-  const { user, organization } = useAuth();
+  const { user, organization, profile } = useAuth();
   const [members, setMembers] = useState([]);
   const [invitations, setInvitations] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -162,8 +162,10 @@ export default function Team() {
     }
   };
 
+  const isSuperAdmin = profile?.role === "super_admin";
   const maxMembers = organization?.max_team_members ?? 2;
-  const atLimit = maxMembers !== -1 && members.length >= maxMembers;
+  const atLimit =
+    !isSuperAdmin && maxMembers !== -1 && members.length >= maxMembers;
 
   if (loading) {
     return (

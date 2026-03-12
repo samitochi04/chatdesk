@@ -443,6 +443,24 @@ export default function Conversations() {
     }
   };
 
+  // Change conversation status
+  const handleStatusChange = async (newStatus) => {
+    if (!activeConv || activeConv.status === newStatus) return;
+    try {
+      await api.patch(`/crm/conversations/${activeConv.id}`, {
+        status: newStatus,
+      });
+      setActiveConv((prev) => ({ ...prev, status: newStatus }));
+      setConversations((prev) =>
+        prev.map((c) =>
+          c.id === activeConv.id ? { ...c, status: newStatus } : c,
+        ),
+      );
+    } catch {
+      /* ignore */
+    }
+  };
+
   return (
     <div className="-m-4 flex h-[calc(100vh-4rem)] sm:-m-6">
       {/* ── Panel 1: Conversation List ──────── */}
@@ -545,7 +563,21 @@ export default function Conversations() {
                   </p>
                 </div>
               </div>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-1">
+                {/* Status change buttons */}
+                {STATUS_TABS.filter((s) => s !== activeConv.status).map((s) => {
+                  const Icon = STATUS_ICONS[s];
+                  return (
+                    <button
+                      key={s}
+                      onClick={() => handleStatusChange(s)}
+                      className="rounded-lg p-2 text-[var(--color-text-secondary)] hover:bg-[var(--color-bg-secondary)]"
+                      title={t(`dashboard.conversations.${s}`)}
+                    >
+                      <Icon className="h-4 w-4" />
+                    </button>
+                  );
+                })}
                 <button
                   onClick={() => setShowContact(!showContact)}
                   className="rounded-lg p-2 text-[var(--color-text-secondary)] hover:bg-[var(--color-bg-secondary)]"

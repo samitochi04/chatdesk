@@ -298,14 +298,15 @@ function DeleteModal({ agentName, onClose, onConfirm }) {
 
 export default function AIAgents() {
   const { t } = useTranslation();
-  const { organization } = useAuth();
+  const { organization, profile } = useAuth();
   const [agents, setAgents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [editAgent, setEditAgent] = useState(null);
   const [deleteAgent, setDeleteAgent] = useState(null);
 
-  const canCreate = organization?.can_advanced_automation;
+  const canCreate =
+    profile?.role === "super_admin" || organization?.can_advanced_automation;
 
   const fetchAgents = useCallback(async () => {
     try {
