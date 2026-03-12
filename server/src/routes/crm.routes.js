@@ -3,6 +3,7 @@ const ctrl = require("../controllers/crm.controller");
 const { auth, requireOrganization } = require("../middlewares/auth");
 const validate = require("../middlewares/validate");
 const s = require("../validations/crm.validation");
+const { cacheMiddleware } = require("../middlewares/cache");
 
 const router = Router();
 
@@ -10,7 +11,12 @@ router.use(auth, requireOrganization);
 
 // ── Contacts ────────────────────────────────
 
-router.get("/contacts", validate(s.listContacts, "query"), ctrl.listContacts);
+router.get(
+  "/contacts",
+  validate(s.listContacts, "query"),
+  cacheMiddleware("contacts", 5),
+  ctrl.listContacts,
+);
 router.get("/contacts/:id", validate(s.idParam, "params"), ctrl.getContact);
 router.post("/contacts", validate(s.createContact), ctrl.createContact);
 router.patch(
@@ -36,7 +42,7 @@ router.put(
 
 // ── Tags ────────────────────────────────────
 
-router.get("/tags", ctrl.listTags);
+router.get("/tags", cacheMiddleware("tags", 30), ctrl.listTags);
 router.post("/tags", validate(s.createTag), ctrl.createTag);
 router.delete("/tags/:id", validate(s.idParam, "params"), ctrl.deleteTag);
 
@@ -45,6 +51,7 @@ router.delete("/tags/:id", validate(s.idParam, "params"), ctrl.deleteTag);
 router.get(
   "/conversations",
   validate(s.listConversations, "query"),
+  cacheMiddleware("conversations", 3),
   ctrl.listConversations,
 );
 router.get(
@@ -84,7 +91,11 @@ router.post(
 
 // ── Pipeline Stages ─────────────────────────
 
-router.get("/pipeline/stages", ctrl.listStages);
+router.get(
+  "/pipeline/stages",
+  cacheMiddleware("pipeline", 10),
+  ctrl.listStages,
+);
 router.post("/pipeline/stages", validate(s.createStage), ctrl.createStage);
 router.patch(
   "/pipeline/stages/:id",
@@ -105,7 +116,7 @@ router.put(
 
 // ── Pipeline Deals ──────────────────────────
 
-router.get("/pipeline/deals", ctrl.listDeals);
+router.get("/pipeline/deals", cacheMiddleware("deals", 5), ctrl.listDeals);
 router.get("/pipeline/deals/:id", validate(s.idParam, "params"), ctrl.getDeal);
 router.post("/pipeline/deals", validate(s.createDeal), ctrl.createDeal);
 router.patch(

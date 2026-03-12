@@ -8,6 +8,7 @@ const { requireFeature } = require("../middlewares/planGate");
 const validate = require("../middlewares/validate");
 const schemas = require("../validations/ai.validation");
 const ctrl = require("../controllers/ai.controller");
+const { cacheMiddleware } = require("../middlewares/cache");
 
 const router = Router();
 
@@ -26,7 +27,7 @@ router.post(
   ctrl.createAgent,
 );
 
-router.get("/agents", ctrl.listAgents);
+router.get("/agents", cacheMiddleware("agents", 10), ctrl.listAgents);
 
 router.get("/agents/:id", validate(schemas.idParam, "params"), ctrl.getAgent);
 
@@ -58,7 +59,7 @@ router.post(
   ctrl.createRule,
 );
 
-router.get("/rules", ctrl.listRules);
+router.get("/rules", cacheMiddleware("rules", 10), ctrl.listRules);
 
 router.get("/rules/:id", validate(schemas.idParam, "params"), ctrl.getRule);
 

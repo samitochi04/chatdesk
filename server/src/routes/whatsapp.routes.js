@@ -7,6 +7,8 @@ const {
 } = require("../middlewares/auth");
 const validate = require("../middlewares/validate");
 const schemas = require("../validations/whatsapp.validation");
+const { whatsappSendLimiter } = require("../middlewares/rateLimiter");
+const { cacheMiddleware } = require("../middlewares/cache");
 
 const router = Router();
 
@@ -15,7 +17,7 @@ router.use(auth, requireOrganization);
 
 // ── Account management ──────────────────────
 
-router.get("/accounts", ctrl.listAccounts);
+router.get("/accounts", cacheMiddleware("waAccounts", 5), ctrl.listAccounts);
 
 router.post(
   "/accounts",
@@ -55,6 +57,7 @@ router.delete(
 
 router.post(
   "/messages/send",
+  whatsappSendLimiter,
   validate(schemas.sendMessage),
   ctrl.sendMessageHandler,
 );

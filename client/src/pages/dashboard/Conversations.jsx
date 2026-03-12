@@ -13,6 +13,7 @@ import {
   HiOutlineCheckCircle,
   HiOutlineClock,
   HiOutlineArchiveBox,
+  HiOutlineBolt,
 } from "react-icons/hi2";
 
 const STATUS_TABS = ["open", "pending", "closed", "archived"];
@@ -266,9 +267,18 @@ export default function Conversations() {
   const [notes, setNotes] = useState([]);
   const [newMsg, setNewMsg] = useState("");
   const [search, setSearch] = useState("");
+  const [debouncedSearch, setDebouncedSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("open");
   const [showContact, setShowContact] = useState(false);
+  const [quickReplies, setQuickReplies] = useState([]);
+  const [showQuickReplies, setShowQuickReplies] = useState(false);
   const messagesEndRef = useRef(null);
+
+  // Debounce search input
+  useEffect(() => {
+    const timer = setTimeout(() => setDebouncedSearch(search), 400);
+    return () => clearTimeout(timer);
+  }, [search]);
 
   // Fetch conversations
   const fetchConversations = useCallback(async () => {
@@ -279,7 +289,7 @@ export default function Conversations() {
         limit: "50",
         status: statusFilter,
       });
-      if (search) params.set("search", search);
+      if (debouncedSearch) params.set("search", debouncedSearch);
       const res = await api.get(`/crm/conversations?${params}`);
       setConversations(res.data || []);
     } catch {
@@ -287,7 +297,7 @@ export default function Conversations() {
     } finally {
       setLoading(false);
     }
-  }, [statusFilter, search]);
+  }, [statusFilter, debouncedSearch]);
 
   useEffect(() => {
     fetchConversations();
@@ -342,11 +352,49 @@ export default function Conversations() {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
+  // Fetch quick replies once
+  useEffect(() => {
+    api
+      .get("/quick-replies")
+      .then((res) => setQuickReplies(res.data || []))
+      .catch(() => {});
+  }, []);
+
+  // Handle input changes — detect "/" prefix for quick replies
+  const handleMsgChange = (e) => {
+    const val = e.target.value;
+    setNewMsg(val);
+    setShowQuickReplies(val.startsWith("/") && val.length > 0);
+  };
+
+  // Filter quick replies based on typed shortcut
+  const filteredReplies = showQuickReplies
+    ? quickReplies.filter(
+        (r) =>
+          !newMsg.slice(1) ||
+          r.shortcut?.toLowerCase().includes(newMsg.slice(1).toLowerCase()) ||
+          r.title?.toLowerCase().includes(newMsg.slice(1).toLowerCase()),
+      )
+    : [];
+
+  const selectQuickReply = (reply) => {
+    setNewMsg(reply.content);
+    setShowQuickReplies(false);
+  };
+
   // Select conversation
   const handleSelectConv = (conv) => {
     setActiveConv(conv);
     setSearchParams({ id: conv.id });
     setShowContact(false);
+
+    // Mark as read: reset local badge + tell backend
+    if (conv.unread_count > 0) {
+      setConversations((prev) =>
+        prev.map((c) => (c.id === conv.id ? { ...c, unread_count: 0 } : c)),
+      );
+      api.get(`/crm/conversations/${conv.id}`).catch(() => {});
+    }
   };
 
   // Send message (uses the WhatsApp API endpoint)
@@ -511,15 +559,45 @@ export default function Conversations() {
             </div>
 
             {/* Input bar */}
-            <div className="border-t border-[var(--color-border)] bg-[var(--color-surface)] p-3">
+            <div className="relative border-t border-[var(--color-border)] bg-[var(--color-surface)] p-3">
+              {/* Quick replies dropdown */}
+              {showQuickReplies && filteredReplies.length > 0 && (
+                <div className="absolute bottom-full left-3 right-3 mb-1 max-h-48 overflow-y-auto rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] shadow-lg">
+                  {filteredReplies.map((r) => (
+                    <button
+                      key={r.id}
+                      onClick={() => selectQuickReply(r)}
+                      className="flex w-full items-start gap-2 px-3 py-2 text-left hover:bg-[var(--color-bg-secondary)]"
+                    >
+                      <HiOutlineBolt className="mt-0.5 h-4 w-4 shrink-0 text-[var(--color-primary)]" />
+                      <div className="min-w-0">
+                        <p className="text-sm font-medium text-[var(--color-text-primary)]">
+                          {r.title}
+                          {r.shortcut && (
+                            <span className="ml-2 text-xs text-[var(--color-text-tertiary)]">
+                              /{r.shortcut}
+                            </span>
+                          )}
+                        </p>
+                        <p className="truncate text-xs text-[var(--color-text-secondary)]">
+                          {r.content}
+                        </p>
+                      </div>
+                    </button>
+                  ))}
+                </div>
+              )}
               <div className="flex items-center gap-2">
                 <input
                   value={newMsg}
-                  onChange={(e) => setNewMsg(e.target.value)}
+                  onChange={handleMsgChange}
                   onKeyDown={(e) =>
                     e.key === "Enter" && !e.shiftKey && handleSend()
                   }
-                  placeholder={t("dashboard.conversations.typeMessage")}
+                  placeholder={
+                    t("dashboard.conversations.typeMessage") +
+                    ' — type "/" for quick replies'
+                  }
                   className="flex-1 rounded-lg border border-[var(--color-border)] bg-[var(--color-bg)] px-4 py-2.5 text-sm text-[var(--color-text-primary)] placeholder:text-[var(--color-text-tertiary)] focus:border-[var(--color-primary)] focus:outline-none"
                 />
                 <button

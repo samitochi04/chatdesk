@@ -1,0 +1,22 @@
+{"level":"info","message":"ChatDesk server running on port 4000 [development]","service":"chatdesk-server","timestamp":"2026-03-12 21:46:13"}
+{"level":"info","message":"Restoring 1 WhatsApp session(s)...","service":"chatdesk-server","timestamp":"2026-03-12 21:46:15"}
+{"level":"info","message":"ChatDesk server running on port 4000 [development]","service":"chatdesk-server","timestamp":"2026-03-12 21:47:25"}
+{"level":"info","message":"Restoring 1 WhatsApp session(s)...","service":"chatdesk-server","timestamp":"2026-03-12 21:47:25"}
+{"level":"info","message":"ChatDesk server running on port 4000 [development]","service":"chatdesk-server","timestamp":"2026-03-12 21:47:29"}
+{"level":"info","message":"Restoring 1 WhatsApp session(s)...","service":"chatdesk-server","timestamp":"2026-03-12 21:47:29"}
+{"level":"info","message":"WhatsApp authenticated for account ca2f87a1-1f79-4ea0-9463-8f9e3979ca40","service":"chatdesk-server","timestamp":"2026-03-12 21:47:35"}
+{"level":"info","message":"WhatsApp ready for account ca2f87a1-1f79-4ea0-9463-8f9e3979ca40 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-12 21:47:35"}
+{"level":"info","message":"ChatDesk server running on port 4000 [development]","service":"chatdesk-server","timestamp":"2026-03-12 21:47:45"}
+{"level":"info","message":"Restoring 1 WhatsApp session(s)...","service":"chatdesk-server","timestamp":"2026-03-12 21:47:45"}
+{"level":"info","message":"WhatsApp authenticated for account ca2f87a1-1f79-4ea0-9463-8f9e3979ca40","service":"chatdesk-server","timestamp":"2026-03-12 21:47:51"}
+{"level":"info","message":"WhatsApp ready for account ca2f87a1-1f79-4ea0-9463-8f9e3979ca40 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-12 21:47:51"}
+{"level":"info","message":"ChatDesk server running on port 4000 [development]","service":"chatdesk-server","timestamp":"2026-03-12 21:48:01"}
+{"level":"info","message":"Restoring 1 WhatsApp session(s)...","service":"chatdesk-server","timestamp":"2026-03-12 21:48:02"}
+{"level":"info","message":"WhatsApp authenticated for account ca2f87a1-1f79-4ea0-9463-8f9e3979ca40","service":"chatdesk-server","timestamp":"2026-03-12 21:48:07"}
+{"level":"info","message":"WhatsApp ready for account ca2f87a1-1f79-4ea0-9463-8f9e3979ca40 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-12 21:48:08"}
+{"level":"info","message":"SIGINT received — shutting down gracefully","service":"chatdesk-server","timestamp":"2026-03-12 21:48:21"}
+{"level":"info","message":"ChatDesk server running on port 4000 [development]","service":"chatdesk-server","timestamp":"2026-03-12 21:53:32"}
+{"level":"info","message":"Restoring 1 WhatsApp session(s)...","service":"chatdesk-server","timestamp":"2026-03-12 21:53:33"}
+{"level":"info","message":"ChatDesk server running on port 4000 [development]","service":"chatdesk-server","timestamp":"2026-03-12 21:58:22"}
+{"level":"info","message":"Restoring 1 WhatsApp session(s)...","service":"chatdesk-server","timestamp":"2026-03-12 21:58:22"}
+{"level":"info","message":"WhatsApp authenticated for account ca2f87a1-1f79-4ea0-9463-8f9e3979ca40","service":"chatdesk-server","timestamp":"2026-03-12 21:58:29"}

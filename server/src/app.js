@@ -3,7 +3,7 @@ const cors = require("cors");
 const helmet = require("helmet");
 const morgan = require("morgan");
 const config = require("./config");
-const rateLimiter = require("./middlewares/rateLimiter");
+const { apiLimiter } = require("./middlewares/rateLimiter");
 const errorHandler = require("./middlewares/errorHandler");
 const ApiError = require("./utils/ApiError");
 const routes = require("./routes");
@@ -29,7 +29,7 @@ if (config.env !== "test") {
 }
 
 // ── Rate limiting ───────────────────────────
-app.use("/api", rateLimiter);
+app.use("/api", apiLimiter);
 
 // ── API Routes ──────────────────────────────
 app.use("/api", routes);

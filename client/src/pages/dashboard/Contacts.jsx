@@ -211,7 +211,14 @@ export default function Contacts() {
   const [total, setTotal] = useState(0);
   const [showModal, setShowModal] = useState(false);
   const [editContact, setEditContact] = useState(null);
+  const [debouncedSearch, setDebouncedSearch] = useState("");
   const limit = 20;
+
+  // Debounce search input
+  useEffect(() => {
+    const timer = setTimeout(() => setDebouncedSearch(search), 400);
+    return () => clearTimeout(timer);
+  }, [search]);
 
   const fetchContacts = useCallback(async () => {
     try {
@@ -220,7 +227,7 @@ export default function Contacts() {
         page: String(page),
         limit: String(limit),
       });
-      if (search) params.set("search", search);
+      if (debouncedSearch) params.set("search", debouncedSearch);
       if (classification) params.set("classification", classification);
       const res = await api.get(`/crm/contacts?${params}`);
       setContacts(res.data || []);
@@ -230,7 +237,7 @@ export default function Contacts() {
     } finally {
       setLoading(false);
     }
-  }, [page, search, classification]);
+  }, [page, debouncedSearch, classification]);
 
   const fetchTags = useCallback(async () => {
     try {

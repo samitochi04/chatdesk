@@ -13,17 +13,19 @@ const registerAccount = catchAsync(async (req, res) => {
   const { phoneNumber, displayName } = req.body;
   const orgId = req.organization.id;
 
-  // Check plan limit
-  const { count, error: countErr } = await supabaseAdmin
-    .from("whatsapp_accounts")
-    .select("id", { count: "exact", head: true })
-    .eq("organization_id", orgId);
+  // Check plan limit (super_admin bypasses)
+  if (req.user.role !== "super_admin") {
+    const { count, error: countErr } = await supabaseAdmin
+      .from("whatsapp_accounts")
+      .select("id", { count: "exact", head: true })
+      .eq("organization_id", orgId);
 
-  if (countErr) throw ApiError.internal("Failed to check account count");
-  if (count >= req.organization.maxWhatsappNumbers) {
-    throw ApiError.forbidden(
-      `Your plan allows a maximum of ${req.organization.maxWhatsappNumbers} WhatsApp number(s)`,
-    );
+    if (countErr) throw ApiError.internal("Failed to check account count");
+    if (count >= req.organization.maxWhatsappNumbers) {
+      throw ApiError.forbidden(
+        `Your plan allows a maximum of ${req.organization.maxWhatsappNumbers} WhatsApp number(s)`,
+      );
+    }
   }
 
   // Check for duplicates within the org

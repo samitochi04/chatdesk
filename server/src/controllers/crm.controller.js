@@ -244,10 +244,24 @@ const listConversations = catchAsync(async (req, res) => {
 
   if (status) query = query.eq("status", status);
   if (search) {
-    // Search by contact name or phone
-    query = query.or(
-      `contacts.name.ilike.%${search}%,contacts.phone_number.ilike.%${search}%,last_message_preview.ilike.%${search}%`,
-    );
+    // Find contacts matching the search term first
+    const { data: matchedContacts } = await supabaseAdmin
+      .from("contacts")
+      .select("id")
+      .eq("organization_id", orgId)
+      .or(`name.ilike.%${search}%,phone_number.ilike.%${search}%`);
+
+    const contactIds = (matchedContacts || []).map((c) => c.id);
+
+    if (contactIds.length > 0) {
+      // Match conversations by contact OR by message preview
+      query = query.or(
+        `contact_id.in.(${contactIds.join(",")}),last_message_preview.ilike.%${search}%`,
+      );
+    } else {
+      // No matching contacts — search only by message preview
+      query = query.ilike("last_message_preview", `%${search}%`);
+    }
   }
 
   query = query

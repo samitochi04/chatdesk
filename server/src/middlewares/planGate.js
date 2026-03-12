@@ -11,6 +11,9 @@ const ApiError = require("../utils/ApiError");
  */
 const requireFeature = (featureFlag) => {
   return (req, _res, next) => {
+    // super_admin bypasses all feature gates
+    if (req.user?.role === "super_admin") return next();
+
     if (!req.organization) {
       return next(ApiError.forbidden("No organization context"));
     }

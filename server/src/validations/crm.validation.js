@@ -23,7 +23,7 @@ const listContacts = Joi.object({
   ),
   tag: Joi.string().uuid(),
   page: Joi.number().integer().min(1).default(1),
-  limit: Joi.number().integer().min(1).max(100).default(25),
+  limit: Joi.number().integer().min(1).max(200).default(25),
   sort: Joi.string()
     .valid("name", "created_at", "last_conversation_at", "total_orders")
     .default("created_at"),
