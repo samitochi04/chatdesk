@@ -32,10 +32,11 @@ const listContacts = Joi.object({
 
 const createContact = Joi.object({
   phoneNumber: Joi.string()
-    .pattern(/^\d{7,15}$/)
+    .pattern(/^\+?\d{7,15}$/)
     .required()
     .messages({
-      "string.pattern.base": "Phone number must contain 7-15 digits",
+      "string.pattern.base":
+        "Phone number must contain 7-15 digits, optionally prefixed with +",
     }),
   name: Joi.string().max(200).allow("", null),
   email: Joi.string().email().allow("", null),

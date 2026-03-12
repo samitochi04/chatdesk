@@ -16,6 +16,7 @@ import {
   HiOutlineUserGroup,
   HiOutlineClipboardDocumentList,
   HiOutlineCog6Tooth,
+  HiOutlineShieldCheck,
   HiOutlineXMark,
 } from "react-icons/hi2";
 
@@ -89,6 +90,13 @@ const getNavItems = (t) => [
     icon: HiOutlineCog6Tooth,
     label: t("dashboard.sidebar.settings"),
   },
+  {
+    to: "/dashboard/admin",
+    icon: HiOutlineShieldCheck,
+    label: t("dashboard.sidebar.admin"),
+    roles: ["super_admin"],
+    separator: true,
+  },
 ];
 
 export default function Sidebar({ open, onClose }) {
@@ -149,6 +157,9 @@ export default function Sidebar({ open, onClose }) {
           <ul className="flex flex-col gap-0.5">
             {navItems.filter(isVisible).map((item) => (
               <li key={item.to}>
+                {item.separator && (
+                  <div className="my-2 border-t border-[var(--color-border)]" />
+                )}
                 <NavLink
                   to={item.to}
                   end={item.end}

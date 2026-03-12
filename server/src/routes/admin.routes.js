@@ -45,6 +45,56 @@ router.post(
 );
 
 /* ------------------------------------------------------------------ */
+/*  Super-admin platform-wide routes (no org context needed)           */
+/* ------------------------------------------------------------------ */
+
+router.get(
+  "/platform/stats",
+  auth,
+  requireRole("super_admin"),
+  ctrl.getPlatformStats,
+);
+
+router.get(
+  "/platform/users",
+  auth,
+  requireRole("super_admin"),
+  ctrl.listAllUsers,
+);
+
+router.get(
+  "/platform/invitations",
+  auth,
+  requireRole("super_admin"),
+  ctrl.listAllInvitations,
+);
+
+router.post(
+  "/platform/invitations/:id/cancel",
+  auth,
+  requireRole("super_admin"),
+  validate(schemas.idParam, "params"),
+  ctrl.cancelAnyInvitation,
+);
+
+router.get(
+  "/organizations/:id",
+  auth,
+  requireRole("super_admin"),
+  validate(schemas.idParam, "params"),
+  ctrl.getOrgDetail,
+);
+
+router.patch(
+  "/organizations/:id",
+  auth,
+  requireRole("super_admin"),
+  validate(schemas.idParam, "params"),
+  validate(schemas.updateOrg),
+  ctrl.updateOrg,
+);
+
+/* ------------------------------------------------------------------ */
 /*  Org-scoped routes (require auth + org context)                     */
 /* ------------------------------------------------------------------ */
 

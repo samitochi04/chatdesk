@@ -12,7 +12,13 @@ import {
   HiOutlineTag,
 } from "react-icons/hi2";
 
-const CLASSIFICATIONS = ["new", "regular", "vip"];
+const CLASSIFICATIONS = [
+  "new_lead",
+  "interested",
+  "said_no",
+  "bought",
+  "didnt_buy",
+];
 
 /* ── Add / Edit Contact Modal ───────────── */
 
@@ -23,7 +29,7 @@ function ContactModal({ contact, tags, onClose, onSave }) {
     phoneNumber: contact?.phone_number || "",
     name: contact?.name || "",
     email: contact?.email || "",
-    classification: contact?.classification || "new",
+    classification: contact?.classification || "new_lead",
     notes: contact?.notes || "",
     selectedTags: contact?.contact_tags?.map((ct) => ct.tag_id) || [],
   });

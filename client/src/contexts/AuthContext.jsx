@@ -19,7 +19,8 @@ export function AuthProvider({ children }) {
 
       if (prof) {
         setProfile(prof);
-        setOrganization(prof.organizations || null);
+        const org = prof.organizations;
+        setOrganization(org ? { ...org, plan: org.subscription_plan } : null);
       }
     } catch {
       setProfile(null);
@@ -28,10 +29,10 @@ export function AuthProvider({ children }) {
   };
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
+    supabase.auth.getSession().then(async ({ data: { session } }) => {
       setUser(session?.user ?? null);
       if (session?.user) {
-        fetchProfile(session.user.id);
+        await fetchProfile(session.user.id);
       }
       setLoading(false);
     });

@@ -30,7 +30,10 @@
     "noResults": "Aucun résultat trouvé",
     "error": "Une erreur est survenue",
     "success": "Succès",
-    "perMonth": "/mois"
+    "perMonth": "/mois",
+    "name": "Nom",
+    "accessDenied": "Accès refusé",
+    "accessDeniedMessage": "Vous n'avez pas la permission d'accéder à cette page."
   },
   "nav": {
     "home": "Accueil",
@@ -254,7 +257,8 @@
       "quickReplies": "Réponses rapides",
       "team": "Équipe",
       "activity": "Journal d'activité",
-      "settings": "Paramètres"
+      "settings": "Paramètres",
+      "admin": "Administration"
     },
     "overview": {
       "title": "Tableau de bord",
@@ -523,8 +527,10 @@
   },
   "admin": {
     "title": "Panneau d'administration",
+    "overview": "Vue d'ensemble",
     "pendingOrgs": "Organisations en attente",
     "allOrgs": "Toutes les organisations",
+    "allUsers": "Tous les utilisateurs",
     "invitations": "Invitations",
     "approve": "Approuver",
     "reject": "Rejeter",
@@ -537,7 +543,28 @@
     "createdAt": "Créé",
     "noInvitations": "Aucune invitation trouvée",
     "expiresAt": "Expire",
-    "revoke": "Révoquer"
+    "revoke": "Révoquer",
+    "totalOrgs": "Total des organisations",
+    "totalUsers": "Total des utilisateurs",
+    "totalMessages": "Total des messages",
+    "totalBroadcastsLabel": "Diffusions",
+    "pendingLabel": "en attente",
+    "approvedLabel": "approuvé",
+    "rejectedLabel": "rejeté",
+    "conversationsLabel": "conversations",
+    "contactsLabel": "contacts",
+    "planDistribution": "Répartition des forfaits",
+    "orgDetail": "Détail de l'organisation",
+    "orgInfo": "Infos de l'organisation",
+    "changePlan": "Changer de forfait",
+    "currentPlan": "Forfait actuel",
+    "members": "Membres",
+    "noUsers": "Aucun utilisateur trouvé",
+    "orgOf": "Organisation",
+    "orgNotFound": "Organisation introuvable",
+    "organizationsCount": "organisations",
+    "usersCount": "utilisateurs",
+    "joinedAt": "Rejoint"
   },
   "notFound": {
     "title": "Page introuvable",

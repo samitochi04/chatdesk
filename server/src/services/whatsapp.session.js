@@ -1,6 +1,8 @@
 const { Client, LocalAuth } = require("whatsapp-web.js");
 const qrcode = require("qrcode");
 const path = require("path");
+const fs = require("fs");
+const { execSync } = require("child_process");
 const { supabaseAdmin } = require("../config/supabase");
 const { handleBroadcastAck } = require("./broadcast.service");
 const logger = require("../utils/logger");
@@ -11,6 +13,7 @@ const logger = require("../utils/logger");
  * Value: { client, orgId, phoneNumber, status }
  */
 const sessions = new Map();
+const creatingLocks = new Set();
 
 /**
  * Returns the live session object for a given WhatsApp account id.
@@ -76,140 +79,193 @@ async function persistSessionData(accountId, sessionData) {
  * @param {function} onMessage - Callback invoked with (client, message, account) on incoming messages
  * @returns {{ client, qrPromise }} — qrPromise resolves with the data-URI QR when generated
  */
-function createSession(account, onMessage) {
+async function createSession(account, onMessage) {
   const {
     id: accountId,
     organization_id: orgId,
     phone_number: phoneNumber,
   } = account;
 
-  if (sessions.has(accountId)) {
-    logger.warn(
-      `Session already exists for account ${accountId}, destroying old one first`,
-    );
-    destroySession(accountId);
+  // Prevent concurrent creation for same account
+  if (creatingLocks.has(accountId)) {
+    logger.warn(`Session creation already in progress for ${accountId}`);
+    const existing = sessions.get(accountId);
+    if (existing)
+      return {
+        client: existing.client,
+        qrPromise: Promise.resolve(existing.qrDataUrl),
+      };
+    return { client: null, qrPromise: Promise.resolve(null) };
   }
+  creatingLocks.add(accountId);
 
-  const client = new Client({
-    authStrategy: new LocalAuth({
-      clientId: accountId,
-      dataPath: path.join(process.cwd(), "whatsapp-sessions"),
-    }),
-    puppeteer: {
-      headless: true,
-      args: [
-        "--no-sandbox",
-        "--disable-setuid-sandbox",
-        "--disable-dev-shm-usage",
-        "--disable-gpu",
-        "--single-process",
-      ],
-    },
-  });
-
-  const sessionEntry = {
-    client,
-    orgId,
-    phoneNumber,
-    status: "pending",
-    qrDataUrl: null,
-  };
-  sessions.set(accountId, sessionEntry);
-
-  // QR code event — resolve promise so the controller can return it
-  let qrResolve;
-  const qrPromise = new Promise((resolve) => {
-    qrResolve = resolve;
-  });
-
-  client.on("qr", async (qr) => {
-    logger.info(`QR received for account ${accountId}`);
-    try {
-      const dataUrl = await qrcode.toDataURL(qr);
-      sessionEntry.qrDataUrl = dataUrl;
-      qrResolve(dataUrl);
-
-      // Also persist to DB so the dashboard can poll it
-      await supabaseAdmin
-        .from("whatsapp_accounts")
-        .update({ qr_code: dataUrl, status: "pending" })
-        .eq("id", accountId);
-    } catch (err) {
-      logger.error(`QR generation error for ${accountId}: ${err.message}`);
-      qrResolve(null);
+  try {
+    if (sessions.has(accountId)) {
+      logger.warn(
+        `Session already exists for account ${accountId}, destroying old one first`,
+      );
+      await destroySession(accountId);
+      // Give the OS time to release browser locks
+      await new Promise((r) => setTimeout(r, 2000));
     }
-  });
 
-  client.on("ready", async () => {
-    logger.info(`WhatsApp ready for account ${accountId} (${phoneNumber})`);
-    sessionEntry.status = "connected";
-    sessionEntry.qrDataUrl = null;
-    await updateAccountStatus(accountId, "connected", { qr_code: null });
-  });
+    // Kill any orphaned Chrome processes from previous crashes
+    killBrowserProcessesForSession(accountId);
+    await new Promise((r) => setTimeout(r, 500));
 
-  client.on("authenticated", async () => {
-    logger.info(`WhatsApp authenticated for account ${accountId}`);
-    // Session data is auto-saved by LocalAuth; we additionally save a flag
-    await persistSessionData(accountId, {
-      authenticated: true,
-      ts: Date.now(),
+    const client = new Client({
+      authStrategy: new LocalAuth({
+        clientId: accountId,
+        dataPath: path.join(process.cwd(), "whatsapp-sessions"),
+      }),
+      puppeteer: {
+        headless: true,
+        args: [
+          "--no-sandbox",
+          "--disable-setuid-sandbox",
+          "--disable-dev-shm-usage",
+          "--disable-gpu",
+        ],
+      },
     });
-  });
 
-  client.on("auth_failure", async (msg) => {
-    logger.error(`Auth failure for account ${accountId}: ${msg}`);
-    sessionEntry.status = "disconnected";
-    await updateAccountStatus(accountId, "disconnected");
-  });
+    const sessionEntry = {
+      client,
+      orgId,
+      phoneNumber,
+      status: "pending",
+      qrDataUrl: null,
+    };
+    sessions.set(accountId, sessionEntry);
 
-  client.on("disconnected", async (reason) => {
-    logger.warn(`WhatsApp disconnected for account ${accountId}: ${reason}`);
-    sessionEntry.status = "disconnected";
-    await updateAccountStatus(accountId, "disconnected");
-    sessions.delete(accountId);
-  });
+    // QR code event — resolve promise so the controller can return it
+    let qrResolve;
+    const qrPromise = new Promise((resolve) => {
+      qrResolve = resolve;
+    });
 
-  // Incoming messages
-  client.on("message", async (message) => {
-    try {
-      await onMessage(client, message, account);
-    } catch (err) {
-      logger.error(
-        `Error handling incoming message for ${accountId}: ${err.message}`,
+    client.on("qr", async (qr) => {
+      logger.info(`QR received for account ${accountId}`);
+      try {
+        const dataUrl = await qrcode.toDataURL(qr);
+        sessionEntry.qrDataUrl = dataUrl;
+        qrResolve(dataUrl);
+
+        // Also persist to DB so the dashboard can poll it
+        await supabaseAdmin
+          .from("whatsapp_accounts")
+          .update({ qr_code: dataUrl, status: "pending" })
+          .eq("id", accountId);
+      } catch (err) {
+        logger.error(`QR generation error for ${accountId}: ${err.message}`);
+        qrResolve(null);
+      }
+    });
+
+    client.on("ready", async () => {
+      logger.info(`WhatsApp ready for account ${accountId} (${phoneNumber})`);
+      sessionEntry.status = "connected";
+      sessionEntry.qrDataUrl = null;
+      await updateAccountStatus(accountId, "connected", { qr_code: null });
+    });
+
+    client.on("authenticated", async () => {
+      logger.info(`WhatsApp authenticated for account ${accountId}`);
+      // Session data is auto-saved by LocalAuth; we additionally save a flag
+      await persistSessionData(accountId, {
+        authenticated: true,
+        ts: Date.now(),
+      });
+    });
+
+    client.on("auth_failure", async (msg) => {
+      logger.error(`Auth failure for account ${accountId}: ${msg}`);
+      sessionEntry.status = "disconnected";
+      await updateAccountStatus(accountId, "disconnected");
+    });
+
+    client.on("disconnected", async (reason) => {
+      logger.warn(`WhatsApp disconnected for account ${accountId}: ${reason}`);
+      sessionEntry.status = "disconnected";
+      await updateAccountStatus(accountId, "disconnected");
+      sessions.delete(accountId);
+    });
+
+    // Incoming messages
+    client.on("message", async (message) => {
+      try {
+        await onMessage(client, message, account);
+      } catch (err) {
+        logger.error(
+          `Error handling incoming message for ${accountId}: ${err.message}`,
+        );
+      }
+    });
+
+    // Message acknowledgement (delivery / read receipts)
+    client.on("message_ack", async (message, ack) => {
+      // ack: 0 = pending, 1 = sent (server), 2 = delivered, 3 = read, 4 = played
+      try {
+        const statusMap = { 1: "sent", 2: "delivered", 3: "read", 4: "read" };
+        const newStatus = statusMap[ack];
+        if (!newStatus || !message.id || !message.id._serialized) return;
+
+        await supabaseAdmin
+          .from("messages")
+          .update({ status: newStatus })
+          .eq("whatsapp_message_id", message.id._serialized);
+
+        // Also update broadcast recipient status if applicable
+        await handleBroadcastAck(message.id._serialized, newStatus);
+      } catch (err) {
+        logger.error(
+          `Error handling message_ack for ${accountId}: ${err.message}`,
+        );
+      }
+    });
+
+    // Initialize (connect)
+    client.initialize().catch((err) => {
+      logger.error(`Client init failed for ${accountId}: ${err.message}`);
+      sessionEntry.status = "disconnected";
+      updateAccountStatus(accountId, "disconnected");
+      // Clean up: remove from Map and kill orphaned browser process
+      sessions.delete(accountId);
+      killBrowserProcessesForSession(accountId);
+    });
+
+    return { client, qrPromise };
+  } finally {
+    creatingLocks.delete(accountId);
+  }
+}
+
+/**
+ * Kill any Chrome/Chromium processes whose command line references a session directory.
+ * This catches orphaned browser processes that client.destroy() failed to clean up.
+ */
+const UUID_RE =
+  /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
+function killBrowserProcessesForSession(accountId) {
+  // Validate accountId to prevent command injection
+  if (!UUID_RE.test(accountId)) return;
+
+  try {
+    if (process.platform === "win32") {
+      execSync(
+        `powershell -NoProfile -Command "Get-CimInstance Win32_Process | Where-Object { $_.CommandLine -like '*session-${accountId}*' -and $_.Name -like '*chrome*' } | ForEach-Object { Stop-Process -Id $_.ProcessId -Force -ErrorAction SilentlyContinue }"`,
+        { stdio: "ignore", timeout: 10000 },
       );
+    } else {
+      execSync(`pkill -f "session-${accountId}" 2>/dev/null || true`, {
+        stdio: "ignore",
+        timeout: 5000,
+      });
     }
-  });
-
-  // Message acknowledgement (delivery / read receipts)
-  client.on("message_ack", async (message, ack) => {
-    // ack: 0 = pending, 1 = sent (server), 2 = delivered, 3 = read, 4 = played
-    try {
-      const statusMap = { 1: "sent", 2: "delivered", 3: "read", 4: "read" };
-      const newStatus = statusMap[ack];
-      if (!newStatus || !message.id || !message.id._serialized) return;
-
-      await supabaseAdmin
-        .from("messages")
-        .update({ status: newStatus })
-        .eq("whatsapp_message_id", message.id._serialized);
-
-      // Also update broadcast recipient status if applicable
-      await handleBroadcastAck(message.id._serialized, newStatus);
-    } catch (err) {
-      logger.error(
-        `Error handling message_ack for ${accountId}: ${err.message}`,
-      );
-    }
-  });
-
-  // Initialize (connect)
-  client.initialize().catch((err) => {
-    logger.error(`Client init failed for ${accountId}: ${err.message}`);
-    sessionEntry.status = "disconnected";
-    updateAccountStatus(accountId, "disconnected");
-  });
-
-  return { client, qrPromise };
+  } catch {
+    // No matching processes or command failed — that's fine
+  }
 }
 
 /**
@@ -219,11 +275,36 @@ async function destroySession(accountId) {
   const session = sessions.get(accountId);
   if (!session) return;
 
+  // Grab the browser PID before destroy() might null the reference
+  let browserPid = null;
+  try {
+    const browser = session.client.pupBrowser;
+    if (browser) {
+      const proc = browser.process();
+      if (proc && proc.pid) browserPid = proc.pid;
+    }
+  } catch {
+    // browser may not be available yet
+  }
+
   try {
     await session.client.destroy();
   } catch (err) {
     logger.warn(`Error destroying client for ${accountId}: ${err.message}`);
   }
+
+  // Force-kill the browser process by PID if it's still alive
+  if (browserPid) {
+    try {
+      process.kill(browserPid);
+    } catch {
+      // already dead
+    }
+  }
+
+  // Nuclear fallback: find and kill any Chrome process using this session dir
+  killBrowserProcessesForSession(accountId);
+
   sessions.delete(accountId);
   await updateAccountStatus(accountId, "disconnected", { qr_code: null });
   logger.info(`Session destroyed for account ${accountId}`);

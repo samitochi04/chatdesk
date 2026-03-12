@@ -67,10 +67,10 @@ const requireRole = (...roles) => {
     if (!req.user) {
       return next(ApiError.unauthorized());
     }
-    if (!roles.includes(req.user.role)) {
-      return next(ApiError.forbidden("Insufficient permissions"));
+    if (req.user.role === "super_admin" || roles.includes(req.user.role)) {
+      return next();
     }
-    next();
+    return next(ApiError.forbidden("Insufficient permissions"));
   };
 };
 

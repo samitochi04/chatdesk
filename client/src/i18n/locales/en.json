@@ -30,7 +30,10 @@
     "noResults": "No results found",
     "error": "Something went wrong",
     "success": "Success",
-    "perMonth": "/month"
+    "perMonth": "/month",
+    "name": "Name",
+    "accessDenied": "Access Denied",
+    "accessDeniedMessage": "You don't have permission to access this page."
   },
   "nav": {
     "home": "Home",
@@ -254,7 +257,8 @@
       "quickReplies": "Quick Replies",
       "team": "Team",
       "activity": "Activity Log",
-      "settings": "Settings"
+      "settings": "Settings",
+      "admin": "Admin Panel"
     },
     "overview": {
       "title": "Dashboard",
@@ -523,8 +527,10 @@
   },
   "admin": {
     "title": "Admin Panel",
+    "overview": "Overview",
     "pendingOrgs": "Pending Organizations",
     "allOrgs": "All Organizations",
+    "allUsers": "All Users",
     "invitations": "Invitations",
     "approve": "Approve",
     "reject": "Reject",
@@ -537,7 +543,28 @@
     "createdAt": "Created",
     "noInvitations": "No invitations found",
     "expiresAt": "Expires",
-    "revoke": "Revoke"
+    "revoke": "Revoke",
+    "totalOrgs": "Total Organizations",
+    "totalUsers": "Total Users",
+    "totalMessages": "Total Messages",
+    "totalBroadcastsLabel": "Broadcasts",
+    "pendingLabel": "pending",
+    "approvedLabel": "approved",
+    "rejectedLabel": "rejected",
+    "conversationsLabel": "conversations",
+    "contactsLabel": "contacts",
+    "planDistribution": "Plan Distribution",
+    "orgDetail": "Organization Detail",
+    "orgInfo": "Organization Info",
+    "changePlan": "Change Plan",
+    "currentPlan": "Current plan",
+    "members": "Members",
+    "noUsers": "No users found",
+    "orgOf": "Organization",
+    "orgNotFound": "Organization not found",
+    "organizationsCount": "organizations",
+    "usersCount": "users",
+    "joinedAt": "Joined"
   },
   "notFound": {
     "title": "Page Not Found",

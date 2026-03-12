@@ -43,6 +43,8 @@ const AdminOrganizations = lazy(
 const AdminInvitations = lazy(
   () => import("@/pages/dashboard/AdminInvitations"),
 );
+const AdminUsers = lazy(() => import("@/pages/dashboard/AdminUsers"));
+const AdminOrgDetail = lazy(() => import("@/pages/dashboard/AdminOrgDetail"));
 
 function PageLoader() {
   return (
@@ -253,7 +255,7 @@ export default function AppRouter() {
 
             {/* Super-admin panel */}
             <Route
-              path="/admin"
+              path="/dashboard/admin"
               element={
                 <S>
                   <RoleGate roles={["super_admin"]}>
@@ -267,6 +269,22 @@ export default function AppRouter() {
                 element={
                   <S>
                     <AdminOrganizations />
+                  </S>
+                }
+              />
+              <Route
+                path="organizations/:id"
+                element={
+                  <S>
+                    <AdminOrgDetail />
+                  </S>
+                }
+              />
+              <Route
+                path="users"
+                element={
+                  <S>
+                    <AdminUsers />
                   </S>
                 }
               />

@@ -13,6 +13,14 @@ const rejectOrg = Joi.object({
   organizationId: Joi.string().uuid().required(),
 });
 
+/* ---- Update organization ---- */
+
+const updateOrg = Joi.object({
+  subscriptionPlan: Joi.string()
+    .valid("starter", "growth", "business")
+    .required(),
+});
+
 /* ---- Team invitations ---- */
 
 const createInvitation = Joi.object({
@@ -49,6 +57,7 @@ const idParam = Joi.object({
 module.exports = {
   approveOrg,
   rejectOrg,
+  updateOrg,
   createInvitation,
   cancelInvitation,
   exportQuery,

@@ -81,7 +81,7 @@ const connectAccount = catchAsync(async (req, res) => {
   }
 
   // Create a new session
-  const { qrPromise } = sessionManager.createSession(
+  const { qrPromise } = await sessionManager.createSession(
     account,
     messageService.handleIncomingMessage,
   );

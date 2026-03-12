@@ -124,6 +124,227 @@ const rejectOrg = catchAsync(async (req, res) => {
 });
 
 /* ================================================================== */
+/*  Platform-wide endpoints (super_admin only, no org context)         */
+/* ================================================================== */
+
+/**
+ * GET /api/admin/platform/stats
+ * Global platform statistics across all organizations.
+ */
+const getPlatformStats = catchAsync(async (req, res) => {
+  const [
+    orgsResult,
+    usersResult,
+    contactsResult,
+    conversationsResult,
+    messagesResult,
+    broadcastsResult,
+  ] = await Promise.all([
+    supabaseAdmin
+      .from("organizations")
+      .select("id", { count: "exact", head: true }),
+    supabaseAdmin.from("profiles").select("id", { count: "exact", head: true }),
+    supabaseAdmin.from("contacts").select("id", { count: "exact", head: true }),
+    supabaseAdmin
+      .from("conversations")
+      .select("id", { count: "exact", head: true }),
+    supabaseAdmin.from("messages").select("id", { count: "exact", head: true }),
+    supabaseAdmin
+      .from("broadcasts")
+      .select("id", { count: "exact", head: true }),
+  ]);
+
+  // Org breakdown by status
+  const [pendingOrgs, approvedOrgs, rejectedOrgs] = await Promise.all([
+    supabaseAdmin
+      .from("organizations")
+      .select("id", { count: "exact", head: true })
+      .eq("approval_status", "pending"),
+    supabaseAdmin
+      .from("organizations")
+      .select("id", { count: "exact", head: true })
+      .eq("approval_status", "approved"),
+    supabaseAdmin
+      .from("organizations")
+      .select("id", { count: "exact", head: true })
+      .eq("approval_status", "rejected"),
+  ]);
+
+  // Plan breakdown
+  const [starterOrgs, growthOrgs, businessOrgs] = await Promise.all([
+    supabaseAdmin
+      .from("organizations")
+      .select("id", { count: "exact", head: true })
+      .eq("subscription_plan", "starter"),
+    supabaseAdmin
+      .from("organizations")
+      .select("id", { count: "exact", head: true })
+      .eq("subscription_plan", "growth"),
+    supabaseAdmin
+      .from("organizations")
+      .select("id", { count: "exact", head: true })
+      .eq("subscription_plan", "business"),
+  ]);
+
+  res.json({
+    success: true,
+    data: {
+      totalOrganizations: orgsResult.count || 0,
+      totalUsers: usersResult.count || 0,
+      totalContacts: contactsResult.count || 0,
+      totalConversations: conversationsResult.count || 0,
+      totalMessages: messagesResult.count || 0,
+      totalBroadcasts: broadcastsResult.count || 0,
+      orgsByStatus: {
+        pending: pendingOrgs.count || 0,
+        approved: approvedOrgs.count || 0,
+        rejected: rejectedOrgs.count || 0,
+      },
+      orgsByPlan: {
+        starter: starterOrgs.count || 0,
+        growth: growthOrgs.count || 0,
+        business: businessOrgs.count || 0,
+      },
+    },
+  });
+});
+
+/**
+ * GET /api/admin/platform/users
+ * All users across all organizations.
+ */
+const listAllUsers = catchAsync(async (req, res) => {
+  const { data: users, error } = await supabaseAdmin
+    .from("profiles")
+    .select(
+      "id, full_name, avatar_url, role, is_active, language, organization_id, last_seen_at, created_at, organizations(id, name, slug)",
+    )
+    .order("created_at", { ascending: false });
+
+  if (error) throw ApiError.internal("Failed to list users");
+
+  res.json({ success: true, data: users });
+});
+
+/**
+ * GET /api/admin/platform/invitations
+ * All invitations across all organizations.
+ */
+const listAllInvitations = catchAsync(async (req, res) => {
+  const { data: invitations, error } = await supabaseAdmin
+    .from("team_invitations")
+    .select(
+      "id, email, role, status, invited_by, expires_at, created_at, organization_id, organizations(id, name, slug)",
+    )
+    .order("created_at", { ascending: false });
+
+  if (error) throw ApiError.internal("Failed to list invitations");
+
+  res.json({ success: true, data: invitations });
+});
+
+/**
+ * POST /api/admin/platform/invitations/:id/cancel
+ * Super-admin can cancel any invitation.
+ */
+const cancelAnyInvitation = catchAsync(async (req, res) => {
+  const { data: invitation } = await supabaseAdmin
+    .from("team_invitations")
+    .select("id, status")
+    .eq("id", req.params.id)
+    .single();
+
+  if (!invitation) throw ApiError.notFound("Invitation not found");
+  if (invitation.status !== "pending") {
+    throw ApiError.badRequest("Only pending invitations can be cancelled");
+  }
+
+  const { error } = await supabaseAdmin
+    .from("team_invitations")
+    .update({ status: "cancelled" })
+    .eq("id", req.params.id);
+
+  if (error) throw ApiError.internal("Failed to cancel invitation");
+
+  res.json({ success: true, message: "Invitation cancelled" });
+});
+
+/**
+ * GET /api/admin/organizations/:id
+ * Detailed view of one org, including its members.
+ */
+const getOrgDetail = catchAsync(async (req, res) => {
+  const { data: org, error: orgErr } = await supabaseAdmin
+    .from("organizations")
+    .select("*")
+    .eq("id", req.params.id)
+    .single();
+
+  if (orgErr || !org) throw ApiError.notFound("Organization not found");
+
+  const { data: members } = await supabaseAdmin
+    .from("profiles")
+    .select("id, full_name, avatar_url, role, is_active, created_at")
+    .eq("organization_id", req.params.id)
+    .order("created_at", { ascending: true });
+
+  const [contactsResult, conversationsResult, broadcastsResult] =
+    await Promise.all([
+      supabaseAdmin
+        .from("contacts")
+        .select("id", { count: "exact", head: true })
+        .eq("organization_id", req.params.id),
+      supabaseAdmin
+        .from("conversations")
+        .select("id", { count: "exact", head: true })
+        .eq("organization_id", req.params.id),
+      supabaseAdmin
+        .from("broadcasts")
+        .select("id", { count: "exact", head: true })
+        .eq("organization_id", req.params.id),
+    ]);
+
+  res.json({
+    success: true,
+    data: {
+      ...org,
+      members: members || [],
+      stats: {
+        totalContacts: contactsResult.count || 0,
+        totalConversations: conversationsResult.count || 0,
+        totalBroadcasts: broadcastsResult.count || 0,
+      },
+    },
+  });
+});
+
+/**
+ * PATCH /api/admin/organizations/:id
+ * Super-admin can update any org's plan (triggers set_plan_features).
+ */
+const updateOrg = catchAsync(async (req, res) => {
+  const { subscriptionPlan } = req.body;
+
+  const update = {};
+  if (subscriptionPlan) update.subscription_plan = subscriptionPlan;
+
+  const { data: org, error } = await supabaseAdmin
+    .from("organizations")
+    .update(update)
+    .eq("id", req.params.id)
+    .select("*")
+    .single();
+
+  if (error || !org) throw ApiError.notFound("Organization not found");
+
+  logger.info(
+    `Organization ${req.params.id} plan updated to "${subscriptionPlan}" by ${req.user.id}`,
+  );
+
+  res.json({ success: true, data: org });
+});
+
+/* ================================================================== */
 /*  Team Invitations                                                   */
 /* ================================================================== */
 
@@ -431,6 +652,12 @@ module.exports = {
   listAllOrgs,
   approveOrg,
   rejectOrg,
+  getPlatformStats,
+  listAllUsers,
+  listAllInvitations,
+  cancelAnyInvitation,
+  getOrgDetail,
+  updateOrg,
   createInvitation,
   listInvitations,
   cancelInvitation,

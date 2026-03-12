@@ -19,7 +19,7 @@ export default function AdminInvitations() {
   const fetchInvitations = useCallback(async () => {
     try {
       setLoading(true);
-      const res = await api.get("/admin/invitations");
+      const res = await api.get("/admin/platform/invitations");
       setInvitations(res.data || []);
     } catch {
       setInvitations([]);
@@ -34,7 +34,7 @@ export default function AdminInvitations() {
 
   const handleCancel = async (id) => {
     try {
-      await api.post(`/admin/invitations/${id}/cancel`);
+      await api.post(`/admin/platform/invitations/${id}/cancel`);
       fetchInvitations();
     } catch {
       /* ignore */
@@ -66,6 +66,7 @@ export default function AdminInvitations() {
           <tr>
             <th className="px-4 py-3">{t("dashboard.team.email")}</th>
             <th className="px-4 py-3">{t("dashboard.team.role")}</th>
+            <th className="px-4 py-3">{t("admin.orgOf")}</th>
             <th className="px-4 py-3">{t("common.status")}</th>
             <th className="px-4 py-3">{t("admin.expiresAt")}</th>
             <th className="px-4 py-3">{t("common.actions")}</th>
@@ -79,6 +80,9 @@ export default function AdminInvitations() {
               </td>
               <td className="px-4 py-3 text-[var(--color-text-secondary)]">
                 {inv.role}
+              </td>
+              <td className="px-4 py-3 text-[var(--color-text-secondary)]">
+                {inv.organizations?.name || "—"}
               </td>
               <td className="px-4 py-3">
                 <span
