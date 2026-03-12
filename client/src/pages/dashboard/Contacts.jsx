@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { api } from "@/lib/api";
 import {
   HiOutlineUserGroup,
@@ -202,17 +202,33 @@ function ContactModal({ contact, tags, onClose, onSave }) {
 
 export default function Contacts() {
   const { t } = useTranslation();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const initialSearch = searchParams.get("search") || "";
   const [contacts, setContacts] = useState([]);
   const [tags, setTags] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState(initialSearch);
   const [classification, setClassification] = useState("");
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState(0);
   const [showModal, setShowModal] = useState(false);
   const [editContact, setEditContact] = useState(null);
-  const [debouncedSearch, setDebouncedSearch] = useState("");
+  const [debouncedSearch, setDebouncedSearch] = useState(initialSearch);
   const limit = 20;
+
+  // Sync search from URL params (when navigating from TopBar)
+  useEffect(() => {
+    const s = searchParams.get("search") || "";
+    if (s && s !== search) {
+      setSearch(s);
+      setDebouncedSearch(s);
+      setPage(1);
+    }
+    if (s) {
+      searchParams.delete("search");
+      setSearchParams(searchParams, { replace: true });
+    }
+  }, [searchParams]);
 
   // Debounce search input
   useEffect(() => {

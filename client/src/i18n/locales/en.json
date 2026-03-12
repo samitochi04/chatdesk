@@ -487,6 +487,7 @@
       "role": "Role",
       "owner": "Owner",
       "admin": "Admin",
+      "super_admin": "Super Admin",
       "agent": "Agent",
       "pending": "Pending",
       "removeMember": "Remove Member",

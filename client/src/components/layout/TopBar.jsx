@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "@/contexts/AuthContext";
 import ThemeToggle from "@/components/ui/ThemeToggle";
@@ -11,23 +11,55 @@ import {
   HiOutlineUser,
   HiOutlineCog6Tooth,
   HiOutlineArrowRightOnRectangle,
+  HiOutlineChatBubbleLeftRight,
+  HiOutlineUserGroup,
 } from "react-icons/hi2";
 
 export default function TopBar({ onMenuClick }) {
   const { t } = useTranslation();
   const { profile, signOut } = useAuth();
+  const navigate = useNavigate();
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchOpen, setSearchOpen] = useState(false);
   const dropdownRef = useRef(null);
+  const searchRef = useRef(null);
 
   useEffect(() => {
     const handleClick = (e) => {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
         setDropdownOpen(false);
       }
+      if (searchRef.current && !searchRef.current.contains(e.target)) {
+        setSearchOpen(false);
+      }
     };
     document.addEventListener("mousedown", handleClick);
     return () => document.removeEventListener("mousedown", handleClick);
   }, []);
+
+  const searchTargets = [
+    {
+      key: "contacts",
+      path: "/dashboard/contacts",
+      icon: HiOutlineUserGroup,
+      label: t("dashboard.sidebar.contacts"),
+    },
+    {
+      key: "conversations",
+      path: "/dashboard/conversations",
+      icon: HiOutlineChatBubbleLeftRight,
+      label: t("dashboard.sidebar.conversations"),
+    },
+  ];
+
+  const handleSearchNav = (path) => {
+    const q = searchQuery.trim();
+    if (!q) return;
+    navigate(`${path}?search=${encodeURIComponent(q)}`);
+    setSearchQuery("");
+    setSearchOpen(false);
+  };
 
   return (
     <header className="flex h-16 shrink-0 items-center justify-between border-b border-[var(--color-border)] bg-[var(--color-surface)] px-4">
@@ -41,13 +73,43 @@ export default function TopBar({ onMenuClick }) {
           <HiBars3 className="h-5 w-5" />
         </button>
 
-        <div className="relative hidden sm:block">
+        <div className="relative hidden sm:block" ref={searchRef}>
           <HiOutlineMagnifyingGlass className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[var(--color-text-tertiary)]" />
           <input
             type="text"
+            value={searchQuery}
+            onChange={(e) => {
+              setSearchQuery(e.target.value);
+              setSearchOpen(e.target.value.trim().length > 0);
+            }}
+            onFocus={() => searchQuery.trim() && setSearchOpen(true)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                e.preventDefault();
+                handleSearchNav("/dashboard/contacts");
+              }
+              if (e.key === "Escape") setSearchOpen(false);
+            }}
             placeholder={t("common.search")}
             className="h-9 w-64 rounded-lg bg-[var(--color-bg-secondary)] pl-9 pr-3 text-sm text-[var(--color-text-primary)] placeholder-[var(--color-text-tertiary)] outline-none transition-colors focus:ring-2 focus:ring-[var(--color-primary)]"
           />
+          {searchOpen && searchQuery.trim() && (
+            <div className="absolute left-0 top-full z-50 mt-1 w-72 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] py-1 shadow-lg">
+              <p className="px-3 py-1.5 text-xs font-medium text-[var(--color-text-tertiary)]">
+                {t("common.search")} &quot;{searchQuery.trim()}&quot;
+              </p>
+              {searchTargets.map(({ key, path, icon: Icon, label }) => (
+                <button
+                  key={key}
+                  onClick={() => handleSearchNav(path)}
+                  className="flex w-full cursor-pointer items-center gap-2.5 px-3 py-2 text-sm text-[var(--color-text-secondary)] transition-colors hover:bg-[var(--color-surface-hover)] hover:text-[var(--color-text-primary)]"
+                >
+                  <Icon className="h-4 w-4" />
+                  {label}
+                </button>
+              ))}
+            </div>
+          )}
         </div>
       </div>
 

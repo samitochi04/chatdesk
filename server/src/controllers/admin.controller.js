@@ -601,6 +601,8 @@ const getDashboard = catchAsync(async (req, res) => {
     openConvsResult,
     broadcastsResult,
     dealsResult,
+    waAccountsResult,
+    waConnectedResult,
   ] = await Promise.all([
     supabaseAdmin
       .from("contacts")
@@ -623,11 +625,16 @@ const getDashboard = catchAsync(async (req, res) => {
       .from("pipeline_deals")
       .select("id", { count: "exact", head: true })
       .eq("organization_id", orgId),
+    supabaseAdmin
+      .from("whatsapp_accounts")
+      .select("id", { count: "exact", head: true })
+      .eq("organization_id", orgId),
+    supabaseAdmin
+      .from("whatsapp_accounts")
+      .select("id", { count: "exact", head: true })
+      .eq("organization_id", orgId)
+      .eq("status", "connected"),
   ]);
-
-  // WhatsApp sessions for this org
-  const allSessions = sessionManager.getAllSessions();
-  const orgSessions = allSessions.filter((s) => s.orgId === orgId);
 
   res.json({
     success: true,
@@ -638,9 +645,8 @@ const getDashboard = catchAsync(async (req, res) => {
       totalBroadcasts: broadcastsResult.count || 0,
       totalDeals: dealsResult.count || 0,
       whatsappAccounts: {
-        total: orgSessions.length,
-        connected: orgSessions.filter((s) => s.status === "connected").length,
-        sessions: orgSessions,
+        total: waAccountsResult.count || 0,
+        connected: waConnectedResult.count || 0,
       },
       plan: req.organization.plan,
     },

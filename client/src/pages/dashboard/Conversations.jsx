@@ -266,13 +266,27 @@ export default function Conversations() {
   const [msgsLoading, setMsgsLoading] = useState(false);
   const [notes, setNotes] = useState([]);
   const [newMsg, setNewMsg] = useState("");
-  const [search, setSearch] = useState("");
-  const [debouncedSearch, setDebouncedSearch] = useState("");
+  const urlSearch = searchParams.get("search") || "";
+  const [search, setSearch] = useState(urlSearch);
+  const [debouncedSearch, setDebouncedSearch] = useState(urlSearch);
   const [statusFilter, setStatusFilter] = useState("open");
   const [showContact, setShowContact] = useState(false);
   const [quickReplies, setQuickReplies] = useState([]);
   const [showQuickReplies, setShowQuickReplies] = useState(false);
   const messagesEndRef = useRef(null);
+
+  // Sync search from URL params (when navigating from TopBar)
+  useEffect(() => {
+    const s = searchParams.get("search") || "";
+    if (s && s !== search) {
+      setSearch(s);
+      setDebouncedSearch(s);
+    }
+    if (s) {
+      searchParams.delete("search");
+      setSearchParams(searchParams, { replace: true });
+    }
+  }, [searchParams]);
 
   // Debounce search input
   useEffect(() => {
