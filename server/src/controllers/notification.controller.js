@@ -1,6 +1,8 @@
 const { supabaseAdmin } = require("../config/supabase");
 const ApiError = require("../utils/ApiError");
 const catchAsync = require("../utils/catchAsync");
+const emailService = require("../services/email.service");
+const logger = require("../utils/logger");
 
 /* ================================================================== */
 /*  Notifications                                                      */
@@ -67,6 +69,20 @@ const markAllRead = catchAsync(async (req, res) => {
     .eq("read", false);
 
   if (error) throw ApiError.internal("Failed to mark all as read");
+
+  res.json({ success: true });
+});
+
+const clearRead = catchAsync(async (req, res) => {
+  const userId = req.user.id;
+
+  const { error } = await supabaseAdmin
+    .from("notifications")
+    .delete()
+    .eq("user_id", userId)
+    .eq("read", true);
+
+  if (error) throw ApiError.internal("Failed to clear read notifications");
 
   res.json({ success: true });
 });
@@ -169,6 +185,7 @@ const notifyOrgMembers = async ({
   body,
   link,
   excludeUserId,
+  emailData,
 }) => {
   const { data: members } = await supabaseAdmin
     .from("profiles")
@@ -177,19 +194,80 @@ const notifyOrgMembers = async ({
 
   if (!members) return;
 
-  const notifications = members
-    .filter((m) => m.id !== excludeUserId)
-    .map((m) => ({
-      organization_id: orgId,
-      user_id: m.id,
-      type,
-      title,
-      body: body || null,
-      link: link || null,
-    }));
+  // Map notification types to preference keys
+  const prefType = type === "broadcast_complete" ? "broadcast" : type;
+
+  const notifications = [];
+  const emailRecipients = [];
+
+  for (const m of members) {
+    if (m.id === excludeUserId) continue;
+
+    const { data: prefs } = await supabaseAdmin
+      .from("notification_preferences")
+      .select("*")
+      .eq("user_id", m.id)
+      .single();
+
+    const appKey = `${prefType}_app`;
+    const emailKey = `${prefType}_email`;
+    const shouldNotifyApp = !prefs || prefs[appKey] !== false;
+    const shouldNotifyEmail = prefs && prefs[emailKey] === true;
+
+    if (shouldNotifyApp) {
+      notifications.push({
+        organization_id: orgId,
+        user_id: m.id,
+        type,
+        title,
+        body: body || null,
+        link: link || null,
+      });
+    }
+
+    if (shouldNotifyEmail) {
+      emailRecipients.push(m.id);
+    }
+  }
 
   if (notifications.length > 0) {
     await supabaseAdmin.from("notifications").insert(notifications);
+  }
+
+  // Send email notifications
+  if (emailRecipients.length > 0) {
+    for (const userId of emailRecipients) {
+      try {
+        const {
+          data: { user },
+        } = await supabaseAdmin.auth.admin.getUserById(userId);
+        if (!user?.email) continue;
+
+        if (prefType === "new_contact" && emailData) {
+          await emailService.sendNewContactEmail({
+            to: user.email,
+            contactName: emailData.contactName,
+            contactPhone: emailData.contactPhone,
+          });
+        } else if (prefType === "deal_update" && emailData) {
+          await emailService.sendDealUpdateEmail({
+            to: user.email,
+            dealTitle: emailData.dealTitle,
+            stageName: emailData.stageName,
+            contactName: emailData.contactName,
+          });
+        } else if (prefType === "broadcast") {
+          await emailService.sendBroadcastEmail({
+            to: user.email,
+            broadcastName: emailData?.broadcastName || body,
+          });
+        }
+      } catch (err) {
+        logger.error(
+          `Failed to send email notification to ${userId}: ${err.message}`,
+        );
+      }
+    }
   }
 };
 
@@ -198,6 +276,7 @@ module.exports = {
   getUnreadCount,
   markRead,
   markAllRead,
+  clearRead,
   getPreferences,
   updatePreferences,
   createNotification,

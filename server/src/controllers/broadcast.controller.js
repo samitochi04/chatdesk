@@ -120,6 +120,9 @@ const sendBroadcast = catchAsync(async (req, res) => {
     body: `Broadcast ${broadcastId} is now being sent`,
     link: `/dashboard/broadcasts`,
     excludeUserId: req.user.id,
+    emailData: {
+      broadcastName: broadcastId,
+    },
   });
 
   logActivity({

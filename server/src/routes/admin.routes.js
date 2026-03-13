@@ -77,6 +77,14 @@ router.post(
   ctrl.cancelAnyInvitation,
 );
 
+router.post(
+  "/organizations/create",
+  auth,
+  requireRole("super_admin"),
+  validate(schemas.createOrg),
+  ctrl.createOrganization,
+);
+
 router.get(
   "/organizations/:id",
   auth,
@@ -92,6 +100,15 @@ router.patch(
   validate(schemas.idParam, "params"),
   validate(schemas.updateOrg),
   ctrl.updateOrg,
+);
+
+router.patch(
+  "/platform/users/:id",
+  auth,
+  requireRole("super_admin"),
+  validate(schemas.idParam, "params"),
+  validate(schemas.updateUser),
+  ctrl.updateUser,
 );
 
 /* ------------------------------------------------------------------ */

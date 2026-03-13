@@ -1,5 +1,6 @@
 const { supabaseAdmin } = require("../config/supabase");
 const aiService = require("./ai.service");
+const emailService = require("./email.service");
 const { logActivity } = require("./activity.service");
 const logger = require("../utils/logger");
 
@@ -13,6 +14,7 @@ async function notifyOrgMembers({
   body,
   link,
   excludeUserId,
+  emailData,
 }) {
   try {
     const { data: members } = await supabaseAdmin
@@ -25,6 +27,7 @@ async function notifyOrgMembers({
 
     // Check preferences for each member
     const notifications = [];
+    const emailRecipients = [];
     for (const m of members) {
       if (m.id === excludeUserId) continue;
 
@@ -36,10 +39,12 @@ async function notifyOrgMembers({
         .single();
 
       // Default to true if no preferences set
-      const prefKey = `${type}_app`;
-      const shouldNotify = !prefs || prefs[prefKey] !== false;
+      const appKey = `${type}_app`;
+      const emailKey = `${type}_email`;
+      const shouldNotifyApp = !prefs || prefs[appKey] !== false;
+      const shouldNotifyEmail = prefs && prefs[emailKey] === true;
 
-      if (shouldNotify) {
+      if (shouldNotifyApp) {
         notifications.push({
           organization_id: orgId,
           user_id: m.id,
@@ -49,10 +54,44 @@ async function notifyOrgMembers({
           link: link || null,
         });
       }
+
+      if (shouldNotifyEmail) {
+        emailRecipients.push(m.id);
+      }
     }
 
     if (notifications.length > 0) {
       await supabaseAdmin.from("notifications").insert(notifications);
+    }
+
+    // Send emails to members who have email notifications enabled
+    if (emailRecipients.length > 0 && emailData) {
+      for (const userId of emailRecipients) {
+        try {
+          const {
+            data: { user },
+          } = await supabaseAdmin.auth.admin.getUserById(userId);
+          if (!user?.email) continue;
+
+          if (type === "new_message") {
+            await emailService.sendNewMessageEmail({
+              to: user.email,
+              contactName: emailData.contactName,
+              messagePreview: emailData.messagePreview,
+            });
+          } else if (type === "new_contact") {
+            await emailService.sendNewContactEmail({
+              to: user.email,
+              contactName: emailData.contactName,
+              contactPhone: emailData.contactPhone,
+            });
+          }
+        } catch (err) {
+          logger.error(
+            `Failed to send email notification to ${userId}: ${err.message}`,
+          );
+        }
+      }
     }
   } catch (err) {
     logger.error(`Failed to create notifications: ${err.message}`);
@@ -136,6 +175,10 @@ async function handleIncomingMessage(client, message, account) {
     title: `New message from ${contactName}`,
     body: message.body ? message.body.substring(0, 100) : "[media]",
     link: `/dashboard/conversations?id=${conversation.id}`,
+    emailData: {
+      contactName,
+      messagePreview: message.body ? message.body.substring(0, 200) : "[media]",
+    },
   });
 
   // Log activity
@@ -234,6 +277,10 @@ async function findOrCreateContact(orgId, phone, message) {
     title: `New contact: ${contactName || phone}`,
     body: `Phone: ${phone}`,
     link: `/dashboard/contacts`,
+    emailData: {
+      contactName: contactName || null,
+      contactPhone: phone,
+    },
   });
 
   // Log activity

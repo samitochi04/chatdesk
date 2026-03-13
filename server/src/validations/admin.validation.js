@@ -21,6 +21,27 @@ const updateOrg = Joi.object({
     .required(),
 });
 
+/* ---- Create organization (super_admin) ---- */
+
+const createOrg = Joi.object({
+  name: Joi.string().min(2).max(100).required(),
+  slug: Joi.string()
+    .min(2)
+    .max(100)
+    .pattern(/^[a-z0-9-]+$/)
+    .required(),
+  subscriptionPlan: Joi.string()
+    .valid("starter", "growth", "business")
+    .default("starter"),
+});
+
+/* ---- Update user (super_admin) ---- */
+
+const updateUser = Joi.object({
+  organizationId: Joi.string().uuid().allow(null).optional(),
+  role: Joi.string().valid("super_admin", "owner", "admin", "agent").optional(),
+});
+
 /* ---- Team invitations ---- */
 
 const createInvitation = Joi.object({
@@ -58,6 +79,8 @@ module.exports = {
   approveOrg,
   rejectOrg,
   updateOrg,
+  createOrg,
+  updateUser,
   createInvitation,
   cancelInvitation,
   exportQuery,

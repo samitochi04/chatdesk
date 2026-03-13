@@ -15,6 +15,7 @@ import {
   HiOutlineChatBubbleLeftRight,
   HiOutlineUserGroup,
   HiOutlineCheckCircle,
+  HiOutlineTrash,
 } from "react-icons/hi2";
 
 export default function TopBar({ onMenuClick }) {
@@ -66,7 +67,16 @@ export default function TopBar({ onMenuClick }) {
     try {
       await api.post("/notifications/read-all");
       setUnreadCount(0);
-      setNotifications((prev) => prev.filter((n) => n.read));
+      setNotifications((prev) => prev.map((n) => ({ ...n, read: true })));
+    } catch {
+      /* ignore */
+    }
+  };
+
+  const handleClearRead = async () => {
+    try {
+      await api.delete("/notifications/clear-read");
+      setNotifications((prev) => prev.filter((n) => !n.read));
     } catch {
       /* ignore */
     }
@@ -205,15 +215,26 @@ export default function TopBar({ onMenuClick }) {
                 <h3 className="text-sm font-semibold text-[var(--color-text-primary)]">
                   {t("dashboard.settings.notifications")}
                 </h3>
-                {unreadCount > 0 && (
-                  <button
-                    onClick={handleMarkAllRead}
-                    className="flex items-center gap-1 text-xs text-[var(--color-primary)] hover:underline"
-                  >
-                    <HiOutlineCheckCircle className="h-3.5 w-3.5" />
-                    {t("dashboard.settings.markAllRead")}
-                  </button>
-                )}
+                <div className="flex items-center gap-2">
+                  {notifications.some((n) => n.read) && (
+                    <button
+                      onClick={handleClearRead}
+                      className="flex items-center gap-1 text-xs text-[var(--color-danger)] hover:underline"
+                    >
+                      <HiOutlineTrash className="h-3.5 w-3.5" />
+                      {t("common.clean", "Clean")}
+                    </button>
+                  )}
+                  {unreadCount > 0 && (
+                    <button
+                      onClick={handleMarkAllRead}
+                      className="flex items-center gap-1 text-xs text-[var(--color-primary)] hover:underline"
+                    >
+                      <HiOutlineCheckCircle className="h-3.5 w-3.5" />
+                      {t("dashboard.settings.markAllRead")}
+                    </button>
+                  )}
+                </div>
               </div>
               <div className="max-h-80 overflow-y-auto">
                 {notifications.length === 0 ? (

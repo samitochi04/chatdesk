@@ -9,6 +9,7 @@ const contactRoutes = require("./contact.routes");
 const crmRoutes = require("./crm.routes");
 const quickReplyRoutes = require("./quickReply.routes");
 const notificationRoutes = require("./notification.routes");
+const inviteRoutes = require("./invite.routes");
 
 const router = Router();
 
@@ -22,5 +23,6 @@ router.use("/contact", contactRoutes);
 router.use("/crm", crmRoutes);
 router.use("/quick-replies", quickReplyRoutes);
 router.use("/notifications", notificationRoutes);
+router.use("/invite", inviteRoutes);
 
 module.exports = router;

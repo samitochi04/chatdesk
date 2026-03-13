@@ -19,6 +19,7 @@ const BlogPost = lazy(() => import("@/pages/public/BlogPost"));
 const SignIn = lazy(() => import("@/pages/auth/SignIn"));
 const SignUp = lazy(() => import("@/pages/auth/SignUp"));
 const ForgotPassword = lazy(() => import("@/pages/auth/ForgotPassword"));
+const AcceptInvite = lazy(() => import("@/pages/auth/AcceptInvite"));
 const Overview = lazy(() => import("@/pages/dashboard/Overview"));
 const Conversations = lazy(() => import("@/pages/dashboard/Conversations"));
 const ConversationDetail = lazy(
@@ -122,6 +123,16 @@ export default function AppRouter() {
           {/* 404 */}
           <Route path="*" element={<NotFound />} />
         </Route>
+
+        {/* Invitation accept — standalone page (no PublicLayout) */}
+        <Route
+          path="/invite/:token"
+          element={
+            <S>
+              <AcceptInvite />
+            </S>
+          }
+        />
 
         {/* Dashboard — protected */}
         <Route element={<ProtectedRoute />}>

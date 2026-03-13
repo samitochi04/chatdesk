@@ -115,6 +115,10 @@ const createContact = catchAsync(async (req, res) => {
     body: `Added by team member`,
     link: `/dashboard/contacts`,
     excludeUserId: req.user.id,
+    emailData: {
+      contactName: name || null,
+      contactPhone: phoneNumber,
+    },
   });
 
   // Log activity
@@ -723,6 +727,11 @@ const updateDeal = catchAsync(async (req, res) => {
       body: deal.contacts?.name || null,
       link: `/dashboard/pipeline`,
       excludeUserId: req.user.id,
+      emailData: {
+        dealTitle: deal.title,
+        stageName: deal.pipeline_stages.name,
+        contactName: deal.contacts?.name || null,
+      },
     });
   }
 

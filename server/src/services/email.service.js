@@ -106,9 +106,86 @@ function escapeHtml(str) {
     .replace(/"/g, "&quot;");
 }
 
+/**
+ * Send notification email for a new incoming WhatsApp message.
+ */
+async function sendNewMessageEmail({ to, contactName, messagePreview }) {
+  const subject = `New message from ${contactName || "Unknown Contact"}`;
+  const html = `
+    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+      <h2 style="color: #6366f1;">ChatDesk</h2>
+      <p>You have a new message from <strong>${escapeHtml(contactName || "Unknown Contact")}</strong>.</p>
+      ${messagePreview ? `<div style="background-color: #f3f4f6; border-left: 4px solid #6366f1; padding: 12px 16px; margin: 16px 0; border-radius: 4px; color: #374151;">${escapeHtml(messagePreview)}</div>` : ""}
+      <p style="color: #666; font-size: 12px; margin-top: 24px;">Log in to ChatDesk to reply.</p>
+    </div>
+  `;
+  return sendEmail({ to, subject, html });
+}
+
+/**
+ * Send notification email for a new contact created.
+ */
+async function sendNewContactEmail({ to, contactName, contactPhone }) {
+  const subject = `New contact: ${contactName || contactPhone || "Unknown"}`;
+  const html = `
+    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+      <h2 style="color: #6366f1;">ChatDesk</h2>
+      <p>A new contact has been added to your organization:</p>
+      <div style="background-color: #f3f4f6; padding: 12px 16px; margin: 16px 0; border-radius: 8px;">
+        <p style="margin: 4px 0;"><strong>Name:</strong> ${escapeHtml(contactName || "N/A")}</p>
+        <p style="margin: 4px 0;"><strong>Phone:</strong> ${escapeHtml(contactPhone || "N/A")}</p>
+      </div>
+      <p style="color: #666; font-size: 12px; margin-top: 24px;">Log in to ChatDesk to view the contact.</p>
+    </div>
+  `;
+  return sendEmail({ to, subject, html });
+}
+
+/**
+ * Send notification email for a deal stage update.
+ */
+async function sendDealUpdateEmail({ to, dealTitle, stageName, contactName }) {
+  const subject = `Deal "${dealTitle}" moved to ${stageName}`;
+  const html = `
+    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+      <h2 style="color: #6366f1;">ChatDesk</h2>
+      <p>A deal has been updated in your pipeline:</p>
+      <div style="background-color: #f3f4f6; padding: 12px 16px; margin: 16px 0; border-radius: 8px;">
+        <p style="margin: 4px 0;"><strong>Deal:</strong> ${escapeHtml(dealTitle)}</p>
+        <p style="margin: 4px 0;"><strong>Stage:</strong> ${escapeHtml(stageName)}</p>
+        ${contactName ? `<p style="margin: 4px 0;"><strong>Contact:</strong> ${escapeHtml(contactName)}</p>` : ""}
+      </div>
+      <p style="color: #666; font-size: 12px; margin-top: 24px;">Log in to ChatDesk to view the pipeline.</p>
+    </div>
+  `;
+  return sendEmail({ to, subject, html });
+}
+
+/**
+ * Send notification email for broadcast completion.
+ */
+async function sendBroadcastEmail({ to, broadcastName }) {
+  const subject = `Broadcast "${broadcastName || "Broadcast"}" started sending`;
+  const html = `
+    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+      <h2 style="color: #6366f1;">ChatDesk</h2>
+      <p>A broadcast has started sending:</p>
+      <div style="background-color: #f3f4f6; padding: 12px 16px; margin: 16px 0; border-radius: 8px;">
+        <p style="margin: 4px 0;"><strong>Broadcast:</strong> ${escapeHtml(broadcastName || "Broadcast")}</p>
+      </div>
+      <p style="color: #666; font-size: 12px; margin-top: 24px;">Log in to ChatDesk to check its status.</p>
+    </div>
+  `;
+  return sendEmail({ to, subject, html });
+}
+
 module.exports = {
   sendEmail,
   sendInvitationEmail,
   sendPasswordResetEmail,
   sendVerificationEmail,
+  sendNewMessageEmail,
+  sendNewContactEmail,
+  sendDealUpdateEmail,
+  sendBroadcastEmail,
 };

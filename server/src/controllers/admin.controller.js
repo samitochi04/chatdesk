@@ -744,6 +744,74 @@ const getAnalytics = catchAsync(async (req, res) => {
   });
 });
 
+/* ================================================================== */
+/*  Super-admin: Create Organization                                   */
+/* ================================================================== */
+
+const createOrganization = catchAsync(async (req, res) => {
+  const { name, slug, subscriptionPlan } = req.body;
+
+  const { data: org, error } = await supabaseAdmin
+    .from("organizations")
+    .insert({
+      name,
+      slug,
+      subscription_plan: subscriptionPlan || "starter",
+      approval_status: "approved",
+      approved_by: req.user.id,
+      approved_at: new Date().toISOString(),
+    })
+    .select("*")
+    .single();
+
+  if (error) {
+    if (error.code === "23505") {
+      throw ApiError.conflict("An organization with this slug already exists");
+    }
+    throw ApiError.internal("Failed to create organization");
+  }
+
+  logger.info(`Organization "${name}" created by super_admin ${req.user.id}`);
+
+  res.status(201).json({ success: true, data: org });
+});
+
+/* ================================================================== */
+/*  Super-admin: Update User (assign org, change role)                 */
+/* ================================================================== */
+
+const updateUser = catchAsync(async (req, res) => {
+  const { id } = req.params;
+  const { organizationId, role } = req.body;
+
+  const updates = {};
+  if (organizationId !== undefined)
+    updates.organization_id = organizationId || null;
+  if (role) updates.role = role;
+
+  if (Object.keys(updates).length === 0) {
+    throw ApiError.badRequest("No fields to update");
+  }
+
+  const { data: user, error } = await supabaseAdmin
+    .from("profiles")
+    .update(updates)
+    .eq("id", id)
+    .select(
+      "id, full_name, role, organization_id, is_active, created_at, organizations!organization_id(id, name)",
+    )
+    .single();
+
+  if (error) throw ApiError.internal("Failed to update user");
+  if (!user) throw ApiError.notFound("User not found");
+
+  logger.info(
+    `User ${id} updated by super_admin ${req.user.id}: ${JSON.stringify(updates)}`,
+  );
+
+  res.json({ success: true, data: user });
+});
+
 module.exports = {
   listPendingOrgs,
   listAllOrgs,
@@ -755,6 +823,8 @@ module.exports = {
   cancelAnyInvitation,
   getOrgDetail,
   updateOrg,
+  createOrganization,
+  updateUser,
   createInvitation,
   listInvitations,
   cancelInvitation,
