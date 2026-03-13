@@ -1,6 +1,10 @@
 const { supabaseAdmin } = require("../config/supabase");
-const sessionManager = require("./whatsapp.session");
 const logger = require("../utils/logger");
+
+// Lazy-require to break circular dependency with whatsapp.session
+function getSessionManager() {
+  return require("./whatsapp.session");
+}
 
 /** Default delay between individual messages (ms) — anti-ban */
 const DEFAULT_DELAY_MS = 3000;
@@ -146,7 +150,7 @@ async function startSending(broadcastId, options = {}) {
   }
 
   // Verify WhatsApp session
-  const session = sessionManager.getSession(broadcast.whatsapp_account_id);
+  const session = getSessionManager().getSession(broadcast.whatsapp_account_id);
   if (!session || session.status !== "connected") {
     throw new Error("WhatsApp account is not connected");
   }

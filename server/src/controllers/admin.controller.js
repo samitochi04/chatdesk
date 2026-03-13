@@ -1,6 +1,8 @@
 const { supabaseAdmin } = require("../config/supabase");
 const { logActivity } = require("../services/activity.service");
+const { sendInvitationEmail } = require("../services/email.service");
 const sessionManager = require("../services/whatsapp.session");
+const config = require("../config");
 const ApiError = require("../utils/ApiError");
 const catchAsync = require("../utils/catchAsync");
 const logger = require("../utils/logger");
@@ -217,7 +219,7 @@ const listAllUsers = catchAsync(async (req, res) => {
   const { data: users, error } = await supabaseAdmin
     .from("profiles")
     .select(
-      "id, full_name, avatar_url, role, is_active, language, organization_id, last_seen_at, created_at, organizations(id, name, slug)",
+      "id, full_name, avatar_url, role, is_active, language, organization_id, last_seen_at, created_at, organizations!organization_id(id, name, slug)",
     )
     .order("created_at", { ascending: false });
 
@@ -411,7 +413,7 @@ const createInvitation = catchAsync(async (req, res) => {
 
   if (error) throw ApiError.internal("Failed to create invitation");
 
-  // Send invitation email via Supabase's invite user
+  // Send invitation email via nodemailer
   try {
     const { data: org } = await supabaseAdmin
       .from("organizations")
@@ -419,14 +421,14 @@ const createInvitation = catchAsync(async (req, res) => {
       .eq("id", orgId)
       .single();
 
-    // Use Supabase Admin Auth to send a magic link / invite
-    await supabaseAdmin.auth.admin.inviteUserByEmail(email, {
-      data: {
-        invitation_id: invitation.id,
-        organization_id: orgId,
-        organization_name: org?.name || "ChatDesk",
-        role,
-      },
+    const frontendOrigin = config.cors.origins[0] || "http://localhost:5173";
+    const inviteUrl = `${frontendOrigin}/invite/${invitation.token}`;
+
+    await sendInvitationEmail({
+      to: email,
+      orgName: org?.name || "ChatDesk",
+      role,
+      inviteUrl,
     });
 
     logger.info(`Invitation email sent to ${email} for org ${orgId}`);
@@ -655,6 +657,93 @@ const getDashboard = catchAsync(async (req, res) => {
   });
 });
 
+/**
+ * GET /api/admin/analytics
+ * Real analytics data for the organization's analytics page.
+ */
+const getAnalytics = catchAsync(async (req, res) => {
+  const orgId = req.organization.id;
+  const days = parseInt(req.query.days) || 7;
+  const since = new Date();
+  since.setDate(since.getDate() - days);
+  const sinceISO = since.toISOString();
+
+  // Messages per day
+  const { data: messages } = await supabaseAdmin
+    .from("messages")
+    .select("created_at")
+    .eq("organization_id", orgId)
+    .gte("created_at", sinceISO);
+
+  const msgsByDay = {};
+  for (let i = days - 1; i >= 0; i--) {
+    const d = new Date();
+    d.setDate(d.getDate() - i);
+    const key = d.toISOString().split("T")[0];
+    msgsByDay[key] = 0;
+  }
+  if (messages) {
+    for (const m of messages) {
+      const key = m.created_at.split("T")[0];
+      if (msgsByDay[key] !== undefined) msgsByDay[key]++;
+    }
+  }
+  const messagesPerDay = Object.entries(msgsByDay).map(([date, count]) => ({
+    date,
+    messages: count,
+  }));
+
+  // Contact classification breakdown
+  const { data: contacts } = await supabaseAdmin
+    .from("contacts")
+    .select("classification")
+    .eq("organization_id", orgId);
+
+  const classBreakdown = {};
+  if (contacts) {
+    for (const c of contacts) {
+      const cls = c.classification || "new_lead";
+      classBreakdown[cls] = (classBreakdown[cls] || 0) + 1;
+    }
+  }
+  const classificationData = Object.entries(classBreakdown).map(
+    ([name, count]) => ({ name, count }),
+  );
+
+  // Pipeline stages with deal counts + values
+  const { data: stages } = await supabaseAdmin
+    .from("pipeline_stages")
+    .select("id, name, color, position")
+    .eq("organization_id", orgId)
+    .order("position", { ascending: true });
+
+  const { data: deals } = await supabaseAdmin
+    .from("pipeline_deals")
+    .select("stage_id, value")
+    .eq("organization_id", orgId);
+
+  const pipelineData = (stages || []).map((s, i) => {
+    const stageDeals = (deals || []).filter((d) => d.stage_id === s.id);
+    return {
+      name: s.name,
+      value: stageDeals.length,
+      totalValue: stageDeals.reduce((sum, d) => sum + Number(d.value || 0), 0),
+      fill: ["#6366f1", "#22c55e", "#f59e0b", "#ef4444", "#8b5cf6", "#06b6d4"][
+        i % 6
+      ],
+    };
+  });
+
+  res.json({
+    success: true,
+    data: {
+      messagesPerDay,
+      classificationData,
+      pipelineData,
+    },
+  });
+});
+
 module.exports = {
   listPendingOrgs,
   listAllOrgs,
@@ -673,4 +762,5 @@ module.exports = {
   updateTeamMember,
   listActivity,
   getDashboard,
+  getAnalytics,
 };

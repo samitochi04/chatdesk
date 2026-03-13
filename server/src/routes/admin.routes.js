@@ -141,4 +141,8 @@ router.get(
 
 router.get("/dashboard", ctrl.getDashboard);
 
+/* ---- Analytics ---- */
+
+router.get("/analytics", ctrl.getAnalytics);
+
 module.exports = router;

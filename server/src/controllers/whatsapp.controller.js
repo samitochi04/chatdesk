@@ -1,6 +1,7 @@
 const { supabaseAdmin } = require("../config/supabase");
 const sessionManager = require("../services/whatsapp.session");
 const messageService = require("../services/whatsapp.message");
+const { logActivity } = require("../services/activity.service");
 const ApiError = require("../utils/ApiError");
 const catchAsync = require("../utils/catchAsync");
 const logger = require("../utils/logger");
@@ -51,6 +52,15 @@ const registerAccount = catchAsync(async (req, res) => {
     .single();
 
   if (error) throw ApiError.internal("Failed to register WhatsApp account");
+
+  logActivity({
+    organizationId: orgId,
+    userId: req.user.id,
+    action: "created",
+    entityType: "whatsapp_account",
+    entityId: account.id,
+    metadata: { phoneNumber },
+  });
 
   res.status(201).json({ success: true, data: account });
 });

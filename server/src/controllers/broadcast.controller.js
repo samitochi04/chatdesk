@@ -1,5 +1,7 @@
 const { supabaseAdmin } = require("../config/supabase");
 const broadcastService = require("../services/broadcast.service");
+const { logActivity } = require("../services/activity.service");
+const { notifyOrgMembers } = require("./notification.controller");
 const ApiError = require("../utils/ApiError");
 const catchAsync = require("../utils/catchAsync");
 
@@ -62,6 +64,15 @@ const createBroadcast = catchAsync(async (req, res) => {
 
   if (error) throw ApiError.internal("Failed to create broadcast");
 
+  logActivity({
+    organizationId: orgId,
+    userId: req.user.id,
+    action: "created",
+    entityType: "broadcast",
+    entityId: broadcast.id,
+    metadata: { name: broadcast.name },
+  });
+
   res.status(201).json({ success: true, data: broadcast });
 });
 
@@ -100,6 +111,24 @@ const sendBroadcast = catchAsync(async (req, res) => {
   if (!broadcast) throw ApiError.notFound("Broadcast not found");
 
   await broadcastService.startSending(broadcastId, { delayMs });
+
+  // Notify org members that broadcast started
+  notifyOrgMembers({
+    orgId,
+    type: "broadcast_complete",
+    title: "Broadcast sending started",
+    body: `Broadcast ${broadcastId} is now being sent`,
+    link: `/dashboard/broadcasts`,
+    excludeUserId: req.user.id,
+  });
+
+  logActivity({
+    organizationId: orgId,
+    userId: req.user.id,
+    action: "sent",
+    entityType: "broadcast",
+    entityId: broadcastId,
+  });
 
   res.json({
     success: true,

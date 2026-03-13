@@ -30,13 +30,19 @@ const COLORS = [
   "#ec4899",
 ];
 
-function ChartCard({ title, children }) {
+function ChartCard({ title, children, isEmpty }) {
   return (
     <div className="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-5">
       <h3 className="mb-4 text-sm font-semibold text-[var(--color-text-primary)]">
         {title}
       </h3>
-      {children}
+      {isEmpty ? (
+        <div className="flex h-[250px] items-center justify-center text-sm text-[var(--color-text-tertiary)]">
+          Not enough data yet
+        </div>
+      ) : (
+        children
+      )}
     </div>
   );
 }
@@ -57,9 +63,11 @@ export default function Analytics() {
   const fetchData = useCallback(async () => {
     setLoading(true);
     try {
-      const [dashRes, broadcastsRes] = await Promise.all([
+      const days = dateRange === "7d" ? 7 : dateRange === "30d" ? 30 : 90;
+      const [dashRes, broadcastsRes, analyticsRes] = await Promise.all([
         api.get("/admin/dashboard"),
         api.get("/broadcasts"),
+        api.get(`/admin/analytics?days=${days}`),
       ]);
       setDashboard(dashRes.data);
 
@@ -76,46 +84,23 @@ export default function Analytics() {
         },
       ]);
 
-      // Simulate messages-per-day from totalConversations
-      const days = dateRange === "7d" ? 7 : dateRange === "30d" ? 30 : 90;
-      const msgData = [];
-      for (let i = days - 1; i >= 0; i--) {
-        const date = new Date();
-        date.setDate(date.getDate() - i);
-        msgData.push({
-          date: date.toLocaleDateString(undefined, {
+      // Real messages-per-day from analytics endpoint
+      const analytics = analyticsRes.data;
+      setMessagesData(
+        (analytics.messagesPerDay || []).map((m) => ({
+          date: new Date(m.date).toLocaleDateString(undefined, {
             month: "short",
             day: "numeric",
           }),
-          messages: Math.floor(Math.random() * 20 + 5),
-        });
-      }
-      setMessagesData(msgData);
+          messages: m.messages,
+        })),
+      );
 
-      // Classification breakdown (static display)
-      setClassificationData([
-        { name: "New Lead", count: Math.floor(Math.random() * 30 + 10) },
-        { name: "Interested", count: Math.floor(Math.random() * 20 + 5) },
-        { name: "Bought", count: Math.floor(Math.random() * 15 + 3) },
-        { name: "Said No", count: Math.floor(Math.random() * 10 + 2) },
-        { name: "Didn't Buy", count: Math.floor(Math.random() * 8 + 1) },
-      ]);
+      // Real classification breakdown
+      setClassificationData(analytics.classificationData || []);
 
-      // Pipeline funnel
-      setPipelineData([
-        { name: t("dashboard.pipeline.newLead"), value: 40, fill: COLORS[0] },
-        {
-          name: t("dashboard.pipeline.interested"),
-          value: 25,
-          fill: COLORS[1],
-        },
-        {
-          name: t("dashboard.pipeline.negotiating"),
-          value: 15,
-          fill: COLORS[2],
-        },
-        { name: t("dashboard.pipeline.won"), value: 8, fill: COLORS[3] },
-      ]);
+      // Real pipeline funnel
+      setPipelineData(analytics.pipelineData || []);
 
       // Broadcast delivery from real data
       const casts = broadcastsRes.data || [];
@@ -222,7 +207,10 @@ export default function Analytics() {
       {/* Charts grid */}
       <div className="grid gap-6 lg:grid-cols-2">
         {/* Messages per day */}
-        <ChartCard title={t("dashboard.analytics.messagesPerDay")}>
+        <ChartCard
+          title={t("dashboard.analytics.messagesPerDay")}
+          isEmpty={messagesData.every((m) => m.messages === 0)}
+        >
           <ResponsiveContainer width="100%" height={250}>
             <LineChart data={messagesData}>
               <CartesianGrid
@@ -256,7 +244,10 @@ export default function Analytics() {
         </ChartCard>
 
         {/* Conversations by status */}
-        <ChartCard title={t("dashboard.analytics.conversationsByStatus")}>
+        <ChartCard
+          title={t("dashboard.analytics.conversationsByStatus")}
+          isEmpty={convByStatus.every((c) => c.value === 0)}
+        >
           <ResponsiveContainer width="100%" height={250}>
             <PieChart>
               <Pie
@@ -279,7 +270,10 @@ export default function Analytics() {
         </ChartCard>
 
         {/* Contact classification */}
-        <ChartCard title={t("dashboard.analytics.contactClassification")}>
+        <ChartCard
+          title={t("dashboard.analytics.contactClassification")}
+          isEmpty={classificationData.length === 0}
+        >
           <ResponsiveContainer width="100%" height={250}>
             <BarChart data={classificationData}>
               <CartesianGrid
@@ -307,7 +301,13 @@ export default function Analytics() {
         </ChartCard>
 
         {/* Pipeline funnel */}
-        <ChartCard title={t("dashboard.analytics.pipelineFunnel")}>
+        <ChartCard
+          title={t("dashboard.analytics.pipelineFunnel")}
+          isEmpty={
+            pipelineData.length === 0 ||
+            pipelineData.every((p) => p.value === 0)
+          }
+        >
           <ResponsiveContainer width="100%" height={250}>
             <FunnelChart>
               <Tooltip
@@ -332,7 +332,10 @@ export default function Analytics() {
         </ChartCard>
 
         {/* Broadcast delivery */}
-        <ChartCard title={t("dashboard.analytics.broadcastDelivery")}>
+        <ChartCard
+          title={t("dashboard.analytics.broadcastDelivery")}
+          isEmpty={broadcastData.every((b) => b.value === 0)}
+        >
           <ResponsiveContainer width="100%" height={250}>
             <BarChart data={broadcastData} layout="vertical">
               <CartesianGrid

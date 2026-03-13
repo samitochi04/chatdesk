@@ -170,10 +170,7 @@ function ProfileTab({ t, profile, user }) {
 /* ================================================================== */
 function OrganizationTab({ t, organization }) {
   const [orgName, setOrgName] = useState(organization?.name || "");
-  const [industry, setIndustry] = useState(organization?.industry || "");
-  const [timezone, setTimezone] = useState(
-    organization?.timezone || Intl.DateTimeFormat().resolvedOptions().timeZone,
-  );
+  const [currency, setCurrency] = useState(organization?.currency || "NGN");
   const [saving, setSaving] = useState(false);
 
   const handleSave = async (e) => {
@@ -182,7 +179,7 @@ function OrganizationTab({ t, organization }) {
     try {
       const { error } = await supabase
         .from("organizations")
-        .update({ name: orgName, industry, timezone })
+        .update({ name: orgName, currency })
         .eq("id", organization.id);
       if (error) throw error;
       toast.success(t("common.success"));
@@ -208,25 +205,26 @@ function OrganizationTab({ t, organization }) {
       </div>
       <div>
         <label className="mb-1 block text-sm text-[var(--color-text-secondary)]">
-          {t("dashboard.settings.industry")}
+          {t("dashboard.settings.currency")}
         </label>
-        <input
-          type="text"
-          value={industry}
-          onChange={(e) => setIndustry(e.target.value)}
+        <select
+          value={currency}
+          onChange={(e) => setCurrency(e.target.value)}
           className="w-full rounded-lg border border-[var(--color-border)] bg-[var(--color-bg)] px-3 py-2 text-[var(--color-text-primary)] focus:border-[var(--color-primary)] focus:outline-none"
-        />
-      </div>
-      <div>
-        <label className="mb-1 block text-sm text-[var(--color-text-secondary)]">
-          {t("dashboard.settings.timezone")}
-        </label>
-        <input
-          type="text"
-          value={timezone}
-          onChange={(e) => setTimezone(e.target.value)}
-          className="w-full rounded-lg border border-[var(--color-border)] bg-[var(--color-bg)] px-3 py-2 text-[var(--color-text-primary)] focus:border-[var(--color-primary)] focus:outline-none"
-        />
+        >
+          <option value="NGN">NGN - Nigerian Naira</option>
+          <option value="USD">USD - US Dollar</option>
+          <option value="EUR">EUR - Euro</option>
+          <option value="GBP">GBP - British Pound</option>
+          <option value="GHS">GHS - Ghanaian Cedi</option>
+          <option value="KES">KES - Kenyan Shilling</option>
+          <option value="ZAR">ZAR - South African Rand</option>
+          <option value="XOF">XOF - West African CFA</option>
+          <option value="XAF">XAF - Central African CFA</option>
+          <option value="EGP">EGP - Egyptian Pound</option>
+          <option value="MAD">MAD - Moroccan Dirham</option>
+          <option value="TZS">TZS - Tanzanian Shilling</option>
+        </select>
       </div>
       <button
         type="submit"

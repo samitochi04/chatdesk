@@ -17,6 +17,8 @@ const envSchema = Joi.object({
   SMTP_PORT: Joi.number().default(587),
   SMTP_USER: Joi.string().allow("").default(""),
   SMTP_PASS: Joi.string().allow("").default(""),
+  SMTP_SECURE: Joi.boolean().default(false),
+  SMTP_FROM: Joi.string().default("ChatDesk <noreply@chatdesk.org>"),
   CONTACT_EMAIL: Joi.string().email().allow("").default(""),
 
   CORS_ORIGINS: Joi.string().default("http://localhost:5173"),
@@ -55,6 +57,8 @@ const config = {
     port: env.SMTP_PORT,
     user: env.SMTP_USER,
     pass: env.SMTP_PASS,
+    secure: env.SMTP_SECURE,
+    from: env.SMTP_FROM,
     contactEmail: env.CONTACT_EMAIL,
   },
 

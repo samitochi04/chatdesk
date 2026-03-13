@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useAuth } from "@/contexts/AuthContext";
 import { api } from "@/lib/api";
 import {
   HiOutlinePlus,
@@ -11,7 +12,7 @@ import {
 
 /* ── Deal Card ───────────────────────────── */
 
-function DealCard({ deal, onDragStart, onClick }) {
+function DealCard({ deal, onDragStart, onClick, orgCurrency }) {
   return (
     <div
       draggable
@@ -31,7 +32,7 @@ function DealCard({ deal, onDragStart, onClick }) {
       {deal.value && (
         <p className="mt-1 flex items-center gap-1 text-xs font-semibold text-[var(--color-primary)]">
           <HiOutlineCurrencyDollar className="h-3 w-3" />
-          {deal.currency || "NGN"} {Number(deal.value).toLocaleString()}
+          {orgCurrency} {Number(deal.value).toLocaleString()}
         </p>
       )}
       {deal.expected_close_date && (
@@ -53,6 +54,7 @@ function KanbanColumn({
   onDragOver,
   onDrop,
   onDealClick,
+  orgCurrency,
 }) {
   const stageDeals = deals.filter((d) => d.stage_id === stage.id);
   const totalValue = stageDeals.reduce(
@@ -97,7 +99,7 @@ function KanbanColumn({
         </div>
         {totalValue > 0 && (
           <span className="text-xs font-medium text-[var(--color-text-secondary)]">
-            ₦{totalValue.toLocaleString()}
+            {orgCurrency} {totalValue.toLocaleString()}
           </span>
         )}
       </div>
@@ -110,6 +112,7 @@ function KanbanColumn({
             deal={deal}
             onDragStart={onDragStart}
             onClick={onDealClick}
+            orgCurrency={orgCurrency}
           />
         ))}
       </div>
@@ -119,7 +122,15 @@ function KanbanColumn({
 
 /* ── Deal Modal ──────────────────────────── */
 
-function DealModal({ deal, stages, contacts, onClose, onSave, onDelete }) {
+function DealModal({
+  deal,
+  stages,
+  contacts,
+  onClose,
+  onSave,
+  onDelete,
+  orgCurrency,
+}) {
   const { t } = useTranslation();
   const isEdit = !!deal;
   const [form, setForm] = useState({
@@ -127,7 +138,7 @@ function DealModal({ deal, stages, contacts, onClose, onSave, onDelete }) {
     contactId: deal?.contact_id || "",
     stageId: deal?.stage_id || stages[0]?.id || "",
     value: deal?.value || "",
-    currency: deal?.currency || "NGN",
+    currency: deal?.currency || orgCurrency,
     notes: deal?.notes || "",
     expectedCloseDate: deal?.expected_close_date?.split("T")[0] || "",
   });
@@ -310,6 +321,8 @@ function DealModal({ deal, stages, contacts, onClose, onSave, onDelete }) {
 
 export default function Pipeline() {
   const { t } = useTranslation();
+  const { organization } = useAuth();
+  const orgCurrency = organization?.currency || "NGN";
   const [stages, setStages] = useState([]);
   const [deals, setDeals] = useState([]);
   const [contacts, setContacts] = useState([]);
@@ -426,10 +439,13 @@ export default function Pipeline() {
             <span>
               {deals.length} {t("dashboard.pipeline.deals")}
             </span>
-            <span>₦{totalValue.toLocaleString()}</span>
+            <span>
+              {orgCurrency} {totalValue.toLocaleString()}
+            </span>
             {wonValue > 0 && (
               <span className="text-green-600">
-                {t("dashboard.pipeline.won")}: ₦{wonValue.toLocaleString()}
+                {t("dashboard.pipeline.won")}: {orgCurrency}{" "}
+                {wonValue.toLocaleString()}
               </span>
             )}
           </div>
@@ -457,6 +473,7 @@ export default function Pipeline() {
             onDragOver={(e) => e.preventDefault()}
             onDrop={handleDrop}
             onDealClick={handleDealClick}
+            orgCurrency={orgCurrency}
           />
         ))}
       </div>
@@ -473,6 +490,7 @@ export default function Pipeline() {
           }}
           onSave={handleSave}
           onDelete={handleDeleteDeal}
+          orgCurrency={orgCurrency}
         />
       )}
     </div>

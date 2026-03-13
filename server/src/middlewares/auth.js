@@ -82,6 +82,62 @@ const requireOrganization = async (req, _res, next) => {
     if (!req.user) {
       throw ApiError.unauthorized();
     }
+
+    // Super admins bypass organization requirement — they can access all orgs
+    if (req.user.role === "super_admin") {
+      if (req.user.organizationId) {
+        // Super admin with an org — load it for context
+        const { data: org } = await supabaseAdmin
+          .from("organizations")
+          .select(
+            "id, approval_status, subscription_plan, can_broadcast, can_use_analytics, can_advanced_automation, can_export_data, can_data_analysis, max_whatsapp_numbers, max_team_members",
+          )
+          .eq("id", req.user.organizationId)
+          .single();
+
+        if (org) {
+          req.organization = {
+            id: org.id,
+            plan: org.subscription_plan,
+            canBroadcast: org.can_broadcast,
+            canUseAnalytics: org.can_use_analytics,
+            canAdvancedAutomation: org.can_advanced_automation,
+            canExportData: org.can_export_data,
+            canDataAnalysis: org.can_data_analysis,
+            maxWhatsappNumbers: org.max_whatsapp_numbers,
+            maxTeamMembers: org.max_team_members,
+          };
+        } else {
+          // Org not found — provide unlimited defaults for super_admin
+          req.organization = {
+            id: req.user.organizationId,
+            plan: "business",
+            canBroadcast: true,
+            canUseAnalytics: true,
+            canAdvancedAutomation: true,
+            canExportData: true,
+            canDataAnalysis: true,
+            maxWhatsappNumbers: 999,
+            maxTeamMembers: -1,
+          };
+        }
+      } else {
+        // Super admin with no org — provide unlimited virtual org context
+        req.organization = {
+          id: null,
+          plan: "business",
+          canBroadcast: true,
+          canUseAnalytics: true,
+          canAdvancedAutomation: true,
+          canExportData: true,
+          canDataAnalysis: true,
+          maxWhatsappNumbers: 999,
+          maxTeamMembers: -1,
+        };
+      }
+      return next();
+    }
+
     if (!req.user.organizationId) {
       throw ApiError.forbidden("No organization assigned");
     }

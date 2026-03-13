@@ -1,5 +1,5 @@
 const { Router } = require("express");
-const { auth, requireOrganization } = require("../middlewares/auth");
+const { auth } = require("../middlewares/auth");
 const {
   listNotifications,
   getUnreadCount,
@@ -11,7 +11,8 @@ const {
 
 const router = Router();
 
-router.use(auth, requireOrganization);
+// Notifications are user-scoped, not org-scoped — only auth required
+router.use(auth);
 
 router.get("/", listNotifications);
 router.get("/unread-count", getUnreadCount);

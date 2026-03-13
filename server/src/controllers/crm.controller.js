@@ -1,4 +1,9 @@
 const { supabaseAdmin } = require("../config/supabase");
+const { logActivity } = require("../services/activity.service");
+const {
+  createNotification,
+  notifyOrgMembers,
+} = require("./notification.controller");
 const ApiError = require("../utils/ApiError");
 const catchAsync = require("../utils/catchAsync");
 
@@ -101,6 +106,26 @@ const createContact = catchAsync(async (req, res) => {
     }));
     await supabaseAdmin.from("contact_tags").insert(tagRows);
   }
+
+  // Notify org members
+  notifyOrgMembers({
+    orgId,
+    type: "new_contact",
+    title: `New contact: ${name || phoneNumber}`,
+    body: `Added by team member`,
+    link: `/dashboard/contacts`,
+    excludeUserId: req.user.id,
+  });
+
+  // Log activity
+  logActivity({
+    organizationId: orgId,
+    userId: req.user.id,
+    action: "created",
+    entityType: "contact",
+    entityId: contact.id,
+    metadata: { phoneNumber, name },
+  });
 
   res.status(201).json({ success: true, data: contact });
 });
@@ -327,6 +352,15 @@ const updateConversation = catchAsync(async (req, res) => {
 
   if (error) throw ApiError.internal("Failed to update conversation");
   if (!data) throw ApiError.notFound("Conversation not found");
+
+  logActivity({
+    organizationId: orgId,
+    userId: req.user.id,
+    action: "updated",
+    entityType: "conversation",
+    entityId: id,
+    metadata: { status: req.body.status, assignedTo: req.body.assignedTo },
+  });
 
   res.json({ success: true, data });
 });
@@ -626,6 +660,16 @@ const createDeal = catchAsync(async (req, res) => {
     .single();
 
   if (error) throw ApiError.internal("Failed to create deal");
+
+  logActivity({
+    organizationId: orgId,
+    userId: req.user.id,
+    action: "created",
+    entityType: "deal",
+    entityId: deal.id,
+    metadata: { title, stageId },
+  });
+
   res.status(201).json({ success: true, data: deal });
 });
 
@@ -669,6 +713,28 @@ const updateDeal = catchAsync(async (req, res) => {
 
   if (error) throw ApiError.internal("Failed to update deal");
   if (!deal) throw ApiError.notFound("Deal not found");
+
+  // Notify on stage change
+  if (req.body.stageId && deal.pipeline_stages) {
+    notifyOrgMembers({
+      orgId,
+      type: "deal_update",
+      title: `Deal "${deal.title}" moved to ${deal.pipeline_stages.name}`,
+      body: deal.contacts?.name || null,
+      link: `/dashboard/pipeline`,
+      excludeUserId: req.user.id,
+    });
+  }
+
+  // Log activity
+  logActivity({
+    organizationId: orgId,
+    userId: req.user.id,
+    action: "updated",
+    entityType: "deal",
+    entityId: id,
+    metadata: { stageId: req.body.stageId, title: deal.title },
+  });
 
   res.json({ success: true, data: deal });
 });

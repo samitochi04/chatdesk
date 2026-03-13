@@ -1,6 +1,63 @@
 const { supabaseAdmin } = require("../config/supabase");
 const aiService = require("./ai.service");
+const { logActivity } = require("./activity.service");
 const logger = require("../utils/logger");
+
+/**
+ * Create in-app notification for specific org members.
+ */
+async function notifyOrgMembers({
+  orgId,
+  type,
+  title,
+  body,
+  link,
+  excludeUserId,
+}) {
+  try {
+    const { data: members } = await supabaseAdmin
+      .from("profiles")
+      .select("id")
+      .eq("organization_id", orgId)
+      .eq("is_active", true);
+
+    if (!members || members.length === 0) return;
+
+    // Check preferences for each member
+    const notifications = [];
+    for (const m of members) {
+      if (m.id === excludeUserId) continue;
+
+      // Check notification preferences
+      const { data: prefs } = await supabaseAdmin
+        .from("notification_preferences")
+        .select("*")
+        .eq("user_id", m.id)
+        .single();
+
+      // Default to true if no preferences set
+      const prefKey = `${type}_app`;
+      const shouldNotify = !prefs || prefs[prefKey] !== false;
+
+      if (shouldNotify) {
+        notifications.push({
+          organization_id: orgId,
+          user_id: m.id,
+          type,
+          title,
+          body: body || null,
+          link: link || null,
+        });
+      }
+    }
+
+    if (notifications.length > 0) {
+      await supabaseAdmin.from("notifications").insert(notifications);
+    }
+  } catch (err) {
+    logger.error(`Failed to create notifications: ${err.message}`);
+  }
+}
 
 /**
  * Core handler for every incoming WhatsApp message.
@@ -70,6 +127,26 @@ async function handleIncomingMessage(client, message, account) {
     logger.error(`Failed to save incoming message: ${msgError.message}`);
     return;
   }
+
+  // Notify org members of new message (fire-and-forget)
+  const contactName = contact.name || contact.phone_number;
+  notifyOrgMembers({
+    orgId,
+    type: "new_message",
+    title: `New message from ${contactName}`,
+    body: message.body ? message.body.substring(0, 100) : "[media]",
+    link: `/dashboard/conversations?id=${conversation.id}`,
+  });
+
+  // Log activity
+  logActivity({
+    organizationId: orgId,
+    userId: null,
+    action: "received",
+    entityType: "message",
+    entityId: savedMsg.id,
+    metadata: { contactId: contact.id, conversationId: conversation.id },
+  });
 
   // 5. Check auto-reply rules
   if (message.body) {
@@ -149,6 +226,26 @@ async function findOrCreateContact(orgId, phone, message) {
   logger.info(
     `Auto-created contact ${created.id} for phone ${phone} in org ${orgId}`,
   );
+
+  // Notify org members of new contact
+  notifyOrgMembers({
+    orgId,
+    type: "new_contact",
+    title: `New contact: ${contactName || phone}`,
+    body: `Phone: ${phone}`,
+    link: `/dashboard/contacts`,
+  });
+
+  // Log activity
+  logActivity({
+    organizationId: orgId,
+    userId: null,
+    action: "created",
+    entityType: "contact",
+    entityId: created.id,
+    metadata: { phone, source: "whatsapp_auto" },
+  });
+
   return created;
 }
 
@@ -217,9 +314,29 @@ async function checkAutoReply(client, message, orgId, conversation) {
         `Auto-reply rule "${rule.name}" matched for conv ${conversation.id}`,
       );
 
-      // Send the canned response via WhatsApp
+      let replyText = rule.response_text;
+
+      // If an AI agent is assigned, use it to generate the response
+      if (rule.ai_agent_id) {
+        try {
+          const aiReply = await aiService.handleAIConversation(
+            { ...conversation, ai_agent_id: rule.ai_agent_id },
+            message.body,
+          );
+          if (aiReply) {
+            replyText = aiReply;
+          }
+        } catch (err) {
+          logger.error(
+            `AI agent error for auto-reply rule "${rule.name}": ${err.message}`,
+          );
+          // Fall back to canned response_text
+        }
+      }
+
+      // Send the response via WhatsApp
       try {
-        await client.sendMessage(message.from, rule.response_text);
+        await client.sendMessage(message.from, replyText);
       } catch (err) {
         logger.error(`Failed to send auto-reply: ${err.message}`);
         return;
@@ -231,7 +348,7 @@ async function checkAutoReply(client, message, orgId, conversation) {
         organization_id: orgId,
         sender_type: "ai_agent",
         sender_id: rule.ai_agent_id || null,
-        content: rule.response_text,
+        content: replyText,
         message_type: "text",
         status: "sent",
       });

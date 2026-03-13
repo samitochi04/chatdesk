@@ -66,7 +66,7 @@ export default function TopBar({ onMenuClick }) {
     try {
       await api.post("/notifications/read-all");
       setUnreadCount(0);
-      setNotifications((prev) => prev.map((n) => ({ ...n, read: true })));
+      setNotifications((prev) => prev.filter((n) => n.read));
     } catch {
       /* ignore */
     }
@@ -77,9 +77,7 @@ export default function TopBar({ onMenuClick }) {
       try {
         await api.patch(`/notifications/${notif.id}/read`);
         setUnreadCount((c) => Math.max(0, c - 1));
-        setNotifications((prev) =>
-          prev.map((n) => (n.id === notif.id ? { ...n, read: true } : n)),
-        );
+        setNotifications((prev) => prev.filter((n) => n.id !== notif.id));
       } catch {
         /* ignore */
       }

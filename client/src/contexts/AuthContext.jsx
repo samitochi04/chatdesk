@@ -11,18 +11,32 @@ export function AuthProvider({ children }) {
 
   const fetchProfile = async (userId) => {
     try {
-      const { data: prof } = await supabase
+      const { data: prof, error: profError } = await supabase
         .from("profiles")
-        .select("*, organizations(*)")
+        .select("*, organizations!organization_id(*)")
         .eq("id", userId)
         .single();
 
+      if (profError) {
+        console.error("[AuthContext] Profile fetch error:", profError);
+      }
+
       if (prof) {
+        console.log("[AuthContext] Profile loaded:", {
+          id: prof.id,
+          role: prof.role,
+          organization_id: prof.organization_id,
+          hasOrg: !!prof.organizations,
+          orgPlan: prof.organizations?.subscription_plan,
+        });
         setProfile(prof);
         const org = prof.organizations;
         setOrganization(org ? { ...org, plan: org.subscription_plan } : null);
+      } else {
+        console.warn("[AuthContext] No profile found for user:", userId);
       }
-    } catch {
+    } catch (err) {
+      console.error("[AuthContext] fetchProfile exception:", err);
       setProfile(null);
       setOrganization(null);
     }
