@@ -2,6 +2,7 @@ import { useState, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { getPosts, getAuthor, categories } from "@/data/blog";
+import SEO from "@/components/SEO";
 import { HiOutlineMagnifyingGlass } from "react-icons/hi2";
 
 export default function Blog() {
@@ -29,6 +30,11 @@ export default function Blog() {
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-16">
+      <SEO
+        title="Guides & Tips — ChatDesk"
+        description="Learn how to grow your business with WhatsApp CRM. Tips on automation, customer engagement, and sales pipeline management."
+        path="/guides"
+      />
       <div className="text-center">
         <h1 className="text-3xl font-bold text-[var(--color-text-primary)] sm:text-4xl">
           {t("blog.title")}

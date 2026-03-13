@@ -41,13 +41,22 @@ function InviteModal({ onClose, onSaved }) {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="invite-modal-title"
+      onKeyDown={(e) => e.key === "Escape" && onClose()}
+    >
       <div className="w-full max-w-md rounded-xl bg-[var(--color-surface)] p-6 shadow-xl">
         <div className="mb-4 flex items-center justify-between">
-          <h2 className="text-lg font-bold text-[var(--color-text-primary)]">
+          <h2
+            id="invite-modal-title"
+            className="text-lg font-bold text-[var(--color-text-primary)]"
+          >
             {t("dashboard.team.invite")}
           </h2>
-          <button onClick={onClose}>
+          <button onClick={onClose} aria-label={t("common.cancel")}>
             <HiOutlineXMark className="h-5 w-5 text-[var(--color-text-secondary)]" />
           </button>
         </div>
@@ -163,6 +172,8 @@ export default function Team() {
   };
 
   const isSuperAdmin = profile?.role === "super_admin";
+  const isOwner = profile?.role === "owner";
+  const canManageTeam = isSuperAdmin || isOwner;
   const maxMembers = organization?.max_team_members ?? 2;
   const atLimit =
     !isSuperAdmin && maxMembers !== -1 && members.length >= maxMembers;
@@ -190,15 +201,17 @@ export default function Team() {
             })}
           </p>
         </div>
-        <button
-          onClick={() => setShowInvite(true)}
-          disabled={atLimit}
-          title={atLimit ? t("dashboard.team.limitReached") : ""}
-          className="inline-flex items-center gap-2 rounded-lg bg-[var(--color-primary)] px-4 py-2 text-sm font-medium text-white hover:opacity-90 disabled:opacity-50"
-        >
-          <HiOutlinePlus className="h-4 w-4" />
-          {t("dashboard.team.invite")}
-        </button>
+        {canManageTeam && (
+          <button
+            onClick={() => setShowInvite(true)}
+            disabled={atLimit}
+            title={atLimit ? t("dashboard.team.limitReached") : ""}
+            className="inline-flex items-center gap-2 rounded-lg bg-[var(--color-primary)] px-4 py-2 text-sm font-medium text-white hover:opacity-90 disabled:opacity-50"
+          >
+            <HiOutlinePlus className="h-4 w-4" />
+            {t("dashboard.team.invite")}
+          </button>
+        )}
       </div>
 
       {/* Members */}
@@ -241,7 +254,7 @@ export default function Team() {
                       </div>
                     </td>
                     <td className="px-4 py-3">
-                      {isSelf || m.role === "owner" ? (
+                      {isSelf || m.role === "owner" || !canManageTeam ? (
                         <span
                           className={`rounded-full px-2 py-0.5 text-[10px] font-medium ${ROLE_COLORS[m.role]}`}
                         >
@@ -278,7 +291,7 @@ export default function Team() {
                       </span>
                     </td>
                     <td className="px-4 py-3">
-                      {!isSelf && m.role !== "owner" && (
+                      {canManageTeam && !isSelf && m.role !== "owner" && (
                         <button
                           onClick={() => handleRemove(m.id)}
                           className="rounded p-1.5 text-[var(--color-text-secondary)] hover:bg-red-50 hover:text-red-600 dark:hover:bg-red-900/20"

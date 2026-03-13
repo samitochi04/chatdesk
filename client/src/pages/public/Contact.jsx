@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import toast from "react-hot-toast";
 import { api } from "@/lib/api";
+import SEO from "@/components/SEO";
 import { HiOutlineEnvelope, HiOutlineClock } from "react-icons/hi2";
 import { FaXTwitter, FaLinkedinIn, FaFacebookF } from "react-icons/fa6";
 
@@ -35,6 +36,11 @@ export default function Contact() {
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-16">
+      <SEO
+        title="Contact Us — ChatDesk"
+        description="Get in touch with the ChatDesk team. We'd love to hear from you about our WhatsApp CRM platform."
+        path="/contact"
+      />
       <div className="text-center">
         <h1 className="text-3xl font-bold text-[var(--color-text-primary)] sm:text-4xl">
           {t("contact.title")}

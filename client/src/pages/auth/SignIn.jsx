@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { supabase } from "@/lib/supabase";
+import SEO from "@/components/SEO";
 import Logo from "@/components/ui/Logo";
 
 export default function SignIn() {
@@ -34,6 +35,11 @@ export default function SignIn() {
 
   return (
     <div className="flex min-h-[80vh] items-center justify-center px-4">
+      <SEO
+        title="Sign In — ChatDesk"
+        description="Sign in to your ChatDesk dashboard to manage WhatsApp conversations and grow your business."
+        path="/signin"
+      />
       <div className="w-full max-w-md">
         <div className="mb-8 flex justify-center">
           <Logo className="h-10 w-auto" />

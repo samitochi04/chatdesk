@@ -240,12 +240,13 @@ function OrganizationTab({ t, organization }) {
 /* ================================================================== */
 /*  Notifications Tab                                                  */
 /* ================================================================== */
-function Toggle({ checked, onChange }) {
+function Toggle({ checked, onChange, label }) {
   return (
     <button
       type="button"
       role="switch"
       aria-checked={checked}
+      aria-label={label}
       onClick={onChange}
       className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full transition-colors ${
         checked ? "bg-[var(--color-primary)]" : "bg-[var(--color-border)]"
@@ -358,10 +359,12 @@ function NotificationsTab({ t }) {
             <Toggle
               checked={!!prefs?.[item.appKey]}
               onChange={() => handleToggle(item.appKey)}
+              label={`${item.label} - in-app`}
             />
             <Toggle
               checked={!!prefs?.[item.emailKey]}
               onChange={() => handleToggle(item.emailKey)}
+              label={`${item.label} - email`}
             />
           </div>
         </div>
@@ -378,17 +381,23 @@ export default function Settings() {
   const { user, profile, organization } = useAuth();
   const [activeTab, setActiveTab] = useState("profile");
 
+  const canEditOrg = ["owner", "super_admin"].includes(profile?.role);
+
   const tabs = [
     {
       id: "profile",
       label: t("dashboard.settings.profile"),
       icon: HiOutlineUser,
     },
-    {
-      id: "organization",
-      label: t("dashboard.settings.organization"),
-      icon: HiOutlineBuildingOffice,
-    },
+    ...(canEditOrg
+      ? [
+          {
+            id: "organization",
+            label: t("dashboard.settings.organization"),
+            icon: HiOutlineBuildingOffice,
+          },
+        ]
+      : []),
     {
       id: "notifications",
       label: t("dashboard.settings.notifications"),

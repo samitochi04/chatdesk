@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { supabase } from "@/lib/supabase";
+import SEO from "@/components/SEO";
 import Logo from "@/components/ui/Logo";
 import { HiOutlineEnvelope } from "react-icons/hi2";
 
@@ -55,6 +56,11 @@ export default function SignUp() {
   if (emailSent) {
     return (
       <div className="flex min-h-[80vh] items-center justify-center px-4">
+        <SEO
+          title="Sign Up — ChatDesk"
+          description="Create your free ChatDesk account to start managing WhatsApp conversations with AI-powered automation."
+          path="/signup"
+        />
         <div className="w-full max-w-md text-center">
           <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-[var(--color-primary)]/10">
             <HiOutlineEnvelope className="h-8 w-8 text-[var(--color-primary)]" />
@@ -76,6 +82,11 @@ export default function SignUp() {
 
   return (
     <div className="flex min-h-[80vh] items-center justify-center px-4">
+      <SEO
+        title="Sign Up — ChatDesk"
+        description="Create your free ChatDesk account to start managing WhatsApp conversations with AI-powered automation."
+        path="/signup"
+      />
       <div className="w-full max-w-md">
         <div className="mb-8 flex justify-center">
           <Logo className="h-10 w-auto" />

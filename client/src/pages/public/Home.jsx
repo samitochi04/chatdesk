@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { Helmet } from "react-helmet-async";
+import SEO from "@/components/SEO";
 import {
   HiOutlineChatBubbleLeftRight,
   HiOutlineCpuChip,
@@ -53,10 +55,50 @@ const testimonials = [
 ];
 
 export default function Home() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+
+  const faqItems = t("home.faq.items", { returnObjects: true }) || [];
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        name: "ChatDesk",
+        url: "https://chatdesk.org",
+        logo: "https://chatdesk.org/logo-light.svg",
+        description:
+          "WhatsApp CRM platform for African businesses — manage conversations, automate replies with AI, track sales pipelines.",
+        sameAs: [],
+      },
+      ...(faqItems.length
+        ? [
+            {
+              "@type": "FAQPage",
+              mainEntity: faqItems.map((item) => ({
+                "@type": "Question",
+                name: item.question,
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text: item.answer,
+                },
+              })),
+            },
+          ]
+        : []),
+    ],
+  };
 
   return (
     <div>
+      <SEO
+        title="ChatDesk — WhatsApp CRM for African Businesses"
+        description="Manage WhatsApp conversations, automate replies with AI, track sales pipelines, and broadcast campaigns — all from one dashboard."
+        path="/"
+      />
+      <Helmet>
+        <html lang={i18n.language || "en"} />
+        <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
+      </Helmet>
       <HeroSection t={t} />
       <TrustedBySection t={t} />
       <FeaturesSection t={t} />

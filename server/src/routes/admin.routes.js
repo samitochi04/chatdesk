@@ -121,7 +121,7 @@ router.use(auth, requireOrganization);
 
 router.post(
   "/invitations",
-  requireRole("owner", "admin"),
+  requireRole("owner"),
   validate(schemas.createInvitation),
   ctrl.createInvitation,
 );
@@ -130,7 +130,7 @@ router.get("/invitations", ctrl.listInvitations);
 
 router.post(
   "/invitations/:id/cancel",
-  requireRole("owner", "admin"),
+  requireRole("owner"),
   validate(schemas.idParam, "params"),
   ctrl.cancelInvitation,
 );
@@ -141,7 +141,7 @@ router.get("/team", ctrl.listTeamMembers);
 
 router.patch(
   "/team/:id",
-  requireRole("owner", "admin"),
+  requireRole("owner"),
   validate(schemas.idParam, "params"),
   ctrl.updateTeamMember,
 );

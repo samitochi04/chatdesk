@@ -2,6 +2,7 @@ import { useMemo } from "react";
 import { useParams, Link, Navigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { getPost, getAuthor, getRelatedPosts, categories } from "@/data/blog";
+import SEO from "@/components/SEO";
 
 export default function BlogPost() {
   const { slug } = useParams();
@@ -19,6 +20,11 @@ export default function BlogPost() {
 
   return (
     <article className="mx-auto max-w-3xl px-4 py-16">
+      <SEO
+        title={`${post.title} — ChatDesk`}
+        description={post.excerpt}
+        path={`/guides/${slug}`}
+      />
       <Link
         to="/guides"
         className="inline-flex items-center gap-1 text-sm font-medium text-[var(--color-primary)] hover:underline"
