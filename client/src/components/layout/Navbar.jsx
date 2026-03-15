@@ -131,7 +131,7 @@ export default function Navbar() {
                 <HiXMark className="h-5 w-5" />
               </button>
             </div>
-            <div className="flex flex-col gap-1 p-4">
+            <div className="flex flex-col gap-1 p-4 bg-[var(--color-surface)]">
               {navLinks.map((l) => (
                 <Link
                   key={l.key}

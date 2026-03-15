@@ -16,6 +16,8 @@ import NotFound from "@/pages/public/NotFound";
 const Contact = lazy(() => import("@/pages/public/Contact"));
 const Blog = lazy(() => import("@/pages/public/Blog"));
 const BlogPost = lazy(() => import("@/pages/public/BlogPost"));
+const Privacy = lazy(() => import("@/pages/public/Privacy"));
+const Terms = lazy(() => import("@/pages/public/Terms"));
 const SignIn = lazy(() => import("@/pages/auth/SignIn"));
 const SignUp = lazy(() => import("@/pages/auth/SignUp"));
 const ForgotPassword = lazy(() => import("@/pages/auth/ForgotPassword"));
@@ -88,6 +90,22 @@ export default function AppRouter() {
             element={
               <S>
                 <BlogPost />
+              </S>
+            }
+          />
+          <Route
+            path="/privacy"
+            element={
+              <S>
+                <Privacy />
+              </S>
+            }
+          />
+          <Route
+            path="/terms"
+            element={
+              <S>
+                <Terms />
               </S>
             }
           />

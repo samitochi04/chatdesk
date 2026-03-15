@@ -204,3 +204,105 @@
 {"level":"info","message":"Restoring 1 WhatsApp session(s)...","service":"chatdesk-server","timestamp":"2026-03-13 02:11:29"}
 {"level":"info","message":"WhatsApp authenticated for account ca2f87a1-1f79-4ea0-9463-8f9e3979ca40","service":"chatdesk-server","timestamp":"2026-03-13 02:11:35"}
 {"level":"info","message":"WhatsApp ready for account ca2f87a1-1f79-4ea0-9463-8f9e3979ca40 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-13 02:11:35"}
+{"level":"info","message":"ChatDesk server running on port 4000 [development]","service":"chatdesk-server","timestamp":"2026-03-15 18:53:36"}
+{"level":"info","message":"No WhatsApp sessions to restore","service":"chatdesk-server","timestamp":"2026-03-15 18:53:36"}
+{"level":"info","message":"SIGINT received — shutting down gracefully","service":"chatdesk-server","timestamp":"2026-03-15 19:17:18"}
+{"level":"info","message":"ChatDesk server running on port 4000 [development]","service":"chatdesk-server","timestamp":"2026-03-15 19:17:31"}
+{"level":"info","message":"No WhatsApp sessions to restore","service":"chatdesk-server","timestamp":"2026-03-15 19:17:31"}
+{"level":"error","message":"TypeError: schema.validate is not a function\n    at C:\\Users\\temmo\\Desktop\\PROJECTS\\chatdesk\\server\\src\\middlewares\\validate.js:11:37\n    at Layer.handle [as handle_request] (C:\\Users\\temmo\\Desktop\\PROJECTS\\chatdesk\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at next (C:\\Users\\temmo\\Desktop\\PROJECTS\\chatdesk\\server\\node_modules\\express\\lib\\router\\route.js:149:13)\n    at Route.dispatch (C:\\Users\\temmo\\Desktop\\PROJECTS\\chatdesk\\server\\node_modules\\express\\lib\\router\\route.js:119:3)\n    at Layer.handle [as handle_request] (C:\\Users\\temmo\\Desktop\\PROJECTS\\chatdesk\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at C:\\Users\\temmo\\Desktop\\PROJECTS\\chatdesk\\server\\node_modules\\express\\lib\\router\\index.js:284:15\n    at Function.process_params (C:\\Users\\temmo\\Desktop\\PROJECTS\\chatdesk\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next (C:\\Users\\temmo\\Desktop\\PROJECTS\\chatdesk\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at Function.handle (C:\\Users\\temmo\\Desktop\\PROJECTS\\chatdesk\\server\\node_modules\\express\\lib\\router\\index.js:175:3)\n    at router (C:\\Users\\temmo\\Desktop\\PROJECTS\\chatdesk\\server\\node_modules\\express\\lib\\router\\index.js:47:12)\n    at Layer.handle [as handle_request] (C:\\Users\\temmo\\Desktop\\PROJECTS\\chatdesk\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at trim_prefix (C:\\Users\\temmo\\Desktop\\PROJECTS\\chatdesk\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at C:\\Users\\temmo\\Desktop\\PROJECTS\\chatdesk\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at Function.process_params (C:\\Users\\temmo\\Desktop\\PROJECTS\\chatdesk\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next (C:\\Users\\temmo\\Desktop\\PROJECTS\\chatdesk\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at Function.handle (C:\\Users\\temmo\\Desktop\\PROJECTS\\chatdesk\\server\\node_modules\\express\\lib\\router\\index.js:175:3)","service":"chatdesk-server","timestamp":"2026-03-15 19:18:36"}
+{"level":"warn","message":"Session creation already in progress for ca2f87a1-1f79-4ea0-9463-8f9e3979ca40","service":"chatdesk-server","timestamp":"2026-03-15 19:33:02"}
+{"level":"info","message":"WhatsApp authenticated for account ca2f87a1-1f79-4ea0-9463-8f9e3979ca40","service":"chatdesk-server","timestamp":"2026-03-15 19:33:21"}
+{"level":"info","message":"WhatsApp ready for account ca2f87a1-1f79-4ea0-9463-8f9e3979ca40 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-15 19:33:22"}
+{"level":"info","message":"ChatDesk server running on port 4000 [development]","service":"chatdesk-server","timestamp":"2026-03-15 19:34:27"}
+{"level":"info","message":"Restoring 1 WhatsApp session(s)...","service":"chatdesk-server","timestamp":"2026-03-15 19:34:27"}
+{"level":"info","message":"ChatDesk server running on port 4000 [development]","service":"chatdesk-server","timestamp":"2026-03-15 19:34:33"}
+{"level":"info","message":"Restoring 1 WhatsApp session(s)...","service":"chatdesk-server","timestamp":"2026-03-15 19:34:33"}
+{"level":"info","message":"WhatsApp authenticated for account ca2f87a1-1f79-4ea0-9463-8f9e3979ca40","service":"chatdesk-server","timestamp":"2026-03-15 19:34:40"}
+{"level":"info","message":"WhatsApp authenticated for account ca2f87a1-1f79-4ea0-9463-8f9e3979ca40","service":"chatdesk-server","timestamp":"2026-03-15 19:34:41"}
+{"level":"info","message":"WhatsApp ready for account ca2f87a1-1f79-4ea0-9463-8f9e3979ca40 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-15 19:34:43"}
+{"level":"warn","message":"WhatsApp disconnected for account ca2f87a1-1f79-4ea0-9463-8f9e3979ca40: LOGOUT","service":"chatdesk-server","timestamp":"2026-03-15 19:34:47"}
+{"level":"info","message":"ChatDesk server running on port 4000 [development]","service":"chatdesk-server","timestamp":"2026-03-15 19:35:01"}
+{"level":"info","message":"No WhatsApp sessions to restore","service":"chatdesk-server","timestamp":"2026-03-15 19:35:01"}
+{"level":"info","message":"Broadcast c08c4076-bc51-462c-9911-a37d2839ebd9 scheduled with 1 recipient(s)","service":"chatdesk-server","timestamp":"2026-03-15 19:38:08"}
+{"level":"error","message":"Error: WhatsApp account is not connected\n    at Object.startSending (C:\\Users\\temmo\\Desktop\\PROJECTS\\chatdesk\\server\\src\\services\\broadcast.service.js:155:11)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async C:\\Users\\temmo\\Desktop\\PROJECTS\\chatdesk\\server\\src\\controllers\\broadcast.controller.js:113:3","service":"chatdesk-server","timestamp":"2026-03-15 19:38:08"}
+{"level":"warn","message":"Session creation already in progress for ca2f87a1-1f79-4ea0-9463-8f9e3979ca40","service":"chatdesk-server","timestamp":"2026-03-15 19:38:26"}
+{"level":"error","message":"Client init failed for ca2f87a1-1f79-4ea0-9463-8f9e3979ca40: Execution context was destroyed, most likely because of a navigation.","service":"chatdesk-server","timestamp":"2026-03-15 19:38:29"}
+{"level":"warn","message":"Session creation already in progress for ca2f87a1-1f79-4ea0-9463-8f9e3979ca40","service":"chatdesk-server","timestamp":"2026-03-15 19:38:44"}
+{"level":"info","message":"QR received for account ca2f87a1-1f79-4ea0-9463-8f9e3979ca40","service":"chatdesk-server","timestamp":"2026-03-15 19:38:53"}
+{"level":"info","message":"ChatDesk server running on port 4000 [development]","service":"chatdesk-server","timestamp":"2026-03-15 19:38:58"}
+{"level":"info","message":"Restoring 1 WhatsApp session(s)...","service":"chatdesk-server","timestamp":"2026-03-15 19:38:58"}
+{"level":"info","message":"QR received for account ca2f87a1-1f79-4ea0-9463-8f9e3979ca40","service":"chatdesk-server","timestamp":"2026-03-15 19:39:13"}
+{"level":"info","message":"ChatDesk server running on port 4000 [development]","service":"chatdesk-server","timestamp":"2026-03-15 19:39:30"}
+{"level":"info","message":"Restoring 1 WhatsApp session(s)...","service":"chatdesk-server","timestamp":"2026-03-15 19:39:30"}
+{"level":"info","message":"QR received for account ca2f87a1-1f79-4ea0-9463-8f9e3979ca40","service":"chatdesk-server","timestamp":"2026-03-15 19:39:42"}
+{"level":"warn","message":"Session already exists for account ca2f87a1-1f79-4ea0-9463-8f9e3979ca40, destroying old one first","service":"chatdesk-server","timestamp":"2026-03-15 19:39:52"}
+{"level":"warn","message":"Session creation already in progress for ca2f87a1-1f79-4ea0-9463-8f9e3979ca40","service":"chatdesk-server","timestamp":"2026-03-15 19:39:53"}
+{"level":"info","message":"Session destroyed for account ca2f87a1-1f79-4ea0-9463-8f9e3979ca40","service":"chatdesk-server","timestamp":"2026-03-15 19:39:55"}
+{"level":"warn","message":"Session creation already in progress for ca2f87a1-1f79-4ea0-9463-8f9e3979ca40","service":"chatdesk-server","timestamp":"2026-03-15 19:39:55"}
+{"level":"warn","message":"Session creation already in progress for ca2f87a1-1f79-4ea0-9463-8f9e3979ca40","service":"chatdesk-server","timestamp":"2026-03-15 19:39:55"}
+{"level":"warn","message":"Session already exists for account ca2f87a1-1f79-4ea0-9463-8f9e3979ca40, destroying old one first","service":"chatdesk-server","timestamp":"2026-03-15 19:40:04"}
+{"level":"error","message":"Client init failed for ca2f87a1-1f79-4ea0-9463-8f9e3979ca40: Protocol error (Runtime.callFunctionOn): Target closed","service":"chatdesk-server","timestamp":"2026-03-15 19:40:04"}
+{"level":"warn","message":"Session creation already in progress for ca2f87a1-1f79-4ea0-9463-8f9e3979ca40","service":"chatdesk-server","timestamp":"2026-03-15 19:40:06"}
+{"level":"info","message":"Session destroyed for account ca2f87a1-1f79-4ea0-9463-8f9e3979ca40","service":"chatdesk-server","timestamp":"2026-03-15 19:40:06"}
+{"level":"info","message":"QR received for account ca2f87a1-1f79-4ea0-9463-8f9e3979ca40","service":"chatdesk-server","timestamp":"2026-03-15 19:40:16"}
+{"level":"info","message":"QR received for account ca2f87a1-1f79-4ea0-9463-8f9e3979ca40","service":"chatdesk-server","timestamp":"2026-03-15 19:41:16"}
+{"level":"info","message":"ChatDesk server running on port 4000 [development]","service":"chatdesk-server","timestamp":"2026-03-15 19:41:30"}
+{"level":"info","message":"Restoring 1 WhatsApp session(s)...","service":"chatdesk-server","timestamp":"2026-03-15 19:41:30"}
+{"level":"info","message":"QR received for account ca2f87a1-1f79-4ea0-9463-8f9e3979ca40","service":"chatdesk-server","timestamp":"2026-03-15 19:41:41"}
+{"level":"info","message":"ChatDesk server running on port 4000 [development]","service":"chatdesk-server","timestamp":"2026-03-15 19:42:39"}
+{"level":"info","message":"Restoring 1 WhatsApp session(s)...","service":"chatdesk-server","timestamp":"2026-03-15 19:42:39"}
+{"level":"info","message":"QR received for account ca2f87a1-1f79-4ea0-9463-8f9e3979ca40","service":"chatdesk-server","timestamp":"2026-03-15 19:42:52"}
+{"level":"info","message":"QR received for account ca2f87a1-1f79-4ea0-9463-8f9e3979ca40","service":"chatdesk-server","timestamp":"2026-03-15 19:43:51"}
+{"level":"warn","message":"Session already exists for account ca2f87a1-1f79-4ea0-9463-8f9e3979ca40, destroying old one first","service":"chatdesk-server","timestamp":"2026-03-15 19:43:54"}
+{"level":"warn","message":"Session creation already in progress for ca2f87a1-1f79-4ea0-9463-8f9e3979ca40","service":"chatdesk-server","timestamp":"2026-03-15 19:43:54"}
+{"level":"info","message":"Session destroyed for account ca2f87a1-1f79-4ea0-9463-8f9e3979ca40","service":"chatdesk-server","timestamp":"2026-03-15 19:43:56"}
+{"level":"info","message":"QR received for account ca2f87a1-1f79-4ea0-9463-8f9e3979ca40","service":"chatdesk-server","timestamp":"2026-03-15 19:44:08"}
+{"level":"info","message":"WhatsApp authenticated for account ca2f87a1-1f79-4ea0-9463-8f9e3979ca40","service":"chatdesk-server","timestamp":"2026-03-15 19:44:28"}
+{"level":"info","message":"WhatsApp authenticated for account ca2f87a1-1f79-4ea0-9463-8f9e3979ca40","service":"chatdesk-server","timestamp":"2026-03-15 19:44:28"}
+{"level":"info","message":"WhatsApp authenticated for account ca2f87a1-1f79-4ea0-9463-8f9e3979ca40","service":"chatdesk-server","timestamp":"2026-03-15 19:44:28"}
+{"level":"info","message":"WhatsApp ready for account ca2f87a1-1f79-4ea0-9463-8f9e3979ca40 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-15 19:44:30"}
+{"level":"info","message":"Broadcast c08c4076-bc51-462c-9911-a37d2839ebd9 cancelled","service":"chatdesk-server","timestamp":"2026-03-15 19:46:42"}
+{"level":"info","message":"Broadcast d69f784d-20ab-49d8-a677-f59ad684003f scheduled with 1 recipient(s)","service":"chatdesk-server","timestamp":"2026-03-15 19:47:17"}
+{"level":"warn","message":"Broadcast d69f784d-20ab-49d8-a677-f59ad684003f: failed to send to +33753748849: t","service":"chatdesk-server","timestamp":"2026-03-15 19:47:18"}
+{"level":"info","message":"Broadcast d69f784d-20ab-49d8-a677-f59ad684003f complete: 0 sent, 1 failed","service":"chatdesk-server","timestamp":"2026-03-15 19:47:21"}
+{"level":"info","message":"Broadcast 3fe54053-a8db-440c-b99d-424b7041ac25 scheduled with 1 recipient(s)","service":"chatdesk-server","timestamp":"2026-03-15 19:49:26"}
+{"level":"info","message":"Broadcast 3fe54053-a8db-440c-b99d-424b7041ac25 complete: 1 sent, 0 failed","service":"chatdesk-server","timestamp":"2026-03-15 19:49:30"}
+{"level":"info","message":"Created conversation a5fd12c7-4121-46b9-840c-cb2dbb3c392e for contact e4fde9b0-5576-4954-99ed-5e3cef11d6c9","service":"chatdesk-server","timestamp":"2026-03-15 19:50:13"}
+{"level":"info","message":"Email sent to temmodaryl317@gmail.com: <e02ae4a2-abef-ee6d-d6a6-5a3d97371a8a@mallgram.org>","service":"chatdesk-server","timestamp":"2026-03-15 19:50:14"}
+{"level":"info","message":"ChatDesk server running on port 4000 [development]","service":"chatdesk-server","timestamp":"2026-03-15 20:02:00"}
+{"level":"info","message":"Restoring 1 WhatsApp session(s)...","service":"chatdesk-server","timestamp":"2026-03-15 20:02:00"}
+{"level":"info","message":"WhatsApp authenticated for account ca2f87a1-1f79-4ea0-9463-8f9e3979ca40","service":"chatdesk-server","timestamp":"2026-03-15 20:02:06"}
+{"level":"info","message":"WhatsApp ready for account ca2f87a1-1f79-4ea0-9463-8f9e3979ca40 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-15 20:02:06"}
+{"level":"info","message":"ChatDesk server running on port 4000 [development]","service":"chatdesk-server","timestamp":"2026-03-15 20:04:44"}
+{"level":"info","message":"Restoring 1 WhatsApp session(s)...","service":"chatdesk-server","timestamp":"2026-03-15 20:04:45"}
+{"level":"info","message":"WhatsApp authenticated for account ca2f87a1-1f79-4ea0-9463-8f9e3979ca40","service":"chatdesk-server","timestamp":"2026-03-15 20:04:51"}
+{"level":"info","message":"WhatsApp ready for account ca2f87a1-1f79-4ea0-9463-8f9e3979ca40 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-15 20:04:51"}
+{"level":"info","message":"ChatDesk server running on port 4000 [development]","service":"chatdesk-server","timestamp":"2026-03-15 20:06:19"}
+{"level":"info","message":"Restoring 1 WhatsApp session(s)...","service":"chatdesk-server","timestamp":"2026-03-15 20:06:20"}
+{"level":"info","message":"WhatsApp authenticated for account ca2f87a1-1f79-4ea0-9463-8f9e3979ca40","service":"chatdesk-server","timestamp":"2026-03-15 20:06:25"}
+{"level":"info","message":"WhatsApp ready for account ca2f87a1-1f79-4ea0-9463-8f9e3979ca40 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-15 20:06:25"}
+{"level":"info","message":"ChatDesk server running on port 4000 [development]","service":"chatdesk-server","timestamp":"2026-03-15 20:08:03"}
+{"level":"info","message":"Restoring 1 WhatsApp session(s)...","service":"chatdesk-server","timestamp":"2026-03-15 20:08:03"}
+{"level":"info","message":"WhatsApp authenticated for account ca2f87a1-1f79-4ea0-9463-8f9e3979ca40","service":"chatdesk-server","timestamp":"2026-03-15 20:08:08"}
+{"level":"info","message":"WhatsApp ready for account ca2f87a1-1f79-4ea0-9463-8f9e3979ca40 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-15 20:08:09"}
+{"level":"info","message":"ChatDesk server running on port 4000 [development]","service":"chatdesk-server","timestamp":"2026-03-15 20:10:01"}
+{"level":"info","message":"Restoring 1 WhatsApp session(s)...","service":"chatdesk-server","timestamp":"2026-03-15 20:10:01"}
+{"level":"info","message":"Listening for new user signups","service":"chatdesk-server","timestamp":"2026-03-15 20:10:04"}
+{"level":"info","message":"WhatsApp authenticated for account ca2f87a1-1f79-4ea0-9463-8f9e3979ca40","service":"chatdesk-server","timestamp":"2026-03-15 20:10:06"}
+{"level":"info","message":"WhatsApp ready for account ca2f87a1-1f79-4ea0-9463-8f9e3979ca40 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-15 20:10:06"}
+{"level":"info","message":"ChatDesk server running on port 4000 [development]","service":"chatdesk-server","timestamp":"2026-03-15 20:10:24"}
+{"level":"info","message":"Restoring 1 WhatsApp session(s)...","service":"chatdesk-server","timestamp":"2026-03-15 20:10:24"}
+{"level":"info","message":"Listening for new user signups","service":"chatdesk-server","timestamp":"2026-03-15 20:10:25"}
+{"level":"info","message":"WhatsApp authenticated for account ca2f87a1-1f79-4ea0-9463-8f9e3979ca40","service":"chatdesk-server","timestamp":"2026-03-15 20:10:30"}
+{"level":"info","message":"WhatsApp ready for account ca2f87a1-1f79-4ea0-9463-8f9e3979ca40 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-15 20:10:30"}
+{"level":"info","message":"ChatDesk server running on port 4000 [development]","service":"chatdesk-server","timestamp":"2026-03-15 20:11:40"}
+{"level":"info","message":"Restoring 1 WhatsApp session(s)...","service":"chatdesk-server","timestamp":"2026-03-15 20:11:40"}
+{"level":"info","message":"Listening for new user signups","service":"chatdesk-server","timestamp":"2026-03-15 20:11:42"}
+{"level":"info","message":"WhatsApp authenticated for account ca2f87a1-1f79-4ea0-9463-8f9e3979ca40","service":"chatdesk-server","timestamp":"2026-03-15 20:11:46"}
+{"level":"info","message":"WhatsApp ready for account ca2f87a1-1f79-4ea0-9463-8f9e3979ca40 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-15 20:11:46"}
+{"level":"info","message":"ChatDesk server running on port 4000 [development]","service":"chatdesk-server","timestamp":"2026-03-15 20:14:15"}
+{"level":"info","message":"Restoring 1 WhatsApp session(s)...","service":"chatdesk-server","timestamp":"2026-03-15 20:14:15"}
+{"level":"info","message":"Listening for new user signups","service":"chatdesk-server","timestamp":"2026-03-15 20:14:16"}
+{"level":"info","message":"WhatsApp authenticated for account ca2f87a1-1f79-4ea0-9463-8f9e3979ca40","service":"chatdesk-server","timestamp":"2026-03-15 20:14:21"}
+{"level":"info","message":"WhatsApp ready for account ca2f87a1-1f79-4ea0-9463-8f9e3979ca40 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-15 20:14:21"}
+{"level":"info","message":"SIGINT received — shutting down gracefully","service":"chatdesk-server","timestamp":"2026-03-15 20:53:53"}

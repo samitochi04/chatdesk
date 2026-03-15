@@ -36,7 +36,7 @@ Vous êtes prêt ! Les messages WhatsApp entrants apparaîtront désormais dans 
 
 ---
 
-Besoin d'aide ? Contactez-nous à support@chatdesk.app.
+Besoin d'aide ? Contactez-nous à chatdesk@proton.me.
   `,
 };
 

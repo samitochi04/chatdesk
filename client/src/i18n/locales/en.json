@@ -191,7 +191,7 @@
     "success": "Your message has been sent successfully! We'll get back to you soon.",
     "error": "Failed to send your message. Please try again.",
     "info": {
-      "email": "support@chatdesk.app",
+      "email": "chatdesk@proton.me",
       "response": "We typically respond within 24 hours."
     }
   },
@@ -579,6 +579,17 @@
     "message": "The page you're looking for doesn't exist or has been moved.",
     "backHome": "Go Back Home"
   },
+  "cookies": {
+    "title": "We use cookies",
+    "description": "We use cookies to improve your experience and analyse site traffic. You can manage your preferences or learn more in our",
+    "acceptAll": "Accept All",
+    "rejectAll": "Reject All",
+    "customize": "Customize",
+    "savePreferences": "Save Preferences",
+    "essential": "Essential Cookies",
+    "analytics": "Analytics Cookies",
+    "alwaysOn": "always on"
+  },
   "footer": {
     "description": "WhatsApp CRM platform for African businesses.",
     "quickLinks": "Quick Links",
@@ -586,5 +597,89 @@
     "privacy": "Privacy Policy",
     "terms": "Terms of Service",
     "copyright": "© {{year}} ChatDesk. All rights reserved."
+  },
+  "privacy": {
+    "title": "Privacy Policy",
+    "lastUpdated": "Last updated: March 15, 2026",
+    "sections": {
+      "intro": {
+        "title": "Introduction",
+        "body": "ChatDesk (\"we\", \"our\", or \"us\") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our WhatsApp CRM platform at chatdesk.org and related services."
+      },
+      "dataCollected": {
+        "title": "Information We Collect",
+        "body": "We collect information you provide directly: your name, email address, organization details, and WhatsApp messages you manage through our platform. We also automatically collect usage data such as IP addresses, browser type, pages visited, and cookies to improve our services."
+      },
+      "usage": {
+        "title": "How We Use Your Information",
+        "body": "We use your information to provide and maintain our services, process transactions, send service-related communications, improve our platform, provide customer support, and comply with legal obligations. We do not sell your personal information to third parties."
+      },
+      "cookies": {
+        "title": "Cookies & Tracking",
+        "body": "We use essential cookies to keep you signed in and remember your preferences. We also use analytics cookies (such as Google Analytics) to understand how visitors use our site. You can manage your cookie preferences through our cookie consent banner or your browser settings."
+      },
+      "sharing": {
+        "title": "Data Sharing",
+        "body": "We do not sell your data. We may share information with service providers who assist us in operating our platform (e.g., hosting, email delivery, analytics), and when required by law or to protect our rights. All third-party providers are contractually bound to protect your data."
+      },
+      "security": {
+        "title": "Data Security",
+        "body": "We implement industry-standard security measures including encryption in transit (TLS/SSL), secure database hosting with Supabase, and access controls. However, no method of electronic transmission or storage is 100% secure, and we cannot guarantee absolute security."
+      },
+      "rights": {
+        "title": "Your Rights",
+        "body": "You have the right to access, correct, or delete your personal data. You can export your data from the dashboard or request deletion by contacting us. If you are in the EU/EEA, you also have rights under GDPR including the right to data portability and the right to lodge a complaint with a supervisory authority."
+      },
+      "contact": {
+        "title": "Contact Us",
+        "body": "If you have questions about this Privacy Policy or our data practices, please contact us at chatdesk@proton.me."
+      }
+    }
+  },
+  "terms": {
+    "title": "Terms of Service",
+    "lastUpdated": "Last updated: March 15, 2026",
+    "sections": {
+      "acceptance": {
+        "title": "Acceptance of Terms",
+        "body": "By accessing or using ChatDesk (\"the Service\"), you agree to be bound by these Terms of Service. If you do not agree to these terms, please do not use our platform."
+      },
+      "services": {
+        "title": "Description of Service",
+        "body": "ChatDesk provides a WhatsApp CRM platform that allows businesses to manage customer conversations, automate replies with AI, track sales pipelines, run broadcast campaigns, and collaborate as a team. We reserve the right to modify or discontinue features at any time with reasonable notice."
+      },
+      "accounts": {
+        "title": "User Accounts",
+        "body": "You must provide accurate and complete information when creating an account. You are responsible for maintaining the confidentiality of your login credentials and for all activities that occur under your account. You must notify us immediately of any unauthorized use."
+      },
+      "acceptable": {
+        "title": "Acceptable Use",
+        "body": "You agree not to use ChatDesk for any unlawful purpose, to send spam or unsolicited messages, to violate WhatsApp's Terms of Service, to infringe on intellectual property rights, or to attempt to gain unauthorized access to our systems. We reserve the right to suspend or terminate accounts that violate these terms."
+      },
+      "payment": {
+        "title": "Payment & Billing",
+        "body": "Paid plans are billed on a monthly or annual basis. All fees are non-refundable except as required by law. We reserve the right to change pricing with 30 days' notice. Failure to pay may result in service suspension."
+      },
+      "ip": {
+        "title": "Intellectual Property",
+        "body": "ChatDesk and its original content, features, and functionality are owned by ChatDesk and are protected by international copyright, trademark, and other intellectual property laws. You retain ownership of your data and content."
+      },
+      "termination": {
+        "title": "Termination",
+        "body": "We may terminate or suspend your account at any time for violation of these terms. You may cancel your account at any time from your dashboard settings. Upon termination, your right to use the Service ceases immediately, though we may retain certain data as required by law."
+      },
+      "liability": {
+        "title": "Limitation of Liability",
+        "body": "To the maximum extent permitted by law, ChatDesk shall not be liable for any indirect, incidental, special, consequential, or punitive damages, including loss of profits, data, or business opportunities. Our total liability shall not exceed the amount paid by you in the 12 months preceding the claim."
+      },
+      "changes": {
+        "title": "Changes to Terms",
+        "body": "We reserve the right to update these terms at any time. We will notify users of material changes via email or a prominent notice on our platform. Continued use of the Service after changes constitutes acceptance of the new terms."
+      },
+      "contact": {
+        "title": "Contact Us",
+        "body": "If you have questions about these Terms of Service, please contact us at chatdesk@proton.me."
+      }
+    }
   }
 }

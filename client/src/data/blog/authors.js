@@ -1,9 +1,9 @@
 const authors = {
   amara: {
-    id: "amara",
-    name: "Amara Diallo",
+    id: "samuel",
+    name: "Samuel FOTSO",
     bio: "Co-founder of ChatDesk. Passionate about empowering African businesses with technology.",
-    avatar: "https://api.dicebear.com/9.x/initials/svg?seed=AD",
+    avatar: "https://api.dicebear.com/9.x/initials/svg?seed=SA",
   },
   kwame: {
     id: "kwame",

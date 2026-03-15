@@ -36,7 +36,7 @@ You're all set! Incoming WhatsApp messages will now appear in your **Conversatio
 
 ---
 
-Need help? Reach out to us at support@chatdesk.app.
+Need help? Reach out to us at chatdesk@proton.me.
   `,
 };
 

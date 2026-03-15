@@ -191,7 +191,7 @@
     "success": "Votre message a été envoyé avec succès ! Nous vous répondrons bientôt.",
     "error": "Échec de l'envoi de votre message. Veuillez réessayer.",
     "info": {
-      "email": "support@chatdesk.app",
+      "email": "chatdesk@proton.me",
       "response": "Nous répondons généralement dans les 24 heures."
     }
   },
@@ -579,6 +579,17 @@
     "message": "La page que vous recherchez n'existe pas ou a été déplacée.",
     "backHome": "Retour à l'accueil"
   },
+  "cookies": {
+    "title": "Nous utilisons des cookies",
+    "description": "Nous utilisons des cookies pour améliorer votre expérience et analyser le trafic du site. Vous pouvez gérer vos préférences ou en savoir plus dans notre",
+    "acceptAll": "Tout accepter",
+    "rejectAll": "Tout refuser",
+    "customize": "Personnaliser",
+    "savePreferences": "Enregistrer les préférences",
+    "essential": "Cookies essentiels",
+    "analytics": "Cookies d'analyse",
+    "alwaysOn": "toujours actif"
+  },
   "footer": {
     "description": "Plateforme CRM WhatsApp pour les entreprises africaines.",
     "quickLinks": "Liens rapides",
@@ -586,5 +597,89 @@
     "privacy": "Politique de confidentialité",
     "terms": "Conditions d'utilisation",
     "copyright": "© {{year}} ChatDesk. Tous droits réservés."
+  },
+  "privacy": {
+    "title": "Politique de confidentialité",
+    "lastUpdated": "Dernière mise à jour : 15 mars 2026",
+    "sections": {
+      "intro": {
+        "title": "Introduction",
+        "body": "ChatDesk (\"nous\", \"notre\") s'engage à protéger votre vie privée. Cette politique de confidentialité explique comment nous collectons, utilisons, divulguons et protégeons vos informations lorsque vous utilisez notre plateforme CRM WhatsApp sur chatdesk.org et les services associés."
+      },
+      "dataCollected": {
+        "title": "Informations collectées",
+        "body": "Nous collectons les informations que vous fournissez directement : votre nom, adresse e-mail, détails de votre organisation et les messages WhatsApp que vous gérez via notre plateforme. Nous collectons également automatiquement des données d'utilisation telles que les adresses IP, le type de navigateur, les pages visitées et les cookies pour améliorer nos services."
+      },
+      "usage": {
+        "title": "Utilisation de vos informations",
+        "body": "Nous utilisons vos informations pour fournir et maintenir nos services, traiter les transactions, envoyer des communications liées au service, améliorer notre plateforme, fournir un support client et respecter nos obligations légales. Nous ne vendons pas vos informations personnelles à des tiers."
+      },
+      "cookies": {
+        "title": "Cookies et suivi",
+        "body": "Nous utilisons des cookies essentiels pour maintenir votre connexion et mémoriser vos préférences. Nous utilisons également des cookies d'analyse (comme Google Analytics) pour comprendre comment les visiteurs utilisent notre site. Vous pouvez gérer vos préférences de cookies via notre bannière de consentement ou les paramètres de votre navigateur."
+      },
+      "sharing": {
+        "title": "Partage des données",
+        "body": "Nous ne vendons pas vos données. Nous pouvons partager des informations avec des prestataires de services qui nous aident à exploiter notre plateforme (hébergement, envoi d'e-mails, analytics), et lorsque la loi l'exige ou pour protéger nos droits. Tous les prestataires tiers sont contractuellement tenus de protéger vos données."
+      },
+      "security": {
+        "title": "Sécurité des données",
+        "body": "Nous mettons en œuvre des mesures de sécurité conformes aux normes de l'industrie, notamment le chiffrement en transit (TLS/SSL), l'hébergement sécurisé de bases de données avec Supabase et des contrôles d'accès. Cependant, aucune méthode de transmission ou de stockage électronique n'est sécurisée à 100 %."
+      },
+      "rights": {
+        "title": "Vos droits",
+        "body": "Vous avez le droit d'accéder, de corriger ou de supprimer vos données personnelles. Vous pouvez exporter vos données depuis le tableau de bord ou demander la suppression en nous contactant. Si vous êtes dans l'UE/EEE, vous bénéficiez également de droits au titre du RGPD, notamment le droit à la portabilité des données."
+      },
+      "contact": {
+        "title": "Nous contacter",
+        "body": "Si vous avez des questions sur cette politique de confidentialité, veuillez nous contacter à chatdesk@proton.me."
+      }
+    }
+  },
+  "terms": {
+    "title": "Conditions d'utilisation",
+    "lastUpdated": "Dernière mise à jour : 15 mars 2026",
+    "sections": {
+      "acceptance": {
+        "title": "Acceptation des conditions",
+        "body": "En accédant ou en utilisant ChatDesk (\"le Service\"), vous acceptez d'être lié par ces Conditions d'utilisation. Si vous n'acceptez pas ces conditions, veuillez ne pas utiliser notre plateforme."
+      },
+      "services": {
+        "title": "Description du service",
+        "body": "ChatDesk fournit une plateforme CRM WhatsApp permettant aux entreprises de gérer les conversations clients, d'automatiser les réponses avec l'IA, de suivre les pipelines de vente, de lancer des campagnes de diffusion et de collaborer en équipe. Nous nous réservons le droit de modifier ou d'interrompre des fonctionnalités à tout moment avec un préavis raisonnable."
+      },
+      "accounts": {
+        "title": "Comptes utilisateurs",
+        "body": "Vous devez fournir des informations exactes et complètes lors de la création d'un compte. Vous êtes responsable du maintien de la confidentialité de vos identifiants et de toutes les activités effectuées sous votre compte. Vous devez nous informer immédiatement de toute utilisation non autorisée."
+      },
+      "acceptable": {
+        "title": "Utilisation acceptable",
+        "body": "Vous vous engagez à ne pas utiliser ChatDesk à des fins illégales, à envoyer du spam, à violer les Conditions de WhatsApp, à porter atteinte aux droits de propriété intellectuelle ou à tenter d'accéder de manière non autorisée à nos systèmes. Nous nous réservons le droit de suspendre ou de résilier les comptes en infraction."
+      },
+      "payment": {
+        "title": "Paiement et facturation",
+        "body": "Les forfaits payants sont facturés mensuellement ou annuellement. Tous les frais sont non remboursables sauf si la loi l'exige. Nous nous réservons le droit de modifier les tarifs avec un préavis de 30 jours. Le non-paiement peut entraîner la suspension du service."
+      },
+      "ip": {
+        "title": "Propriété intellectuelle",
+        "body": "ChatDesk et son contenu original, ses fonctionnalités et sa fonctionnalité sont la propriété de ChatDesk et sont protégés par les lois internationales sur le droit d'auteur et les marques. Vous conservez la propriété de vos données et contenus."
+      },
+      "termination": {
+        "title": "Résiliation",
+        "body": "Nous pouvons résilier ou suspendre votre compte à tout moment en cas de violation de ces conditions. Vous pouvez annuler votre compte à tout moment depuis les paramètres de votre tableau de bord. Après résiliation, votre droit d'utiliser le Service cesse immédiatement."
+      },
+      "liability": {
+        "title": "Limitation de responsabilité",
+        "body": "Dans toute la mesure permise par la loi, ChatDesk ne sera pas responsable des dommages indirects, accessoires, spéciaux, consécutifs ou punitifs. Notre responsabilité totale ne dépassera pas le montant que vous avez payé au cours des 12 mois précédant la réclamation."
+      },
+      "changes": {
+        "title": "Modifications des conditions",
+        "body": "Nous nous réservons le droit de mettre à jour ces conditions à tout moment. Nous informerons les utilisateurs des changements importants par e-mail ou par un avis visible sur notre plateforme. L'utilisation continue du Service après les modifications constitue une acceptation des nouvelles conditions."
+      },
+      "contact": {
+        "title": "Nous contacter",
+        "body": "Si vous avez des questions sur ces Conditions d'utilisation, veuillez nous contacter à chatdesk@proton.me."
+      }
+    }
   }
 }

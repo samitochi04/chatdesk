@@ -20,8 +20,9 @@ const envSchema = Joi.object({
   SMTP_SECURE: Joi.boolean().default(false),
   EMAIL_FROM: Joi.string().default("ChatDesk <noreply@chatdesk.org>"),
   SUPPORT_EMAIL: Joi.string().email().allow("").default(""),
+  OWNER_EMAIL: Joi.string().email().allow("").default(""),
 
-  CORS_ORIGINS: Joi.string().default("http://localhost:5173"),
+  CORS_ORIGINS: Joi.string().default("https://chatdesk.org"),
 
   RATE_LIMIT_WINDOW_MS: Joi.number().default(15 * 60 * 1000),
   RATE_LIMIT_MAX: Joi.number().default(100),
@@ -61,6 +62,8 @@ const config = {
     from: env.EMAIL_FROM,
     contactEmail: env.SUPPORT_EMAIL,
   },
+
+  ownerEmail: env.OWNER_EMAIL,
 
   cors: {
     origins: env.CORS_ORIGINS.split(",").map((o) => o.trim()),

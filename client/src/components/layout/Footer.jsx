@@ -98,11 +98,11 @@ export default function Footer() {
               {t("nav.contact")}
             </h4>
             <a
-              href="mailto:support@chatdesk.app"
+              href="mailto:chatdesk@proton.me"
               className="flex items-center gap-2 text-sm text-[var(--color-text-secondary)] transition-colors hover:text-[var(--color-primary)]"
             >
               <HiOutlineEnvelope className="h-4 w-4" />
-              support@chatdesk.app
+              chatdesk@proton.me
             </a>
           </div>
         </div>

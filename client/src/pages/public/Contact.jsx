@@ -145,7 +145,7 @@ export default function Contact() {
                   {t("contact.form.email")}
                 </p>
                 <a
-                  href="mailto:support@chatdesk.app"
+                  href="mailto:chatdesk@proton.me"
                   className="text-sm text-[var(--color-primary)] hover:underline"
                 >
                   {t("contact.info.email")}

@@ -15,6 +15,12 @@ const logger = require("../utils/logger");
 const sessions = new Map();
 const creatingLocks = new Set();
 
+/** Max auto-reconnect attempts before giving up */
+const MAX_RECONNECT_ATTEMPTS = 5;
+
+/** Heartbeat interval (5 minutes) — sends presence to keep session alive */
+const HEARTBEAT_MS = 5 * 60 * 1000;
+
 /**
  * Returns the live session object for a given WhatsApp account id.
  */
@@ -125,8 +131,16 @@ async function createSession(account, onMessage) {
           "--disable-setuid-sandbox",
           "--disable-dev-shm-usage",
           "--disable-gpu",
+          "--no-first-run",
+          "--no-default-browser-check",
+          "--disable-extensions",
+          "--disable-sync",
+          "--disable-translate",
+          "--disable-component-update",
         ],
+        timeout: 60000,
       },
+      takeoverOnConflict: true,
     });
 
     const sessionEntry = {
@@ -166,7 +180,27 @@ async function createSession(account, onMessage) {
       logger.info(`WhatsApp ready for account ${accountId} (${phoneNumber})`);
       sessionEntry.status = "connected";
       sessionEntry.qrDataUrl = null;
+      sessionEntry.reconnectAttempts = 0;
       await updateAccountStatus(accountId, "connected", { qr_code: null });
+
+      // Start heartbeat to keep session alive
+      if (sessionEntry.heartbeatInterval) {
+        clearInterval(sessionEntry.heartbeatInterval);
+      }
+      sessionEntry.heartbeatInterval = setInterval(async () => {
+        try {
+          if (sessions.has(accountId) && sessionEntry.status === "connected") {
+            const state = await client.getState();
+            if (state === "CONNECTED") {
+              await client.sendPresenceAvailable();
+            } else {
+              logger.warn(`Heartbeat: session ${accountId} state is ${state}`);
+            }
+          }
+        } catch (err) {
+          logger.warn(`Heartbeat failed for ${accountId}: ${err.message}`);
+        }
+      }, HEARTBEAT_MS);
     });
 
     client.on("authenticated", async () => {
@@ -181,14 +215,75 @@ async function createSession(account, onMessage) {
     client.on("auth_failure", async (msg) => {
       logger.error(`Auth failure for account ${accountId}: ${msg}`);
       sessionEntry.status = "disconnected";
+      if (sessionEntry.heartbeatInterval)
+        clearInterval(sessionEntry.heartbeatInterval);
       await updateAccountStatus(accountId, "disconnected");
+    });
+
+    client.on("change_state", (state) => {
+      logger.info(`WhatsApp state changed for ${accountId}: ${state}`);
     });
 
     client.on("disconnected", async (reason) => {
       logger.warn(`WhatsApp disconnected for account ${accountId}: ${reason}`);
       sessionEntry.status = "disconnected";
+      if (sessionEntry.heartbeatInterval)
+        clearInterval(sessionEntry.heartbeatInterval);
       await updateAccountStatus(accountId, "disconnected");
-      sessions.delete(accountId);
+
+      // Attempt auto-reconnect instead of permanently removing the session
+      const attempts = (sessionEntry.reconnectAttempts || 0) + 1;
+      sessionEntry.reconnectAttempts = attempts;
+
+      if (attempts <= MAX_RECONNECT_ATTEMPTS) {
+        const delay = Math.min(10000 * attempts, 60000);
+        logger.info(
+          `Scheduling auto-reconnect for ${accountId} (attempt ${attempts}/${MAX_RECONNECT_ATTEMPTS}) in ${delay / 1000}s`,
+        );
+        setTimeout(async () => {
+          if (!sessions.has(accountId)) return;
+          try {
+            // Destroy old client and create fresh one
+            try {
+              await client.destroy();
+            } catch {
+              /* ignore */
+            }
+            killBrowserProcessesForSession(accountId);
+            await new Promise((r) => setTimeout(r, 2000));
+
+            // Remove from map so createSession can proceed
+            sessions.delete(accountId);
+            creatingLocks.delete(accountId);
+
+            // Fetch fresh account data and recreate session
+            const { data: acct } = await supabaseAdmin
+              .from("whatsapp_accounts")
+              .select("*")
+              .eq("id", accountId)
+              .single();
+
+            if (acct) {
+              const { handleIncomingMessage } = require("./whatsapp.message");
+              const result = await createSession(acct, handleIncomingMessage);
+              if (result && result.client) {
+                const newEntry = sessions.get(accountId);
+                if (newEntry) newEntry.reconnectAttempts = attempts;
+                logger.info(`Auto-reconnect initiated for ${accountId}`);
+              }
+            }
+          } catch (err) {
+            logger.error(
+              `Auto-reconnect failed for ${accountId} (attempt ${attempts}): ${err.message}`,
+            );
+          }
+        }, delay);
+      } else {
+        logger.error(
+          `Giving up auto-reconnect for ${accountId} after ${MAX_RECONNECT_ATTEMPTS} attempts`,
+        );
+        sessions.delete(accountId);
+      }
     });
 
     // Incoming messages
@@ -274,6 +369,11 @@ function killBrowserProcessesForSession(accountId) {
 async function destroySession(accountId) {
   const session = sessions.get(accountId);
   if (!session) return;
+
+  // Clear heartbeat interval
+  if (session.heartbeatInterval) {
+    clearInterval(session.heartbeatInterval);
+  }
 
   // Grab the browser PID before destroy() might null the reference
   let browserPid = null;

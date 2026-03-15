@@ -3,6 +3,7 @@ import { AuthProvider } from "@/contexts/AuthContext";
 import { HelmetProvider } from "react-helmet-async";
 import { Toaster } from "react-hot-toast";
 import AppRouter from "@/router/AppRouter";
+import CookieConsent from "@/components/ui/CookieConsent";
 
 function App() {
   return (
@@ -10,6 +11,7 @@ function App() {
       <ThemeProvider>
         <AuthProvider>
           <AppRouter />
+          <CookieConsent />
           <Toaster
             position="top-right"
             toastOptions={{
