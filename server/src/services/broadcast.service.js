@@ -203,20 +203,19 @@ async function processBroadcast(broadcast, session, delayMs) {
         continue;
       }
 
-      const chatId = `${phone}@c.us`;
+      const jid = `${phone}@s.whatsapp.net`;
 
       try {
-        const waMsg = await session.client.sendMessage(
-          chatId,
-          broadcast.message_template,
-        );
+        const waMsg = await session.sock.sendMessage(jid, {
+          text: broadcast.message_template,
+        });
 
         await supabaseAdmin
           .from("broadcast_recipients")
           .update({
             status: "sent",
             sent_at: new Date().toISOString(),
-            whatsapp_message_id: waMsg?.id?._serialized || null,
+            whatsapp_message_id: waMsg?.key?.id || null,
           })
           .eq("id", recipient.id);
 

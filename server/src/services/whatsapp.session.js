@@ -1,36 +1,34 @@
-const { Client, LocalAuth } = require("whatsapp-web.js");
+const {
+  default: makeWASocket,
+  useMultiFileAuthState,
+  fetchLatestBaileysVersion,
+  DisconnectReason,
+  downloadMediaMessage,
+  Browsers,
+  getContentType,
+} = require("@whiskeysockets/baileys");
+const pino = require("pino");
 const qrcode = require("qrcode");
 const path = require("path");
 const fs = require("fs");
-const { execSync } = require("child_process");
 const { supabaseAdmin } = require("../config/supabase");
 const { handleBroadcastAck } = require("./broadcast.service");
 const logger = require("../utils/logger");
 
-/**
- * In-memory map of active WhatsApp client sessions.
- * Key: whatsappAccountId (uuid)
- * Value: { client, orgId, phoneNumber, status }
- */
 const sessions = new Map();
 const creatingLocks = new Set();
 
-/** Max auto-reconnect attempts before giving up */
-const MAX_RECONNECT_ATTEMPTS = 5;
+const BASE_RECONNECT_DELAY = 5000;
+const MAX_RECONNECT_DELAY = 120000;
+const HEARTBEAT_MS = 3 * 60 * 1000;
+const QR_TIMEOUT_MS = 120000;
 
-/** Heartbeat interval (5 minutes) — sends presence to keep session alive */
-const HEARTBEAT_MS = 5 * 60 * 1000;
+const baileysLogger = pino({ level: "silent" });
 
-/**
- * Returns the live session object for a given WhatsApp account id.
- */
 function getSession(accountId) {
   return sessions.get(accountId) || null;
 }
 
-/**
- * Returns a shallow snapshot of all active sessions (for health/status endpoints).
- */
 function getAllSessions() {
   const result = [];
   for (const [id, s] of sessions) {
@@ -44,9 +42,6 @@ function getAllSessions() {
   return result;
 }
 
-/**
- * Update the WhatsApp account status in the database.
- */
 async function updateAccountStatus(accountId, status, extra = {}) {
   const update = { status, ...extra };
   if (status === "connected")
@@ -63,357 +58,487 @@ async function updateAccountStatus(accountId, status, extra = {}) {
     );
 }
 
-/**
- * Persist session data to the database so it survives restarts.
- */
-async function persistSessionData(accountId, sessionData) {
-  const { error } = await supabaseAdmin
-    .from("whatsapp_accounts")
-    .update({ session_data: sessionData })
-    .eq("id", accountId);
-
-  if (error)
-    logger.error(
-      `Failed to persist session data for ${accountId}: ${error.message}`,
-    );
+function getAuthDir(accountId) {
+  return path.join(process.cwd(), "whatsapp-sessions", `session-${accountId}`);
 }
 
 /**
- * Creates and initializes a whatsapp-web.js Client for a given account.
- *
- * @param {object} account - Row from whatsapp_accounts table
- * @param {function} onMessage - Callback invoked with (client, message, account) on incoming messages
- * @returns {{ client, qrPromise }} — qrPromise resolves with the data-URI QR when generated
+ * Create a Baileys socket session for a WhatsApp account.
  */
-async function createSession(account, onMessage) {
+async function createSession(account, onMessage, opts = {}) {
   const {
     id: accountId,
     organization_id: orgId,
     phone_number: phoneNumber,
   } = account;
 
-  // Prevent concurrent creation for same account
   if (creatingLocks.has(accountId)) {
     logger.warn(`Session creation already in progress for ${accountId}`);
     const existing = sessions.get(accountId);
     if (existing)
       return {
-        client: existing.client,
+        sock: existing.sock,
         qrPromise: Promise.resolve(existing.qrDataUrl),
       };
-    return { client: null, qrPromise: Promise.resolve(null) };
+    return { sock: null, qrPromise: Promise.resolve(null) };
   }
   creatingLocks.add(accountId);
 
   try {
+    // Destroy any existing session first
     if (sessions.has(accountId)) {
       logger.warn(
         `Session already exists for account ${accountId}, destroying old one first`,
       );
-      await destroySession(accountId);
-      // Give the OS time to release browser locks
-      await new Promise((r) => setTimeout(r, 2000));
+      await destroySession(accountId, true);
+      await new Promise((r) => setTimeout(r, 1000));
     }
 
-    // Kill any orphaned Chrome processes from previous crashes
-    killBrowserProcessesForSession(accountId);
-    await new Promise((r) => setTimeout(r, 500));
+    const authDir = getAuthDir(accountId);
 
-    const client = new Client({
-      authStrategy: new LocalAuth({
-        clientId: accountId,
-        dataPath: path.join(process.cwd(), "whatsapp-sessions"),
-      }),
-      puppeteer: {
-        headless: true,
-        args: [
-          "--no-sandbox",
-          "--disable-setuid-sandbox",
-          "--disable-dev-shm-usage",
-          "--disable-gpu",
-          "--no-first-run",
-          "--no-default-browser-check",
-          "--disable-extensions",
-          "--disable-sync",
-          "--disable-translate",
-          "--disable-component-update",
-        ],
-        timeout: 60000,
-      },
-      takeoverOnConflict: true,
+    // If forceNewSession, wipe the auth dir
+    if (opts.forceNewSession) {
+      if (fs.existsSync(authDir)) {
+        logger.info(`Wiping local session data for ${accountId} (force new)`);
+        fs.rmSync(authDir, { recursive: true, force: true });
+      }
+    }
+
+    // Ensure auth dir exists
+    fs.mkdirSync(authDir, { recursive: true });
+
+    const { state, saveCreds } = await useMultiFileAuthState(authDir);
+    const { version } = await fetchLatestBaileysVersion();
+
+    const sock = makeWASocket({
+      version,
+      auth: state,
+      logger: baileysLogger,
+      browser: Browsers.ubuntu("Chrome"),
+      printQRInTerminal: false,
+      generateHighQualityLinkPreview: false,
+      syncFullHistory: false,
+      markOnlineOnConnect: true,
+      keepAliveIntervalMs: HEARTBEAT_MS,
+      connectTimeoutMs: 60000,
+      retryRequestDelayMs: 2000,
     });
 
     const sessionEntry = {
-      client,
+      sock,
       orgId,
       phoneNumber,
       status: "pending",
       qrDataUrl: null,
+      reconnectAttempts: 0,
+      destroyedByUser: false,
+      heartbeatInterval: null,
     };
     sessions.set(accountId, sessionEntry);
 
-    // QR code event — resolve promise so the controller can return it
+    // QR promise for the controller to await
     let qrResolve;
+    let qrResolved = false;
     const qrPromise = new Promise((resolve) => {
       qrResolve = resolve;
     });
 
-    client.on("qr", async (qr) => {
-      logger.info(`QR received for account ${accountId}`);
-      try {
-        const dataUrl = await qrcode.toDataURL(qr);
-        sessionEntry.qrDataUrl = dataUrl;
-        qrResolve(dataUrl);
+    const qrTimer = setTimeout(() => {
+      if (!qrResolved) {
+        qrResolved = true;
+        qrResolve(sessionEntry.qrDataUrl);
+      }
+    }, QR_TIMEOUT_MS);
 
-        // Also persist to DB so the dashboard can poll it
-        await supabaseAdmin
-          .from("whatsapp_accounts")
-          .update({ qr_code: dataUrl, status: "pending" })
-          .eq("id", accountId);
-      } catch (err) {
-        logger.error(`QR generation error for ${accountId}: ${err.message}`);
-        qrResolve(null);
+    // ── Connection update events ──────────────────────
+    sock.ev.on("connection.update", async (update) => {
+      const { connection, lastDisconnect, qr } = update;
+
+      // QR code received
+      if (qr) {
+        logger.info(`QR received for account ${accountId}`);
+        try {
+          const dataUrl = await qrcode.toDataURL(qr);
+          sessionEntry.qrDataUrl = dataUrl;
+
+          if (!qrResolved) {
+            qrResolved = true;
+            clearTimeout(qrTimer);
+            qrResolve(dataUrl);
+          }
+
+          await supabaseAdmin
+            .from("whatsapp_accounts")
+            .update({ qr_code: dataUrl, status: "pending" })
+            .eq("id", accountId);
+        } catch (err) {
+          logger.error(`QR generation error for ${accountId}: ${err.message}`);
+          if (!qrResolved) {
+            qrResolved = true;
+            clearTimeout(qrTimer);
+            qrResolve(null);
+          }
+        }
+      }
+
+      // Connection opened
+      if (connection === "open") {
+        logger.info(
+          `WhatsApp connected for account ${accountId} (${phoneNumber})`,
+        );
+        sessionEntry.status = "connected";
+        sessionEntry.qrDataUrl = null;
+        sessionEntry.reconnectAttempts = 0;
+        await updateAccountStatus(accountId, "connected", { qr_code: null });
+
+        // Resolve QR promise if still pending
+        if (!qrResolved) {
+          qrResolved = true;
+          clearTimeout(qrTimer);
+          qrResolve(null);
+        }
+      }
+
+      // Connection closed
+      if (connection === "close") {
+        const statusCode =
+          lastDisconnect?.error?.output?.statusCode ||
+          lastDisconnect?.error?.output?.payload?.statusCode;
+        const reason =
+          DisconnectReason[statusCode] || `unknown (${statusCode})`;
+
+        logger.warn(
+          `WhatsApp disconnected for account ${accountId}: ${reason} (code ${statusCode})`,
+        );
+
+        sessionEntry.status = "disconnected";
+        stopHeartbeat(sessionEntry);
+
+        // Logged out — credentials invalid, wipe and stop
+        if (statusCode === DisconnectReason.loggedOut) {
+          logger.info(
+            `Account ${accountId} logged out — wiping auth and marking disconnected`,
+          );
+          sessions.delete(accountId);
+          const authDir2 = getAuthDir(accountId);
+          if (fs.existsSync(authDir2)) {
+            fs.rmSync(authDir2, { recursive: true, force: true });
+          }
+          await updateAccountStatus(accountId, "disconnected", {
+            qr_code: null,
+          });
+
+          if (!qrResolved) {
+            qrResolved = true;
+            clearTimeout(qrTimer);
+            qrResolve(null);
+          }
+          return;
+        }
+
+        await updateAccountStatus(accountId, "disconnected");
+
+        // Auto-reconnect unless user explicitly destroyed
+        if (!sessionEntry.destroyedByUser) {
+          scheduleReconnect(accountId, sessionEntry, onMessage);
+        }
       }
     });
 
-    client.on("ready", async () => {
-      logger.info(`WhatsApp ready for account ${accountId} (${phoneNumber})`);
-      sessionEntry.status = "connected";
-      sessionEntry.qrDataUrl = null;
-      sessionEntry.reconnectAttempts = 0;
-      await updateAccountStatus(accountId, "connected", { qr_code: null });
+    // ── Credentials updated ────────────────────────
+    sock.ev.on("creds.update", saveCreds);
 
-      // Start heartbeat to keep session alive
-      if (sessionEntry.heartbeatInterval) {
-        clearInterval(sessionEntry.heartbeatInterval);
-      }
-      sessionEntry.heartbeatInterval = setInterval(async () => {
+    // ── Incoming messages ──────────────────────────
+    sock.ev.on("messages.upsert", async ({ messages: msgs, type }) => {
+      if (type !== "notify") return;
+
+      for (const msg of msgs) {
         try {
-          if (sessions.has(accountId) && sessionEntry.status === "connected") {
-            const state = await client.getState();
-            if (state === "CONNECTED") {
-              await client.sendPresenceAvailable();
-            } else {
-              logger.warn(`Heartbeat: session ${accountId} state is ${state}`);
-            }
+          if (!msg.message) continue;
+          if (msg.key.remoteJid === "status@broadcast") continue;
+          if (msg.key.remoteJid?.endsWith("@g.us")) continue;
+
+          if (msg.key.fromMe) {
+            await handleOutgoingFromPhone(sock, msg, account);
+          } else {
+            await onMessage(sock, msg, account);
           }
         } catch (err) {
-          logger.warn(`Heartbeat failed for ${accountId}: ${err.message}`);
+          logger.error(
+            `Error handling message for ${accountId}: ${err.message}`,
+          );
         }
-      }, HEARTBEAT_MS);
-    });
-
-    client.on("authenticated", async () => {
-      logger.info(`WhatsApp authenticated for account ${accountId}`);
-      // Session data is auto-saved by LocalAuth; we additionally save a flag
-      await persistSessionData(accountId, {
-        authenticated: true,
-        ts: Date.now(),
-      });
-    });
-
-    client.on("auth_failure", async (msg) => {
-      logger.error(`Auth failure for account ${accountId}: ${msg}`);
-      sessionEntry.status = "disconnected";
-      if (sessionEntry.heartbeatInterval)
-        clearInterval(sessionEntry.heartbeatInterval);
-      await updateAccountStatus(accountId, "disconnected");
-    });
-
-    client.on("change_state", (state) => {
-      logger.info(`WhatsApp state changed for ${accountId}: ${state}`);
-    });
-
-    client.on("disconnected", async (reason) => {
-      logger.warn(`WhatsApp disconnected for account ${accountId}: ${reason}`);
-      sessionEntry.status = "disconnected";
-      if (sessionEntry.heartbeatInterval)
-        clearInterval(sessionEntry.heartbeatInterval);
-      await updateAccountStatus(accountId, "disconnected");
-
-      // Attempt auto-reconnect instead of permanently removing the session
-      const attempts = (sessionEntry.reconnectAttempts || 0) + 1;
-      sessionEntry.reconnectAttempts = attempts;
-
-      if (attempts <= MAX_RECONNECT_ATTEMPTS) {
-        const delay = Math.min(10000 * attempts, 60000);
-        logger.info(
-          `Scheduling auto-reconnect for ${accountId} (attempt ${attempts}/${MAX_RECONNECT_ATTEMPTS}) in ${delay / 1000}s`,
-        );
-        setTimeout(async () => {
-          if (!sessions.has(accountId)) return;
-          try {
-            // Destroy old client and create fresh one
-            try {
-              await client.destroy();
-            } catch {
-              /* ignore */
-            }
-            killBrowserProcessesForSession(accountId);
-            await new Promise((r) => setTimeout(r, 2000));
-
-            // Remove from map so createSession can proceed
-            sessions.delete(accountId);
-            creatingLocks.delete(accountId);
-
-            // Fetch fresh account data and recreate session
-            const { data: acct } = await supabaseAdmin
-              .from("whatsapp_accounts")
-              .select("*")
-              .eq("id", accountId)
-              .single();
-
-            if (acct) {
-              const { handleIncomingMessage } = require("./whatsapp.message");
-              const result = await createSession(acct, handleIncomingMessage);
-              if (result && result.client) {
-                const newEntry = sessions.get(accountId);
-                if (newEntry) newEntry.reconnectAttempts = attempts;
-                logger.info(`Auto-reconnect initiated for ${accountId}`);
-              }
-            }
-          } catch (err) {
-            logger.error(
-              `Auto-reconnect failed for ${accountId} (attempt ${attempts}): ${err.message}`,
-            );
-          }
-        }, delay);
-      } else {
-        logger.error(
-          `Giving up auto-reconnect for ${accountId} after ${MAX_RECONNECT_ATTEMPTS} attempts`,
-        );
-        sessions.delete(accountId);
       }
     });
 
-    // Incoming messages
-    client.on("message", async (message) => {
-      try {
-        await onMessage(client, message, account);
-      } catch (err) {
-        logger.error(
-          `Error handling incoming message for ${accountId}: ${err.message}`,
-        );
+    // ── Message status updates (delivery/read receipts) ──
+    sock.ev.on("messages.update", async (updates) => {
+      for (const { key, update: upd } of updates) {
+        try {
+          if (!upd.status) continue;
+          const statusMap = { 2: "delivered", 3: "read", 4: "read" };
+          const newStatus = statusMap[upd.status];
+          if (!newStatus || !key.id) continue;
+
+          await supabaseAdmin
+            .from("messages")
+            .update({ status: newStatus })
+            .eq("whatsapp_message_id", key.id);
+
+          await handleBroadcastAck(key.id, newStatus);
+        } catch (err) {
+          logger.error(
+            `Error handling message_update for ${accountId}: ${err.message}`,
+          );
+        }
       }
     });
 
-    // Message acknowledgement (delivery / read receipts)
-    client.on("message_ack", async (message, ack) => {
-      // ack: 0 = pending, 1 = sent (server), 2 = delivered, 3 = read, 4 = played
-      try {
-        const statusMap = { 1: "sent", 2: "delivered", 3: "read", 4: "read" };
-        const newStatus = statusMap[ack];
-        if (!newStatus || !message.id || !message.id._serialized) return;
-
-        await supabaseAdmin
-          .from("messages")
-          .update({ status: newStatus })
-          .eq("whatsapp_message_id", message.id._serialized);
-
-        // Also update broadcast recipient status if applicable
-        await handleBroadcastAck(message.id._serialized, newStatus);
-      } catch (err) {
-        logger.error(
-          `Error handling message_ack for ${accountId}: ${err.message}`,
-        );
-      }
-    });
-
-    // Initialize (connect)
-    client.initialize().catch((err) => {
-      logger.error(`Client init failed for ${accountId}: ${err.message}`);
-      sessionEntry.status = "disconnected";
-      updateAccountStatus(accountId, "disconnected");
-      // Clean up: remove from Map and kill orphaned browser process
-      sessions.delete(accountId);
-      killBrowserProcessesForSession(accountId);
-    });
-
-    return { client, qrPromise };
+    return { sock, qrPromise };
   } finally {
     creatingLocks.delete(accountId);
   }
 }
 
 /**
- * Kill any Chrome/Chromium processes whose command line references a session directory.
- * This catches orphaned browser processes that client.destroy() failed to clean up.
- */
-const UUID_RE =
-  /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
-
-function killBrowserProcessesForSession(accountId) {
-  // Validate accountId to prevent command injection
-  if (!UUID_RE.test(accountId)) return;
-
-  try {
-    if (process.platform === "win32") {
-      execSync(
-        `powershell -NoProfile -Command "Get-CimInstance Win32_Process | Where-Object { $_.CommandLine -like '*session-${accountId}*' -and $_.Name -like '*chrome*' } | ForEach-Object { Stop-Process -Id $_.ProcessId -Force -ErrorAction SilentlyContinue }"`,
-        { stdio: "ignore", timeout: 10000 },
-      );
-    } else {
-      execSync(`pkill -f "session-${accountId}" 2>/dev/null || true`, {
-        stdio: "ignore",
-        timeout: 5000,
-      });
-    }
-  } catch {
-    // No matching processes or command failed — that's fine
-  }
-}
-
-/**
  * Gracefully destroy a session.
  */
-async function destroySession(accountId) {
+async function destroySession(accountId, silent = false) {
   const session = sessions.get(accountId);
   if (!session) return;
 
-  // Clear heartbeat interval
-  if (session.heartbeatInterval) {
-    clearInterval(session.heartbeatInterval);
-  }
-
-  // Grab the browser PID before destroy() might null the reference
-  let browserPid = null;
-  try {
-    const browser = session.client.pupBrowser;
-    if (browser) {
-      const proc = browser.process();
-      if (proc && proc.pid) browserPid = proc.pid;
-    }
-  } catch {
-    // browser may not be available yet
-  }
+  session.destroyedByUser = true;
+  stopHeartbeat(session);
 
   try {
-    await session.client.destroy();
+    session.sock.ev.removeAllListeners();
+    session.sock.end(undefined);
   } catch (err) {
-    logger.warn(`Error destroying client for ${accountId}: ${err.message}`);
+    logger.warn(`Error closing socket for ${accountId}: ${err.message}`);
   }
-
-  // Force-kill the browser process by PID if it's still alive
-  if (browserPid) {
-    try {
-      process.kill(browserPid);
-    } catch {
-      // already dead
-    }
-  }
-
-  // Nuclear fallback: find and kill any Chrome process using this session dir
-  killBrowserProcessesForSession(accountId);
 
   sessions.delete(accountId);
-  await updateAccountStatus(accountId, "disconnected", { qr_code: null });
+  if (!silent) {
+    await updateAccountStatus(accountId, "disconnected", { qr_code: null });
+  }
   logger.info(`Session destroyed for account ${accountId}`);
 }
 
-/**
- * Boot sessions for all accounts that were previously connected.
- * Called once on server startup.
- */
+/* ── Heartbeat ─────────────────────────────── */
+
+function startHeartbeat(accountId, sessionEntry, sock) {
+  stopHeartbeat(sessionEntry);
+  sessionEntry.heartbeatInterval = setInterval(async () => {
+    try {
+      if (sessions.has(accountId) && sessionEntry.status === "connected") {
+        await sock.sendPresenceUpdate("available");
+      }
+    } catch (err) {
+      logger.warn(`Heartbeat failed for ${accountId}: ${err.message}`);
+    }
+  }, HEARTBEAT_MS);
+}
+
+function stopHeartbeat(sessionEntry) {
+  if (sessionEntry.heartbeatInterval) {
+    clearInterval(sessionEntry.heartbeatInterval);
+    sessionEntry.heartbeatInterval = null;
+  }
+}
+
+/* ── Auto-reconnect ──────────────────────── */
+
+function scheduleReconnect(accountId, sessionEntry, onMessage) {
+  const attempts = (sessionEntry.reconnectAttempts || 0) + 1;
+  sessionEntry.reconnectAttempts = attempts;
+
+  const delay = Math.min(
+    BASE_RECONNECT_DELAY * Math.pow(2, attempts - 1),
+    MAX_RECONNECT_DELAY,
+  );
+  logger.info(
+    `Scheduling auto-reconnect for ${accountId} (attempt ${attempts}) in ${delay / 1000}s`,
+  );
+
+  setTimeout(async () => {
+    const entry = sessions.get(accountId);
+    if (!entry || entry.destroyedByUser) return;
+
+    try {
+      try {
+        entry.sock.ev.removeAllListeners();
+        entry.sock.end(undefined);
+      } catch {
+        /* ignore */
+      }
+
+      sessions.delete(accountId);
+      creatingLocks.delete(accountId);
+
+      const { data: acct } = await supabaseAdmin
+        .from("whatsapp_accounts")
+        .select("*")
+        .eq("id", accountId)
+        .single();
+
+      if (acct) {
+        const { handleIncomingMessage } = require("./whatsapp.message");
+        const result = await createSession(
+          acct,
+          onMessage || handleIncomingMessage,
+        );
+        if (result && result.sock) {
+          const newEntry = sessions.get(accountId);
+          if (newEntry) newEntry.reconnectAttempts = attempts;
+          logger.info(
+            `Auto-reconnect initiated for ${accountId} (attempt ${attempts})`,
+          );
+        }
+      }
+    } catch (err) {
+      logger.error(
+        `Auto-reconnect failed for ${accountId} (attempt ${attempts}): ${err.message}`,
+      );
+      const currentEntry = sessions.get(accountId);
+      if (currentEntry && !currentEntry.destroyedByUser) {
+        scheduleReconnect(accountId, currentEntry, onMessage);
+      }
+    }
+  }, delay);
+}
+
+/* ── Handle outgoing messages sent from the phone ── */
+
+async function handleOutgoingFromPhone(sock, msg, account) {
+  const waId = msg.key.id;
+
+  const { data: exists } = await supabaseAdmin
+    .from("messages")
+    .select("id")
+    .eq("whatsapp_message_id", waId)
+    .single();
+  if (exists) return;
+
+  const remoteJid = msg.key.remoteJid;
+  if (!remoteJid || remoteJid.endsWith("@g.us")) return;
+
+  const orgId = account.organization_id;
+  const rawPhone = remoteJid.replace("@s.whatsapp.net", "");
+
+  const {
+    findOrCreateContact,
+    findOrCreateConversation,
+    resolveMessageType,
+  } = require("./whatsapp.message");
+
+  const contact = await findOrCreateContact(orgId, rawPhone, null);
+  const conversation = await findOrCreateConversation(
+    orgId,
+    account.id,
+    contact.id,
+  );
+
+  const msgType = resolveMessageType(msg);
+  let mediaUrl = null;
+  if (msgType !== "text") {
+    try {
+      const buffer = await downloadMediaMessage(msg, "buffer", {});
+      if (buffer) {
+        const contentType = getContentType(msg.message);
+        const mediaObj = msg.message?.[contentType];
+        const mimetype = mediaObj?.mimetype || "application/octet-stream";
+        mediaUrl = await uploadMediaToStorage(
+          { data: buffer.toString("base64"), mimetype },
+          orgId,
+          conversation.id,
+        );
+      }
+    } catch (err) {
+      logger.warn(`Failed to download media from phone msg: ${err.message}`);
+    }
+  }
+
+  const body =
+    msg.message?.conversation ||
+    msg.message?.extendedTextMessage?.text ||
+    msg.message?.imageMessage?.caption ||
+    msg.message?.videoMessage?.caption ||
+    null;
+
+  await supabaseAdmin.from("messages").insert({
+    conversation_id: conversation.id,
+    organization_id: orgId,
+    sender_type: "team_member",
+    sender_id: null,
+    content: body,
+    message_type: msgType,
+    media_url: mediaUrl,
+    whatsapp_message_id: waId,
+    status: "sent",
+  });
+}
+
+/* ── Media upload to Supabase Storage ─────── */
+
+async function uploadMediaToStorage(media, orgId, conversationId) {
+  try {
+    const ext = getExtensionFromMimetype(media.mimetype);
+    const fileName = `${orgId}/${conversationId}/${Date.now()}_${Math.random().toString(36).substring(2, 8)}.${ext}`;
+
+    const buffer = Buffer.isBuffer(media.data)
+      ? media.data
+      : Buffer.from(media.data, "base64");
+
+    const { error } = await supabaseAdmin.storage
+      .from("whatsapp-media")
+      .upload(fileName, buffer, {
+        contentType: media.mimetype,
+        upsert: false,
+      });
+
+    if (error) {
+      logger.warn(`Media upload failed: ${error.message}`);
+      return `data:${media.mimetype};base64,${buffer.toString("base64")}`;
+    }
+
+    const { data: urlData } = supabaseAdmin.storage
+      .from("whatsapp-media")
+      .getPublicUrl(fileName);
+
+    return (
+      urlData?.publicUrl ||
+      `data:${media.mimetype};base64,${buffer.toString("base64")}`
+    );
+  } catch (err) {
+    logger.warn(`Media upload error: ${err.message}`);
+    const b64 = Buffer.isBuffer(media.data)
+      ? media.data.toString("base64")
+      : media.data;
+    return `data:${media.mimetype};base64,${b64}`;
+  }
+}
+
+function getExtensionFromMimetype(mimetype) {
+  const map = {
+    "image/jpeg": "jpg",
+    "image/png": "png",
+    "image/webp": "webp",
+    "image/gif": "gif",
+    "video/mp4": "mp4",
+    "video/3gpp": "3gp",
+    "audio/ogg": "ogg",
+    "audio/mpeg": "mp3",
+    "audio/mp4": "m4a",
+    "application/pdf": "pdf",
+    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": "xlsx",
+    "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
+      "docx",
+  };
+  return map[mimetype] || mimetype.split("/")[1] || "bin";
+}
+
+/* ── Restore sessions on startup ──────────── */
+
 async function restoreAllSessions(onMessage) {
   const { data: accounts, error } = await supabaseAdmin
     .from("whatsapp_accounts")
@@ -450,4 +575,5 @@ module.exports = {
   destroySession,
   restoreAllSessions,
   updateAccountStatus,
+  uploadMediaToStorage,
 };

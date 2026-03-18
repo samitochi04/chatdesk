@@ -18,15 +18,29 @@ export default function SignIn() {
     setError("");
     setSubmitting(true);
 
-    const { error: signInError } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
+    const { data, error: signInError } = await supabase.auth.signInWithPassword(
+      {
+        email,
+        password,
+      },
+    );
 
     setSubmitting(false);
 
     if (signInError) {
       setError(signInError.message);
+      return;
+    }
+
+    // Enforce email confirmation
+    if (!data?.user?.email_confirmed_at) {
+      await supabase.auth.signOut();
+      setError(
+        t(
+          "auth.signIn.emailNotConfirmed",
+          "Please confirm your email before signing in. Check your inbox.",
+        ),
+      );
       return;
     }
 

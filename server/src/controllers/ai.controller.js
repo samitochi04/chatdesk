@@ -404,6 +404,296 @@ const getAnalysis = catchAsync(async (req, res) => {
   res.json({ success: true, data: analysis });
 });
 
+/* ================================================================== */
+/*  Knowledge Base CRUD                                                */
+/* ================================================================== */
+
+/**
+ * POST /api/ai/knowledge-base
+ */
+const createKBEntry = catchAsync(async (req, res) => {
+  const orgId = req.organization.id;
+  const { title, content, aiAgentId, fileUrl } = req.body;
+
+  if (!title || !content) {
+    throw ApiError.badRequest("Title and content are required");
+  }
+
+  // Verify agent belongs to org if provided
+  if (aiAgentId) {
+    const { data: agentCheck } = await supabaseAdmin
+      .from("ai_agents")
+      .select("id")
+      .eq("id", aiAgentId)
+      .eq("organization_id", orgId)
+      .single();
+
+    if (!agentCheck) {
+      throw ApiError.badRequest("AI agent not found in your organization");
+    }
+  }
+
+  const { data: entry, error } = await supabaseAdmin
+    .from("ai_knowledge_base")
+    .insert({
+      organization_id: orgId,
+      ai_agent_id: aiAgentId || null,
+      title,
+      content,
+      file_url: fileUrl || null,
+    })
+    .select("*")
+    .single();
+
+  if (error) throw ApiError.internal("Failed to create knowledge base entry");
+
+  res.status(201).json({ success: true, data: entry });
+});
+
+/**
+ * GET /api/ai/knowledge-base
+ */
+const listKBEntries = catchAsync(async (req, res) => {
+  const orgId = req.organization.id;
+  const { agentId } = req.query;
+
+  let query = supabaseAdmin
+    .from("ai_knowledge_base")
+    .select("*, ai_agents(id, name)")
+    .eq("organization_id", orgId)
+    .order("created_at", { ascending: false });
+
+  if (agentId) {
+    query = query.eq("ai_agent_id", agentId);
+  }
+
+  const { data: entries, error } = await query;
+
+  if (error) throw ApiError.internal("Failed to list knowledge base entries");
+
+  res.json({ success: true, data: entries });
+});
+
+/**
+ * GET /api/ai/knowledge-base/:id
+ */
+const getKBEntry = catchAsync(async (req, res) => {
+  const orgId = req.organization.id;
+
+  const { data: entry, error } = await supabaseAdmin
+    .from("ai_knowledge_base")
+    .select("*, ai_agents(id, name)")
+    .eq("id", req.params.id)
+    .eq("organization_id", orgId)
+    .single();
+
+  if (error || !entry)
+    throw ApiError.notFound("Knowledge base entry not found");
+
+  res.json({ success: true, data: entry });
+});
+
+/**
+ * PATCH /api/ai/knowledge-base/:id
+ */
+const updateKBEntry = catchAsync(async (req, res) => {
+  const orgId = req.organization.id;
+  const { title, content, aiAgentId, fileUrl, isActive } = req.body;
+
+  const update = {};
+  if (title !== undefined) update.title = title;
+  if (content !== undefined) update.content = content;
+  if (aiAgentId !== undefined) update.ai_agent_id = aiAgentId;
+  if (fileUrl !== undefined) update.file_url = fileUrl;
+  if (isActive !== undefined) update.is_active = isActive;
+
+  const { data: entry, error } = await supabaseAdmin
+    .from("ai_knowledge_base")
+    .update(update)
+    .eq("id", req.params.id)
+    .eq("organization_id", orgId)
+    .select("*")
+    .single();
+
+  if (error || !entry)
+    throw ApiError.notFound("Knowledge base entry not found");
+
+  res.json({ success: true, data: entry });
+});
+
+/**
+ * DELETE /api/ai/knowledge-base/:id
+ */
+const deleteKBEntry = catchAsync(async (req, res) => {
+  const orgId = req.organization.id;
+
+  const { data: entry } = await supabaseAdmin
+    .from("ai_knowledge_base")
+    .select("id")
+    .eq("id", req.params.id)
+    .eq("organization_id", orgId)
+    .single();
+
+  if (!entry) throw ApiError.notFound("Knowledge base entry not found");
+
+  const { error } = await supabaseAdmin
+    .from("ai_knowledge_base")
+    .delete()
+    .eq("id", req.params.id);
+
+  if (error) throw ApiError.internal("Failed to delete knowledge base entry");
+
+  res.json({ success: true, message: "Knowledge base entry deleted" });
+});
+
+/* ================================================================== */
+/*  AI Triggers CRUD                                                   */
+/* ================================================================== */
+
+/**
+ * POST /api/ai/triggers
+ */
+const createTrigger = catchAsync(async (req, res) => {
+  const orgId = req.organization.id;
+  const {
+    name,
+    description,
+    triggerType,
+    conditions,
+    actionType,
+    actionConfig,
+    aiAgentId,
+    isActive,
+    priority,
+  } = req.body;
+
+  if (!name || !triggerType || !actionType) {
+    throw ApiError.badRequest("Name, triggerType, and actionType are required");
+  }
+
+  const { data: trigger, error } = await supabaseAdmin
+    .from("ai_triggers")
+    .insert({
+      organization_id: orgId,
+      ai_agent_id: aiAgentId || null,
+      name,
+      description: description || null,
+      trigger_type: triggerType,
+      conditions: conditions || {},
+      action_type: actionType,
+      action_config: actionConfig || {},
+      is_active: isActive ?? true,
+      priority: priority ?? 0,
+    })
+    .select("*")
+    .single();
+
+  if (error) throw ApiError.internal("Failed to create trigger");
+
+  res.status(201).json({ success: true, data: trigger });
+});
+
+/**
+ * GET /api/ai/triggers
+ */
+const listTriggers = catchAsync(async (req, res) => {
+  const orgId = req.organization.id;
+
+  const { data: triggers, error } = await supabaseAdmin
+    .from("ai_triggers")
+    .select("*, ai_agents(id, name)")
+    .eq("organization_id", orgId)
+    .order("priority", { ascending: false });
+
+  if (error) throw ApiError.internal("Failed to list triggers");
+
+  res.json({ success: true, data: triggers });
+});
+
+/**
+ * GET /api/ai/triggers/:id
+ */
+const getTrigger = catchAsync(async (req, res) => {
+  const orgId = req.organization.id;
+
+  const { data: trigger, error } = await supabaseAdmin
+    .from("ai_triggers")
+    .select("*, ai_agents(id, name)")
+    .eq("id", req.params.id)
+    .eq("organization_id", orgId)
+    .single();
+
+  if (error || !trigger) throw ApiError.notFound("Trigger not found");
+
+  res.json({ success: true, data: trigger });
+});
+
+/**
+ * PATCH /api/ai/triggers/:id
+ */
+const updateTrigger = catchAsync(async (req, res) => {
+  const orgId = req.organization.id;
+  const {
+    name,
+    description,
+    triggerType,
+    conditions,
+    actionType,
+    actionConfig,
+    aiAgentId,
+    isActive,
+    priority,
+  } = req.body;
+
+  const update = {};
+  if (name !== undefined) update.name = name;
+  if (description !== undefined) update.description = description;
+  if (triggerType !== undefined) update.trigger_type = triggerType;
+  if (conditions !== undefined) update.conditions = conditions;
+  if (actionType !== undefined) update.action_type = actionType;
+  if (actionConfig !== undefined) update.action_config = actionConfig;
+  if (aiAgentId !== undefined) update.ai_agent_id = aiAgentId;
+  if (isActive !== undefined) update.is_active = isActive;
+  if (priority !== undefined) update.priority = priority;
+
+  const { data: trigger, error } = await supabaseAdmin
+    .from("ai_triggers")
+    .update(update)
+    .eq("id", req.params.id)
+    .eq("organization_id", orgId)
+    .select("*")
+    .single();
+
+  if (error || !trigger) throw ApiError.notFound("Trigger not found");
+
+  res.json({ success: true, data: trigger });
+});
+
+/**
+ * DELETE /api/ai/triggers/:id
+ */
+const deleteTrigger = catchAsync(async (req, res) => {
+  const orgId = req.organization.id;
+
+  const { data: trigger } = await supabaseAdmin
+    .from("ai_triggers")
+    .select("id")
+    .eq("id", req.params.id)
+    .eq("organization_id", orgId)
+    .single();
+
+  if (!trigger) throw ApiError.notFound("Trigger not found");
+
+  const { error } = await supabaseAdmin
+    .from("ai_triggers")
+    .delete()
+    .eq("id", req.params.id);
+
+  if (error) throw ApiError.internal("Failed to delete trigger");
+
+  res.json({ success: true, message: "Trigger deleted" });
+});
+
 module.exports = {
   createAgent,
   listAgents,
@@ -420,4 +710,14 @@ module.exports = {
   runAnalysisHandler,
   listAnalyses,
   getAnalysis,
+  createKBEntry,
+  listKBEntries,
+  getKBEntry,
+  updateKBEntry,
+  deleteKBEntry,
+  createTrigger,
+  listTriggers,
+  getTrigger,
+  updateTrigger,
+  deleteTrigger,
 };

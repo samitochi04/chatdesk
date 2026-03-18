@@ -44,9 +44,17 @@ export function AuthProvider({ children }) {
 
   useEffect(() => {
     supabase.auth.getSession().then(async ({ data: { session } }) => {
-      setUser(session?.user ?? null);
-      if (session?.user) {
-        await fetchProfile(session.user.id);
+      const sessionUser = session?.user ?? null;
+      // Reject unconfirmed users
+      if (sessionUser && !sessionUser.email_confirmed_at) {
+        await supabase.auth.signOut();
+        setUser(null);
+        setLoading(false);
+        return;
+      }
+      setUser(sessionUser);
+      if (sessionUser) {
+        await fetchProfile(sessionUser.id);
       }
       setLoading(false);
     });
@@ -54,9 +62,18 @@ export function AuthProvider({ children }) {
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user ?? null);
-      if (session?.user) {
-        fetchProfile(session.user.id);
+      const sessionUser = session?.user ?? null;
+      if (sessionUser && !sessionUser.email_confirmed_at) {
+        supabase.auth.signOut();
+        setUser(null);
+        setProfile(null);
+        setOrganization(null);
+        setLoading(false);
+        return;
+      }
+      setUser(sessionUser);
+      if (sessionUser) {
+        fetchProfile(sessionUser.id);
       } else {
         setProfile(null);
         setOrganization(null);

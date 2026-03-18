@@ -121,4 +121,84 @@ router.get(
   ctrl.getAnalysis,
 );
 
+/* ------------------------------------------------------------------ */
+/*  Knowledge Base — advanced automation (growth / business plans)      */
+/* ------------------------------------------------------------------ */
+
+router.post(
+  "/knowledge-base",
+  requireRole("owner", "admin"),
+  requireFeature("canAdvancedAutomation"),
+  ctrl.createKBEntry,
+);
+
+router.get(
+  "/knowledge-base",
+  requireFeature("canAdvancedAutomation"),
+  ctrl.listKBEntries,
+);
+
+router.get(
+  "/knowledge-base/:id",
+  requireFeature("canAdvancedAutomation"),
+  validate(schemas.idParam, "params"),
+  ctrl.getKBEntry,
+);
+
+router.patch(
+  "/knowledge-base/:id",
+  requireRole("owner", "admin"),
+  requireFeature("canAdvancedAutomation"),
+  validate(schemas.idParam, "params"),
+  ctrl.updateKBEntry,
+);
+
+router.delete(
+  "/knowledge-base/:id",
+  requireRole("owner", "admin"),
+  requireFeature("canAdvancedAutomation"),
+  validate(schemas.idParam, "params"),
+  ctrl.deleteKBEntry,
+);
+
+/* ------------------------------------------------------------------ */
+/*  AI Triggers — advanced automation (growth / business plans)         */
+/* ------------------------------------------------------------------ */
+
+router.post(
+  "/triggers",
+  requireRole("owner", "admin"),
+  requireFeature("canAdvancedAutomation"),
+  ctrl.createTrigger,
+);
+
+router.get(
+  "/triggers",
+  requireFeature("canAdvancedAutomation"),
+  ctrl.listTriggers,
+);
+
+router.get(
+  "/triggers/:id",
+  requireFeature("canAdvancedAutomation"),
+  validate(schemas.idParam, "params"),
+  ctrl.getTrigger,
+);
+
+router.patch(
+  "/triggers/:id",
+  requireRole("owner", "admin"),
+  requireFeature("canAdvancedAutomation"),
+  validate(schemas.idParam, "params"),
+  ctrl.updateTrigger,
+);
+
+router.delete(
+  "/triggers/:id",
+  requireRole("owner", "admin"),
+  requireFeature("canAdvancedAutomation"),
+  validate(schemas.idParam, "params"),
+  ctrl.deleteTrigger,
+);
+
 module.exports = router;

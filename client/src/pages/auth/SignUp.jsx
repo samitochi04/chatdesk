@@ -6,6 +6,8 @@ import SEO from "@/components/SEO";
 import Logo from "@/components/ui/Logo";
 import { HiOutlineEnvelope } from "react-icons/hi2";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 export default function SignUp() {
   const { t } = useTranslation();
   const [fullName, setFullName] = useState("");
@@ -48,6 +50,17 @@ export default function SignUp() {
     if (signUpError) {
       setError(signUpError.message);
       return;
+    }
+
+    // Notify owner about the new signup (fire-and-forget)
+    try {
+      fetch(`${API_URL}/auth/signup-notify`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name: fullName, email }),
+      });
+    } catch (_) {
+      // Non-critical — don't block user flow
     }
 
     setEmailSent(true);

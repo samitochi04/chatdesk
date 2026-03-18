@@ -68,10 +68,12 @@ const registerAccount = catchAsync(async (req, res) => {
 /**
  * POST /api/whatsapp/accounts/:accountId/connect
  * Initialize a WhatsApp session — returns QR code for pairing.
+ * Query param: ?force=true to wipe local session and get a fresh QR.
  */
 const connectAccount = catchAsync(async (req, res) => {
   const { accountId } = req.params;
   const orgId = req.organization.id;
+  const forceNew = req.query.force === "true";
 
   // Fetch the account and verify ownership
   const { data: account, error } = await supabaseAdmin
@@ -83,24 +85,25 @@ const connectAccount = catchAsync(async (req, res) => {
 
   if (error || !account) throw ApiError.notFound("WhatsApp account not found");
 
-  // If already connected, return current status
+  // If already connected and not forcing, return current status
   const existingSession = sessionManager.getSession(accountId);
-  if (existingSession && existingSession.status === "connected") {
+  if (existingSession && existingSession.status === "connected" && !forceNew) {
     return res.json({
       success: true,
       data: { status: "connected", qrCode: null },
     });
   }
 
-  // Create a new session
+  // Create a new session (optionally wiping local auth for fresh QR)
   const { qrPromise } = await sessionManager.createSession(
     account,
     messageService.handleIncomingMessage,
+    { forceNewSession: forceNew },
   );
 
   // Wait for QR (with timeout)
   const qrTimeout = new Promise((resolve) =>
-    setTimeout(() => resolve(null), 30000),
+    setTimeout(() => resolve(null), 45000),
   );
   const qrDataUrl = await Promise.race([qrPromise, qrTimeout]);
 
@@ -204,6 +207,7 @@ const listAccounts = catchAsync(async (req, res) => {
 /**
  * DELETE /api/whatsapp/accounts/:accountId
  * Remove a WhatsApp account and destroy its session.
+ * Conversations and messages are preserved (FK is SET NULL after migration 004).
  */
 const deleteAccount = catchAsync(async (req, res) => {
   const { accountId } = req.params;
@@ -211,7 +215,7 @@ const deleteAccount = catchAsync(async (req, res) => {
 
   const { data: account } = await supabaseAdmin
     .from("whatsapp_accounts")
-    .select("id")
+    .select("id, phone_number")
     .eq("id", accountId)
     .eq("organization_id", orgId)
     .single();
@@ -221,7 +225,25 @@ const deleteAccount = catchAsync(async (req, res) => {
   // Destroy session first
   await sessionManager.destroySession(accountId);
 
-  // Delete from DB (cascades conversations/messages via FK)
+  // Clean up local session files
+  const fs = require("fs");
+  const sessionDir = require("path").join(
+    process.cwd(),
+    "whatsapp-sessions",
+    `session-${accountId}`,
+  );
+  if (fs.existsSync(sessionDir)) {
+    fs.rmSync(sessionDir, { recursive: true, force: true });
+  }
+
+  // Nullify whatsapp_account_id on conversations before deleting the account
+  // (defensive — the FK migration 004 does SET NULL, but be safe for pre-migration DBs)
+  await supabaseAdmin
+    .from("conversations")
+    .update({ whatsapp_account_id: null })
+    .eq("whatsapp_account_id", accountId);
+
+  // Delete the account record
   const { error } = await supabaseAdmin
     .from("whatsapp_accounts")
     .delete()
@@ -229,15 +251,29 @@ const deleteAccount = catchAsync(async (req, res) => {
 
   if (error) throw ApiError.internal("Failed to delete account");
 
-  res.json({ success: true, message: "WhatsApp account deleted" });
+  logActivity({
+    organizationId: orgId,
+    userId: req.user.id,
+    action: "deleted",
+    entityType: "whatsapp_account",
+    entityId: accountId,
+    metadata: { phoneNumber: account.phone_number },
+  });
+
+  res.json({
+    success: true,
+    message:
+      "WhatsApp account deleted. Conversations and messages have been preserved.",
+  });
 });
 
 /**
  * POST /api/whatsapp/messages/send
  * Send a message from the dashboard through WhatsApp.
+ * Supports text and media messages (image, video, audio, document).
  */
 const sendMessageHandler = catchAsync(async (req, res) => {
-  const { conversationId, content, messageType } = req.body;
+  const { conversationId, content, messageType, mediaUrl } = req.body;
   const orgId = req.organization.id;
   const senderId = req.user.id;
 
@@ -261,7 +297,7 @@ const sendMessageHandler = catchAsync(async (req, res) => {
   const savedMsg = await messageService.sendMessage(session, conversation, {
     content,
     messageType: messageType || "text",
-    mediaUrl: null,
+    mediaUrl: mediaUrl || null,
     senderId,
   });
 

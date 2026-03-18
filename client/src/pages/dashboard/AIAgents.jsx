@@ -53,6 +53,8 @@ function AgentModal({ agent, onClose, onSave }) {
     isActive: agent?.is_active ?? true,
     temperature: agent?.configuration?.temperature ?? 0.7,
     maxTokens: agent?.configuration?.max_tokens ?? 1024,
+    automationMode: agent?.configuration?.automation_mode ?? false,
+    vendorStyle: agent?.configuration?.vendor_style ?? false,
   });
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState(null);
@@ -72,6 +74,8 @@ function AgentModal({ agent, onClose, onSave }) {
         configuration: {
           temperature: Number(form.temperature),
           max_tokens: Number(form.maxTokens),
+          automation_mode: form.automationMode,
+          vendor_style: form.vendorStyle,
         },
       };
       if (isEdit) {
@@ -214,6 +218,38 @@ function AgentModal({ agent, onClose, onSave }) {
               />
             </div>
           </div>
+
+          {/* Automation Mode */}
+          <label className="flex items-center gap-2 text-sm text-[var(--color-text-primary)]">
+            <input
+              type="checkbox"
+              checked={form.automationMode}
+              onChange={(e) =>
+                setForm((p) => ({ ...p, automationMode: e.target.checked }))
+              }
+              className="h-4 w-4 rounded border-[var(--color-border)] text-[var(--color-primary)] accent-[var(--color-primary)]"
+            />
+            {t("dashboard.aiAgents.automationMode")}
+          </label>
+          <p className="-mt-2 ml-6 text-xs text-[var(--color-text-tertiary)]">
+            {t("dashboard.aiAgents.automationModeHint")}
+          </p>
+
+          {/* Vendor Style */}
+          <label className="flex items-center gap-2 text-sm text-[var(--color-text-primary)]">
+            <input
+              type="checkbox"
+              checked={form.vendorStyle}
+              onChange={(e) =>
+                setForm((p) => ({ ...p, vendorStyle: e.target.checked }))
+              }
+              className="h-4 w-4 rounded border-[var(--color-border)] text-[var(--color-primary)] accent-[var(--color-primary)]"
+            />
+            {t("dashboard.aiAgents.vendorStyle")}
+          </label>
+          <p className="-mt-2 ml-6 text-xs text-[var(--color-text-tertiary)]">
+            {t("dashboard.aiAgents.vendorStyleHint")}
+          </p>
 
           {/* Active toggle */}
           <label className="flex items-center gap-2 text-sm text-[var(--color-text-primary)]">

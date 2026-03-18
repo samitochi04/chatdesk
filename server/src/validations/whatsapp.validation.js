@@ -25,6 +25,7 @@ const sendMessage = Joi.object({
       "contact_card",
     )
     .default("text"),
+  mediaUrl: Joi.string().uri().allow(null, "").optional(),
 });
 
 const accountIdParam = Joi.object({

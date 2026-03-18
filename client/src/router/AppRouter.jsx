@@ -33,6 +33,8 @@ const Pipeline = lazy(() => import("@/pages/dashboard/Pipeline"));
 const WhatsApp = lazy(() => import("@/pages/dashboard/WhatsApp"));
 const AIAgents = lazy(() => import("@/pages/dashboard/AIAgents"));
 const AutoReplies = lazy(() => import("@/pages/dashboard/AutoReplies"));
+const KnowledgeBase = lazy(() => import("@/pages/dashboard/KnowledgeBase"));
+const Triggers = lazy(() => import("@/pages/dashboard/Triggers"));
 const Broadcasts = lazy(() => import("@/pages/dashboard/Broadcasts"));
 const Analytics = lazy(() => import("@/pages/dashboard/Analytics"));
 const QuickReplies = lazy(() => import("@/pages/dashboard/QuickReplies"));
@@ -224,6 +226,22 @@ export default function AppRouter() {
               element={
                 <S>
                   <AutoReplies />
+                </S>
+              }
+            />
+            <Route
+              path="/dashboard/knowledge-base"
+              element={
+                <S>
+                  <KnowledgeBase />
+                </S>
+              }
+            />
+            <Route
+              path="/dashboard/triggers"
+              element={
+                <S>
+                  <Triggers />
                 </S>
               }
             />

@@ -110,20 +110,24 @@ function RegisterModal({ onClose, onSave }) {
 
 /* ── QR Modal ────────────────────────────── */
 
-function QrModal({ accountId, onClose, onConnected }) {
+function QrModal({ accountId, force, onClose, onConnected }) {
   const { t } = useTranslation();
   const [qrCode, setQrCode] = useState(null);
   const [status, setStatus] = useState("loading");
   const [error, setError] = useState(null);
   const pollRef = useRef(null);
 
-  useEffect(() => {
-    let cancelled = false;
+  const startConnect = useCallback(
+    async (forceNew) => {
+      setStatus("loading");
+      setQrCode(null);
+      setError(null);
 
-    const initConnect = async () => {
       try {
-        const res = await api.post(`/whatsapp/accounts/${accountId}/connect`);
-        if (cancelled) return;
+        const qs = forceNew ? "?force=true" : "";
+        const res = await api.post(
+          `/whatsapp/accounts/${accountId}/connect${qs}`,
+        );
 
         if (res.data.status === "connected") {
           setStatus("connected");
@@ -134,7 +138,7 @@ function QrModal({ accountId, onClose, onConnected }) {
         setQrCode(res.data.qrCode);
         setStatus("pending");
 
-        // Poll for connection status
+        // Poll for connection status + fresh QR codes
         pollRef.current = setInterval(async () => {
           try {
             const statusRes = await api.get(
@@ -155,20 +159,24 @@ function QrModal({ accountId, onClose, onConnected }) {
           }
         }, 3000);
       } catch (err) {
-        if (!cancelled) {
-          setError(err.message);
-          setStatus("error");
-        }
+        setError(err.message);
+        setStatus("error");
       }
-    };
+    },
+    [accountId, onConnected],
+  );
 
-    initConnect();
-
+  useEffect(() => {
+    startConnect(force);
     return () => {
-      cancelled = true;
       if (pollRef.current) clearInterval(pollRef.current);
     };
-  }, [accountId, onConnected]);
+  }, []);
+
+  const handleRefreshQr = () => {
+    if (pollRef.current) clearInterval(pollRef.current);
+    startConnect(true);
+  };
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
@@ -203,15 +211,29 @@ function QrModal({ accountId, onClose, onConnected }) {
               <HiOutlineArrowPath className="h-3.5 w-3.5 animate-spin" />
               {t("dashboard.whatsapp.waitingConnection")}
             </div>
+            <button
+              onClick={handleRefreshQr}
+              className="inline-flex items-center gap-1.5 rounded-lg border border-[var(--color-border)] px-3 py-1.5 text-xs text-[var(--color-text-secondary)] hover:bg-[var(--color-bg-secondary)]"
+            >
+              <HiOutlineArrowPath className="h-3.5 w-3.5" />
+              {t("dashboard.whatsapp.refreshQr")}
+            </button>
           </div>
         )}
 
         {status === "pending" && !qrCode && (
-          <div className="py-8">
+          <div className="space-y-3 py-8">
             <HiOutlineQrCode className="mx-auto mb-2 h-12 w-12 text-[var(--color-text-tertiary)]" />
             <p className="text-sm text-[var(--color-text-secondary)]">
               {t("dashboard.whatsapp.qrTimeout")}
             </p>
+            <button
+              onClick={handleRefreshQr}
+              className="inline-flex items-center gap-1.5 rounded-lg bg-[var(--color-primary)] px-4 py-2 text-sm text-white hover:opacity-90"
+            >
+              <HiOutlineArrowPath className="h-4 w-4" />
+              {t("dashboard.whatsapp.refreshQr")}
+            </button>
           </div>
         )}
 
@@ -223,8 +245,15 @@ function QrModal({ accountId, onClose, onConnected }) {
         )}
 
         {status === "error" && (
-          <div className="py-8 text-red-500">
+          <div className="space-y-3 py-8 text-red-500">
             <p className="text-sm">{error}</p>
+            <button
+              onClick={handleRefreshQr}
+              className="inline-flex items-center gap-1.5 rounded-lg bg-[var(--color-primary)] px-4 py-2 text-sm text-white hover:opacity-90"
+            >
+              <HiOutlineArrowPath className="h-4 w-4" />
+              {t("dashboard.whatsapp.refreshQr")}
+            </button>
           </div>
         )}
       </div>
@@ -234,7 +263,13 @@ function QrModal({ accountId, onClose, onConnected }) {
 
 /* ── Account Card ────────────────────────── */
 
-function AccountCard({ account, onConnect, onDisconnect, onDelete }) {
+function AccountCard({
+  account,
+  onConnect,
+  onForceConnect,
+  onDisconnect,
+  onDelete,
+}) {
   const { t } = useTranslation();
   const status = account.liveStatus || account.status;
   const isConnected = status === "connected";
@@ -270,15 +305,25 @@ function AccountCard({ account, onConnect, onDisconnect, onDelete }) {
         </div>
       </div>
 
-      <div className="flex gap-2">
+      <div className="flex flex-wrap gap-2">
         {!isConnected && status !== "banned" && (
-          <button
-            onClick={() => onConnect(account.id)}
-            className="inline-flex items-center gap-1.5 rounded-lg bg-[var(--color-primary)] px-3 py-2 text-sm text-white hover:opacity-90"
-          >
-            <HiOutlineSignal className="h-4 w-4" />
-            {t("dashboard.whatsapp.connect")}
-          </button>
+          <>
+            <button
+              onClick={() => onConnect(account.id)}
+              className="inline-flex items-center gap-1.5 rounded-lg bg-[var(--color-primary)] px-3 py-2 text-sm text-white hover:opacity-90"
+            >
+              <HiOutlineSignal className="h-4 w-4" />
+              {t("dashboard.whatsapp.connect")}
+            </button>
+            <button
+              onClick={() => onForceConnect(account.id)}
+              className="inline-flex items-center gap-1.5 rounded-lg border border-[var(--color-border)] px-3 py-2 text-sm text-[var(--color-text-secondary)] hover:bg-[var(--color-bg-secondary)]"
+              title={t("dashboard.whatsapp.forceReconnectHint")}
+            >
+              <HiOutlineArrowPath className="h-4 w-4" />
+              {t("dashboard.whatsapp.forceReconnect")}
+            </button>
+          </>
         )}
         {isConnected && (
           <button
@@ -309,6 +354,7 @@ export default function WhatsApp() {
   const [loading, setLoading] = useState(true);
   const [showRegister, setShowRegister] = useState(false);
   const [connectId, setConnectId] = useState(null);
+  const [forceConnect, setForceConnect] = useState(false);
 
   const isSuperAdmin = profile?.role === "super_admin";
   const maxAccounts = organization?.max_whatsapp_numbers || 1;
@@ -339,7 +385,7 @@ export default function WhatsApp() {
   };
 
   const handleDelete = async (id) => {
-    if (!confirm(t("dashboard.whatsapp.confirmDelete"))) return;
+    if (!confirm(t("dashboard.whatsapp.confirmDeletePreserve"))) return;
     try {
       await api.delete(`/whatsapp/accounts/${id}`);
       fetchAccounts();
@@ -409,7 +455,14 @@ export default function WhatsApp() {
             <AccountCard
               key={account.id}
               account={account}
-              onConnect={(id) => setConnectId(id)}
+              onConnect={(id) => {
+                setForceConnect(false);
+                setConnectId(id);
+              }}
+              onForceConnect={(id) => {
+                setForceConnect(true);
+                setConnectId(id);
+              }}
               onDisconnect={handleDisconnect}
               onDelete={handleDelete}
             />
@@ -432,9 +485,14 @@ export default function WhatsApp() {
       {connectId && (
         <QrModal
           accountId={connectId}
-          onClose={() => setConnectId(null)}
+          force={forceConnect}
+          onClose={() => {
+            setConnectId(null);
+            setForceConnect(false);
+          }}
           onConnected={() => {
             setConnectId(null);
+            setForceConnect(false);
             fetchAccounts();
           }}
         />

@@ -33,6 +33,8 @@ const createAgent = Joi.object({
   configuration: Joi.object({
     temperature: Joi.number().min(0).max(2),
     max_tokens: Joi.number().integer().min(64).max(4096),
+    automation_mode: Joi.boolean(),
+    vendor_style: Joi.boolean(),
   }).default({}),
 });
 
@@ -51,6 +53,8 @@ const updateAgent = Joi.object({
   configuration: Joi.object({
     temperature: Joi.number().min(0).max(2),
     max_tokens: Joi.number().integer().min(64).max(4096),
+    automation_mode: Joi.boolean(),
+    vendor_style: Joi.boolean(),
   }),
 }).min(1);
 

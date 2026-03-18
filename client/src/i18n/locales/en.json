@@ -220,7 +220,8 @@
       "submit": "Sign In",
       "forgotPassword": "Forgot password?",
       "noAccount": "Don't have an account?",
-      "signUpLink": "Sign up"
+      "signUpLink": "Sign up",
+      "emailNotConfirmed": "Please confirm your email before signing in. Check your inbox."
     },
     "signUp": {
       "title": "Create Your Account",
@@ -243,6 +244,28 @@
       "success": "Password reset link sent to your email."
     }
   },
+  "onboarding": {
+    "welcome": "Welcome to ChatDesk",
+    "setupMessage": "Your account is being set up. Please share your business details so we can configure everything for you.",
+    "businessName": "Business Name",
+    "phone": "Phone Number",
+    "businessType": "Type of Business",
+    "country": "Country",
+    "selectType": "Select type...",
+    "submit": "Submit Information",
+    "thankYou": "Thank you!",
+    "submittedMessage": "We've received your information. Our team will set up your organization and contact you shortly.",
+    "types": {
+      "retail": "Retail / E-commerce",
+      "services": "Services",
+      "food": "Food & Restaurant",
+      "health": "Health & Wellness",
+      "education": "Education",
+      "realEstate": "Real Estate",
+      "logistics": "Logistics & Delivery",
+      "other": "Other"
+    }
+  },
   "dashboard": {
     "sidebar": {
       "overview": "Overview",
@@ -252,6 +275,8 @@
       "whatsapp": "WhatsApp",
       "aiAgents": "AI Agents",
       "autoReplies": "Auto-Replies",
+      "knowledgeBase": "Knowledge Base",
+      "triggers": "Triggers",
       "broadcasts": "Broadcasts",
       "analytics": "Analytics",
       "quickReplies": "Quick Replies",
@@ -294,7 +319,8 @@
       "aiAgent": "AI Agent",
       "notes": "Notes",
       "addNote": "Add a note...",
-      "contactInfo": "Contact Info"
+      "contactInfo": "Contact Info",
+      "attachFile": "Attach file"
     },
     "contacts": {
       "title": "Contacts",
@@ -365,8 +391,12 @@
       "noAccounts": "No WhatsApp accounts",
       "noAccountsHint": "Connect your first WhatsApp number to get started.",
       "confirmDelete": "Are you sure you want to delete this account?",
+      "confirmDeletePreserve": "Delete this WhatsApp account? Your conversations and messages will be preserved.",
       "deleteAccount": "Delete account",
-      "lastConnected": "Last connected"
+      "lastConnected": "Last connected",
+      "forceReconnect": "New QR",
+      "forceReconnectHint": "Generate a fresh QR code (use when normal connect fails)",
+      "refreshQr": "Refresh QR Code"
     },
     "aiAgents": {
       "title": "AI Agents",
@@ -395,7 +425,81 @@
       "marketing": "Marketing",
       "followUp": "Follow-up",
       "support": "Support",
-      "custom": "Custom"
+      "custom": "Custom",
+      "automationMode": "Full Automation Mode",
+      "automationModeHint": "Agent handles all conversations independently without human intervention.",
+      "vendorStyle": "Vendor-Style Behavior",
+      "vendorStyleHint": "Agent acts as a business owner — warm, personal, proactively suggests products."
+    },
+    "knowledgeBase": {
+      "pageTitle": "Knowledge Base",
+      "pageSubtitle": "Add information your AI agents can use to answer questions accurately.",
+      "createEntry": "Add Entry",
+      "editEntry": "Edit Entry",
+      "title_": "Title",
+      "titleHint": "e.g. Pricing Information, Return Policy",
+      "content": "Content",
+      "contentHint": "Add the information the AI agent should know about...",
+      "agent": "AI Agent",
+      "allAgents": "All Agents (shared)",
+      "agentHint": "Leave empty to share with all agents, or select a specific one.",
+      "active": "Active",
+      "inactive": "Inactive",
+      "cancel": "Cancel",
+      "save": "Save",
+      "noEntries": "No knowledge base entries yet",
+      "noEntriesHint": "Add information to help your AI agents answer customer questions.",
+      "confirmDelete": "Are you sure you want to delete this entry?"
+    },
+    "triggers": {
+      "pageTitle": "AI Triggers",
+      "pageSubtitle": "Automate actions based on message content, customer classification, or events.",
+      "createTrigger": "Create Trigger",
+      "editTrigger": "Edit Trigger",
+      "name": "Trigger Name",
+      "description": "Description",
+      "triggerType": "When",
+      "actionType": "Then",
+      "agent": "AI Agent",
+      "anyAgent": "Any Agent",
+      "keywords": "Keywords",
+      "keywordsHint": "Comma-separated, e.g. price, cost, how much",
+      "intentDescription": "Intent Description",
+      "intentHint": "Describe the intent to match, e.g. Customer wants to buy a product",
+      "classificationValue": "Contact Classification",
+      "selectClassification": "Select classification…",
+      "assignTo": "Assign To Agent",
+      "selectAgent": "Select agent…",
+      "messageTemplate": "Message Template",
+      "messageHint": "Message to send when trigger fires…",
+      "classifyAs": "Classify Contact As",
+      "tagName": "Tag Name",
+      "tagHint": "Tag to apply to the contact",
+      "priority": "Priority",
+      "priorityHint": "Higher priority triggers are evaluated first.",
+      "active": "Active",
+      "inactive": "Inactive",
+      "cancel": "Cancel",
+      "save": "Save",
+      "noTriggers": "No triggers yet",
+      "noTriggersHint": "Create your first trigger to automate actions on incoming messages.",
+      "confirmDelete": "Are you sure you want to delete this trigger?",
+      "upgradeRequired": "Upgrade to Growth plan or above for triggers.",
+      "types": {
+        "keyword": "Keyword Match",
+        "intent": "Intent Detection",
+        "classification": "Contact Classification",
+        "new_contact": "New Contact",
+        "no_response": "No Response",
+        "schedule": "Scheduled"
+      },
+      "actions": {
+        "assign_agent": "Assign AI Agent",
+        "send_message": "Send Message",
+        "notify_team": "Notify Team",
+        "classify": "Classify Contact",
+        "tag_contact": "Tag Contact"
+      }
     },
     "autoReplies": {
       "title": "Auto-Reply Rules",

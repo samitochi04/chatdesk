@@ -10,6 +10,8 @@ import {
   HiOutlineDevicePhoneMobile,
   HiOutlineCpuChip,
   HiOutlineBolt,
+  HiOutlineBookOpen,
+  HiOutlineAdjustmentsHorizontal,
   HiOutlineMegaphone,
   HiOutlineChartBar,
   HiOutlineChatBubbleBottomCenterText,
@@ -56,6 +58,18 @@ const getNavItems = (t) => [
     to: "/dashboard/auto-replies",
     icon: HiOutlineBolt,
     label: t("dashboard.sidebar.autoReplies"),
+  },
+  {
+    to: "/dashboard/knowledge-base",
+    icon: HiOutlineBookOpen,
+    label: t("dashboard.sidebar.knowledgeBase"),
+    plan: "growth",
+  },
+  {
+    to: "/dashboard/triggers",
+    icon: HiOutlineAdjustmentsHorizontal,
+    label: t("dashboard.sidebar.triggers"),
+    plan: "growth",
   },
   {
     to: "/dashboard/broadcasts",

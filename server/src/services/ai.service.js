@@ -32,6 +32,110 @@ async function chatCompletion(messages, opts = {}) {
 }
 
 /* ------------------------------------------------------------------ */
+/*  Knowledge Base Loader                                              */
+/* ------------------------------------------------------------------ */
+
+/**
+ * Load active knowledge base entries for an AI agent (and org-wide ones).
+ * Returns concatenated text to inject into the system prompt.
+ */
+async function loadKnowledgeBase(orgId, agentId) {
+  const { data: entries } = await supabaseAdmin
+    .from("ai_knowledge_base")
+    .select("title, content")
+    .eq("organization_id", orgId)
+    .eq("is_active", true)
+    .or(
+      agentId
+        ? `ai_agent_id.eq.${agentId},ai_agent_id.is.null`
+        : "ai_agent_id.is.null",
+    )
+    .order("created_at", { ascending: true })
+    .limit(20);
+
+  if (!entries || entries.length === 0) return "";
+
+  return entries.map((e) => `### ${e.title}\n${e.content}`).join("\n\n");
+}
+
+/* ------------------------------------------------------------------ */
+/*  Enhanced System Prompt Builder                                     */
+/* ------------------------------------------------------------------ */
+
+/**
+ * Build an enhanced system prompt with knowledge base, business context,
+ * and vendor-like behavior instructions.
+ */
+function buildSystemPrompt(agent, knowledgeBase, orgContext) {
+  const parts = [];
+
+  // Base system prompt from agent config
+  if (agent.system_prompt) {
+    parts.push(agent.system_prompt);
+  }
+
+  // Agent type-specific instructions
+  const typeInstructions = {
+    auto_reply:
+      "You are a helpful customer service assistant. Answer questions accurately and politely. If you cannot answer, let the customer know a team member will follow up.",
+    marketing:
+      "You are a marketing assistant. Engage potential customers, highlight product benefits, and guide them toward a purchase. Be persuasive but not pushy.",
+    follow_up:
+      "You are a follow-up assistant. Re-engage customers who haven't responded, check on their satisfaction, and encourage repeat business.",
+    support:
+      "You are a customer support assistant. Help resolve issues, provide troubleshooting steps, and escalate when needed.",
+    custom: "",
+  };
+
+  if (!agent.system_prompt && typeInstructions[agent.type]) {
+    parts.push(typeInstructions[agent.type]);
+  }
+
+  // Automation mode instructions
+  const agentConfig = agent.configuration || {};
+  if (agentConfig.automation_mode) {
+    parts.push(
+      "IMPORTANT: You are operating in full automation mode. Handle all conversations independently without human intervention. " +
+        "Be confident in your responses. Only indicate you need to escalate if the customer explicitly requests to speak with a human, " +
+        "or if the question is completely outside your knowledge base.",
+    );
+  }
+
+  // Vendor-like behavior
+  if (agentConfig.vendor_style) {
+    parts.push(
+      "Communicate as if you are the business owner or a dedicated vendor representative. " +
+        "Use a warm, personal tone. Remember customer preferences from the conversation. " +
+        "Proactively suggest products or services based on the conversation context.",
+    );
+  }
+
+  // Organization context
+  if (orgContext) {
+    parts.push(`\nBusiness Context:\n- Business: ${orgContext.name || "N/A"}`);
+  }
+
+  // Knowledge base content
+  if (knowledgeBase) {
+    parts.push(
+      "\n--- KNOWLEDGE BASE (use this information to answer questions) ---\n" +
+        knowledgeBase +
+        "\n--- END KNOWLEDGE BASE ---",
+    );
+  }
+
+  // Response guidelines
+  parts.push(
+    "\nResponse guidelines:" +
+      "\n- Keep responses concise and WhatsApp-friendly (short paragraphs, use emojis sparingly)." +
+      "\n- If you don't know something, say so honestly rather than making up information." +
+      "\n- Always be respectful and professional.",
+  );
+
+  return parts.join("\n\n");
+}
+
+/* ------------------------------------------------------------------ */
 /*  AI Agent Conversation                                              */
 /* ------------------------------------------------------------------ */
 
@@ -39,9 +143,11 @@ async function chatCompletion(messages, opts = {}) {
  * Handle an incoming message for an AI-assigned conversation.
  *
  * 1. Load the AI agent's system prompt + config
- * 2. Fetch recent conversation history
- * 3. Send to OpenAI
- * 4. Return the AI reply text (caller is responsible for sending via WA + storing)
+ * 2. Load knowledge base content
+ * 3. Fetch recent conversation history
+ * 4. Build enhanced system prompt
+ * 5. Send to OpenAI
+ * 6. Return the AI reply text (caller is responsible for sending via WA + storing)
  */
 async function handleAIConversation(conversation, incomingContent) {
   const agentId = conversation.ai_agent_id;
@@ -59,20 +165,34 @@ async function handleAIConversation(conversation, incomingContent) {
     return null;
   }
 
-  // Fetch recent message history (last 20 messages for context window)
+  const orgId = conversation.organization_id;
+
+  // Load knowledge base
+  const knowledgeBase = await loadKnowledgeBase(orgId, agentId);
+
+  // Load org context
+  let orgContext = null;
+  const { data: org } = await supabaseAdmin
+    .from("organizations")
+    .select("name")
+    .eq("id", orgId)
+    .single();
+  if (org) orgContext = org;
+
+  // Fetch recent message history (last 30 messages for better context window)
   const { data: history } = await supabaseAdmin
     .from("messages")
     .select("sender_type, content, created_at")
     .eq("conversation_id", conversation.id)
     .order("created_at", { ascending: true })
-    .limit(20);
+    .limit(30);
 
   // Build messages array
   const messages = [];
 
-  if (agent.system_prompt) {
-    messages.push({ role: "system", content: agent.system_prompt });
-  }
+  // Enhanced system prompt
+  const systemPrompt = buildSystemPrompt(agent, knowledgeBase, orgContext);
+  messages.push({ role: "system", content: systemPrompt });
 
   // Map DB messages to OpenAI roles
   if (history) {
@@ -101,6 +221,223 @@ async function handleAIConversation(conversation, incomingContent) {
   } catch (err) {
     logger.error(`OpenAI error for agent ${agent.name}: ${err.message}`);
     return null;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/*  Trigger Evaluation                                                 */
+/* ------------------------------------------------------------------ */
+
+/**
+ * Evaluate AI triggers for an incoming message.
+ * Returns matching triggers sorted by priority.
+ */
+async function evaluateTriggers(orgId, message, contact, conversation) {
+  const { data: triggers } = await supabaseAdmin
+    .from("ai_triggers")
+    .select("*")
+    .eq("organization_id", orgId)
+    .eq("is_active", true)
+    .order("priority", { ascending: false });
+
+  if (!triggers || triggers.length === 0) return [];
+
+  const matched = [];
+  const messageText = (message.body || "").toLowerCase().trim();
+
+  for (const trigger of triggers) {
+    const conditions = trigger.conditions || {};
+
+    switch (trigger.trigger_type) {
+      case "keyword": {
+        const keywords = conditions.keywords || [];
+        const matchMode = conditions.match || "any";
+        const keywordMatched =
+          matchMode === "all"
+            ? keywords.every((kw) => messageText.includes(kw.toLowerCase()))
+            : keywords.some((kw) => messageText.includes(kw.toLowerCase()));
+        if (keywordMatched) matched.push(trigger);
+        break;
+      }
+
+      case "classification": {
+        const classifications = conditions.classifications || [];
+        if (
+          contact?.classification &&
+          classifications.includes(contact.classification)
+        ) {
+          matched.push(trigger);
+        }
+        break;
+      }
+
+      case "new_contact": {
+        // Check if the contact was just created (within last 60 seconds)
+        if (contact?.created_at) {
+          const created = new Date(contact.created_at);
+          const now = new Date();
+          if (now - created < 60000) {
+            matched.push(trigger);
+          }
+        }
+        break;
+      }
+
+      case "intent": {
+        // Intent detection via keywords that suggest purchase intent
+        const intentKeywords = {
+          purchase_intent: [
+            "buy",
+            "order",
+            "purchase",
+            "price",
+            "cost",
+            "how much",
+            "payment",
+            "pay",
+          ],
+          complaint: [
+            "problem",
+            "issue",
+            "broken",
+            "not working",
+            "refund",
+            "complaint",
+            "unhappy",
+          ],
+          inquiry: [
+            "available",
+            "do you have",
+            "tell me about",
+            "information",
+            "details",
+          ],
+        };
+
+        const intents = conditions.intents || [];
+        for (const intent of intents) {
+          const keywords = intentKeywords[intent] || [];
+          if (keywords.some((kw) => messageText.includes(kw))) {
+            matched.push(trigger);
+            break;
+          }
+        }
+        break;
+      }
+
+      // no_response and schedule triggers are handled by a separate scheduler, not here
+      default:
+        break;
+    }
+  }
+
+  return matched;
+}
+
+/**
+ * Execute a matched trigger's action.
+ */
+async function executeTriggerAction(trigger, context) {
+  const { orgId, contact, conversation } = context;
+  const actionConfig = trigger.action_config || {};
+
+  try {
+    switch (trigger.action_type) {
+      case "assign_agent": {
+        if (actionConfig.agent_id && conversation) {
+          await supabaseAdmin
+            .from("conversations")
+            .update({
+              ai_agent_id: actionConfig.agent_id,
+              is_ai_handled: true,
+            })
+            .eq("id", conversation.id);
+          logger.info(
+            `Trigger "${trigger.name}": assigned agent ${actionConfig.agent_id} to conv ${conversation.id}`,
+          );
+        }
+        break;
+      }
+
+      case "notify_team": {
+        const { data: members } = await supabaseAdmin
+          .from("profiles")
+          .select("id")
+          .eq("organization_id", orgId)
+          .eq("is_active", true);
+
+        if (members && members.length > 0) {
+          const notifications = members.map((m) => ({
+            organization_id: orgId,
+            user_id: m.id,
+            type: "system",
+            title: actionConfig.title || `Trigger: ${trigger.name}`,
+            body: actionConfig.body || null,
+            link: actionConfig.link || null,
+          }));
+          await supabaseAdmin.from("notifications").insert(notifications);
+          logger.info(
+            `Trigger "${trigger.name}": notified ${members.length} team members`,
+          );
+        }
+        break;
+      }
+
+      case "classify": {
+        if (contact) {
+          await classifyContact(orgId, contact.id);
+          logger.info(
+            `Trigger "${trigger.name}": classified contact ${contact.id}`,
+          );
+        }
+        break;
+      }
+
+      case "tag_contact": {
+        if (contact && actionConfig.tag_name) {
+          // Find or create tag
+          let { data: tag } = await supabaseAdmin
+            .from("tags")
+            .select("id")
+            .eq("organization_id", orgId)
+            .eq("name", actionConfig.tag_name)
+            .single();
+
+          if (!tag) {
+            const { data: newTag } = await supabaseAdmin
+              .from("tags")
+              .insert({
+                organization_id: orgId,
+                name: actionConfig.tag_name,
+                color: "#F59E0B",
+              })
+              .select("id")
+              .single();
+            tag = newTag;
+          }
+
+          if (tag) {
+            await supabaseAdmin
+              .from("contact_tags")
+              .upsert(
+                { contact_id: contact.id, tag_id: tag.id },
+                { onConflict: "contact_id,tag_id" },
+              );
+            logger.info(
+              `Trigger "${trigger.name}": tagged contact ${contact.id} with "${actionConfig.tag_name}"`,
+            );
+          }
+        }
+        break;
+      }
+
+      default:
+        break;
+    }
+  } catch (err) {
+    logger.error(
+      `Failed to execute trigger "${trigger.name}" action: ${err.message}`,
+    );
   }
 }
 
@@ -414,4 +751,7 @@ module.exports = {
   handleAIConversation,
   classifyContact,
   runAnalysis,
+  loadKnowledgeBase,
+  evaluateTriggers,
+  executeTriggerAction,
 };

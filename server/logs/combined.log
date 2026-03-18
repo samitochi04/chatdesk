@@ -306,3 +306,1137 @@
 {"level":"info","message":"WhatsApp authenticated for account ca2f87a1-1f79-4ea0-9463-8f9e3979ca40","service":"chatdesk-server","timestamp":"2026-03-15 20:14:21"}
 {"level":"info","message":"WhatsApp ready for account ca2f87a1-1f79-4ea0-9463-8f9e3979ca40 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-15 20:14:21"}
 {"level":"info","message":"SIGINT received — shutting down gracefully","service":"chatdesk-server","timestamp":"2026-03-15 20:53:53"}
+{"level":"info","message":"ChatDesk server running on port 4000 [development]","service":"chatdesk-server","timestamp":"2026-03-18 16:45:37"}
+{"level":"info","message":"No WhatsApp sessions to restore","service":"chatdesk-server","timestamp":"2026-03-18 16:45:37"}
+{"level":"info","message":"Listening for new user signups","service":"chatdesk-server","timestamp":"2026-03-18 16:45:38"}
+{"level":"info","message":"ChatDesk server running on port 4000 [development]","service":"chatdesk-server","timestamp":"2026-03-18 18:40:25"}
+{"level":"info","message":"No WhatsApp sessions to restore","service":"chatdesk-server","timestamp":"2026-03-18 18:40:25"}
+{"level":"info","message":"Listening for new user signups","service":"chatdesk-server","timestamp":"2026-03-18 18:40:25"}
+{"level":"info","message":"ChatDesk server running on port 4000 [development]","service":"chatdesk-server","timestamp":"2026-03-18 18:40:40"}
+{"level":"info","message":"No WhatsApp sessions to restore","service":"chatdesk-server","timestamp":"2026-03-18 18:40:40"}
+{"level":"info","message":"Listening for new user signups","service":"chatdesk-server","timestamp":"2026-03-18 18:40:41"}
+{"level":"info","message":"ChatDesk server running on port 4000 [development]","service":"chatdesk-server","timestamp":"2026-03-18 18:40:45"}
+{"level":"info","message":"No WhatsApp sessions to restore","service":"chatdesk-server","timestamp":"2026-03-18 18:40:45"}
+{"level":"info","message":"Listening for new user signups","service":"chatdesk-server","timestamp":"2026-03-18 18:40:45"}
+{"level":"info","message":"ChatDesk server running on port 4000 [development]","service":"chatdesk-server","timestamp":"2026-03-18 18:40:55"}
+{"level":"info","message":"No WhatsApp sessions to restore","service":"chatdesk-server","timestamp":"2026-03-18 18:40:55"}
+{"level":"info","message":"Listening for new user signups","service":"chatdesk-server","timestamp":"2026-03-18 18:40:55"}
+{"level":"info","message":"ChatDesk server running on port 4000 [development]","service":"chatdesk-server","timestamp":"2026-03-18 18:41:56"}
+{"level":"info","message":"No WhatsApp sessions to restore","service":"chatdesk-server","timestamp":"2026-03-18 18:41:57"}
+{"level":"info","message":"Listening for new user signups","service":"chatdesk-server","timestamp":"2026-03-18 18:41:57"}
+{"level":"info","message":"ChatDesk server running on port 4000 [development]","service":"chatdesk-server","timestamp":"2026-03-18 18:42:05"}
+{"level":"info","message":"No WhatsApp sessions to restore","service":"chatdesk-server","timestamp":"2026-03-18 18:42:06"}
+{"level":"info","message":"Listening for new user signups","service":"chatdesk-server","timestamp":"2026-03-18 18:42:06"}
+{"level":"warn","message":"403 — Account is deactivated","service":"chatdesk-server","timestamp":"2026-03-18 18:49:03"}
+{"level":"warn","message":"403 — Account is deactivated","service":"chatdesk-server","timestamp":"2026-03-18 18:49:03"}
+{"level":"warn","message":"403 — Account is deactivated","service":"chatdesk-server","timestamp":"2026-03-18 18:49:08"}
+{"level":"warn","message":"403 — Account is deactivated","service":"chatdesk-server","timestamp":"2026-03-18 18:49:08"}
+{"level":"warn","message":"403 — Account is deactivated","service":"chatdesk-server","timestamp":"2026-03-18 18:49:34"}
+{"level":"info","message":"ChatDesk server running on port 4000 [development]","service":"chatdesk-server","timestamp":"2026-03-18 18:58:36"}
+{"level":"info","message":"No WhatsApp sessions to restore","service":"chatdesk-server","timestamp":"2026-03-18 18:58:36"}
+{"level":"info","message":"Listening for new user signups","service":"chatdesk-server","timestamp":"2026-03-18 18:58:36"}
+{"level":"info","message":"ChatDesk server running on port 4000 [development]","service":"chatdesk-server","timestamp":"2026-03-18 18:59:42"}
+{"level":"info","message":"No WhatsApp sessions to restore","service":"chatdesk-server","timestamp":"2026-03-18 18:59:43"}
+{"level":"info","message":"Listening for new user signups","service":"chatdesk-server","timestamp":"2026-03-18 18:59:43"}
+{"level":"info","message":"ChatDesk server running on port 4000 [development]","service":"chatdesk-server","timestamp":"2026-03-18 19:00:38"}
+{"level":"info","message":"No WhatsApp sessions to restore","service":"chatdesk-server","timestamp":"2026-03-18 19:00:38"}
+{"level":"info","message":"Listening for new user signups","service":"chatdesk-server","timestamp":"2026-03-18 19:00:38"}
+{"level":"info","message":"ChatDesk server running on port 4000 [development]","service":"chatdesk-server","timestamp":"2026-03-18 19:00:44"}
+{"level":"info","message":"No WhatsApp sessions to restore","service":"chatdesk-server","timestamp":"2026-03-18 19:00:45"}
+{"level":"info","message":"Listening for new user signups","service":"chatdesk-server","timestamp":"2026-03-18 19:00:45"}
+{"level":"info","message":"ChatDesk server running on port 4000 [development]","service":"chatdesk-server","timestamp":"2026-03-18 19:01:00"}
+{"level":"info","message":"No WhatsApp sessions to restore","service":"chatdesk-server","timestamp":"2026-03-18 19:01:00"}
+{"level":"info","message":"Listening for new user signups","service":"chatdesk-server","timestamp":"2026-03-18 19:01:00"}
+{"level":"info","message":"ChatDesk server running on port 4000 [development]","service":"chatdesk-server","timestamp":"2026-03-18 19:01:10"}
+{"level":"info","message":"No WhatsApp sessions to restore","service":"chatdesk-server","timestamp":"2026-03-18 19:01:10"}
+{"level":"info","message":"Listening for new user signups","service":"chatdesk-server","timestamp":"2026-03-18 19:01:10"}
+{"level":"info","message":"ChatDesk server running on port 4000 [development]","service":"chatdesk-server","timestamp":"2026-03-18 19:01:24"}
+{"level":"info","message":"No WhatsApp sessions to restore","service":"chatdesk-server","timestamp":"2026-03-18 19:01:25"}
+{"level":"info","message":"Listening for new user signups","service":"chatdesk-server","timestamp":"2026-03-18 19:01:25"}
+{"level":"info","message":"ChatDesk server running on port 4000 [development]","service":"chatdesk-server","timestamp":"2026-03-18 19:01:39"}
+{"level":"info","message":"No WhatsApp sessions to restore","service":"chatdesk-server","timestamp":"2026-03-18 19:01:40"}
+{"level":"info","message":"Listening for new user signups","service":"chatdesk-server","timestamp":"2026-03-18 19:01:40"}
+{"level":"info","message":"ChatDesk server running on port 4000 [development]","service":"chatdesk-server","timestamp":"2026-03-18 19:02:03"}
+{"level":"info","message":"No WhatsApp sessions to restore","service":"chatdesk-server","timestamp":"2026-03-18 19:02:03"}
+{"level":"info","message":"Listening for new user signups","service":"chatdesk-server","timestamp":"2026-03-18 19:02:03"}
+{"level":"info","message":"ChatDesk server running on port 4000 [development]","service":"chatdesk-server","timestamp":"2026-03-18 19:02:19"}
+{"level":"info","message":"No WhatsApp sessions to restore","service":"chatdesk-server","timestamp":"2026-03-18 19:02:19"}
+{"level":"info","message":"Listening for new user signups","service":"chatdesk-server","timestamp":"2026-03-18 19:02:19"}
+{"level":"info","message":"ChatDesk server running on port 4000 [development]","service":"chatdesk-server","timestamp":"2026-03-18 19:02:26"}
+{"level":"info","message":"No WhatsApp sessions to restore","service":"chatdesk-server","timestamp":"2026-03-18 19:02:26"}
+{"level":"info","message":"Listening for new user signups","service":"chatdesk-server","timestamp":"2026-03-18 19:02:26"}
+{"level":"info","message":"ChatDesk server running on port 4000 [development]","service":"chatdesk-server","timestamp":"2026-03-18 19:02:32"}
+{"level":"info","message":"No WhatsApp sessions to restore","service":"chatdesk-server","timestamp":"2026-03-18 19:02:32"}
+{"level":"info","message":"Listening for new user signups","service":"chatdesk-server","timestamp":"2026-03-18 19:02:32"}
+{"level":"info","message":"ChatDesk server running on port 4000 [development]","service":"chatdesk-server","timestamp":"2026-03-18 19:04:53"}
+{"level":"info","message":"No WhatsApp sessions to restore","service":"chatdesk-server","timestamp":"2026-03-18 19:04:53"}
+{"level":"info","message":"Listening for new user signups","service":"chatdesk-server","timestamp":"2026-03-18 19:04:54"}
+{"level":"warn","message":"Session creation already in progress for 69c3de8e-beda-4b32-8fc9-231fa3c67f30","service":"chatdesk-server","timestamp":"2026-03-18 19:15:20"}
+{"level":"info","message":"QR received for account 69c3de8e-beda-4b32-8fc9-231fa3c67f30","service":"chatdesk-server","timestamp":"2026-03-18 19:15:26"}
+{"level":"info","message":"ChatDesk server running on port 4000 [development]","service":"chatdesk-server","timestamp":"2026-03-18 19:15:33"}
+{"level":"info","message":"Restoring 1 WhatsApp session(s)...","service":"chatdesk-server","timestamp":"2026-03-18 19:15:33"}
+{"level":"info","message":"Listening for new user signups","service":"chatdesk-server","timestamp":"2026-03-18 19:15:34"}
+{"level":"info","message":"QR received for account 69c3de8e-beda-4b32-8fc9-231fa3c67f30","service":"chatdesk-server","timestamp":"2026-03-18 19:15:42"}
+{"level":"info","message":"SIGINT received — shutting down gracefully","service":"chatdesk-server","timestamp":"2026-03-18 19:15:44"}
+{"level":"info","message":"ChatDesk server running on port 4000 [development]","service":"chatdesk-server","timestamp":"2026-03-18 19:15:50"}
+{"level":"info","message":"Restoring 1 WhatsApp session(s)...","service":"chatdesk-server","timestamp":"2026-03-18 19:15:50"}
+{"level":"info","message":"Listening for new user signups","service":"chatdesk-server","timestamp":"2026-03-18 19:15:51"}
+{"level":"info","message":"QR received for account 69c3de8e-beda-4b32-8fc9-231fa3c67f30","service":"chatdesk-server","timestamp":"2026-03-18 19:15:57"}
+{"level":"warn","message":"Session already exists for account 69c3de8e-beda-4b32-8fc9-231fa3c67f30, destroying old one first","service":"chatdesk-server","timestamp":"2026-03-18 19:15:59"}
+{"level":"warn","message":"Session creation already in progress for 69c3de8e-beda-4b32-8fc9-231fa3c67f30","service":"chatdesk-server","timestamp":"2026-03-18 19:15:59"}
+{"level":"info","message":"Session destroyed for account 69c3de8e-beda-4b32-8fc9-231fa3c67f30","service":"chatdesk-server","timestamp":"2026-03-18 19:16:00"}
+{"level":"info","message":"Wiping local session data for 69c3de8e-beda-4b32-8fc9-231fa3c67f30 (force new)","service":"chatdesk-server","timestamp":"2026-03-18 19:16:03"}
+{"level":"info","message":"ChatDesk server running on port 4000 [development]","service":"chatdesk-server","timestamp":"2026-03-18 19:16:06"}
+{"level":"info","message":"Restoring 1 WhatsApp session(s)...","service":"chatdesk-server","timestamp":"2026-03-18 19:16:06"}
+{"level":"info","message":"Listening for new user signups","service":"chatdesk-server","timestamp":"2026-03-18 19:16:07"}
+{"level":"warn","message":"Session creation already in progress for 69c3de8e-beda-4b32-8fc9-231fa3c67f30","service":"chatdesk-server","timestamp":"2026-03-18 19:16:07"}
+{"level":"info","message":"QR received for account 69c3de8e-beda-4b32-8fc9-231fa3c67f30","service":"chatdesk-server","timestamp":"2026-03-18 19:16:14"}
+{"level":"info","message":"ChatDesk server running on port 4000 [development]","service":"chatdesk-server","timestamp":"2026-03-18 19:16:21"}
+{"level":"info","message":"Restoring 1 WhatsApp session(s)...","service":"chatdesk-server","timestamp":"2026-03-18 19:16:21"}
+{"level":"info","message":"Listening for new user signups","service":"chatdesk-server","timestamp":"2026-03-18 19:16:22"}
+{"level":"info","message":"QR received for account 69c3de8e-beda-4b32-8fc9-231fa3c67f30","service":"chatdesk-server","timestamp":"2026-03-18 19:16:32"}
+{"level":"info","message":"ChatDesk server running on port 4000 [development]","service":"chatdesk-server","timestamp":"2026-03-18 19:16:40"}
+{"level":"info","message":"Restoring 1 WhatsApp session(s)...","service":"chatdesk-server","timestamp":"2026-03-18 19:16:41"}
+{"level":"info","message":"Listening for new user signups","service":"chatdesk-server","timestamp":"2026-03-18 19:16:42"}
+{"level":"error","message":"Client init failed for 69c3de8e-beda-4b32-8fc9-231fa3c67f30: Protocol error (Runtime.callFunctionOn): Target closed","service":"chatdesk-server","timestamp":"2026-03-18 19:16:47"}
+{"level":"info","message":"Session destroyed for account 69c3de8e-beda-4b32-8fc9-231fa3c67f30","service":"chatdesk-server","timestamp":"2026-03-18 19:16:49"}
+{"level":"info","message":"ChatDesk server running on port 4000 [development]","service":"chatdesk-server","timestamp":"2026-03-18 19:16:51"}
+{"level":"info","message":"No WhatsApp sessions to restore","service":"chatdesk-server","timestamp":"2026-03-18 19:16:51"}
+{"level":"info","message":"Listening for new user signups","service":"chatdesk-server","timestamp":"2026-03-18 19:16:51"}
+{"level":"warn","message":"Session creation already in progress for 3c7a1512-1d06-4bec-a5a6-b99118890937","service":"chatdesk-server","timestamp":"2026-03-18 19:17:28"}
+{"level":"warn","message":"Session already exists for account 3c7a1512-1d06-4bec-a5a6-b99118890937, destroying old one first","service":"chatdesk-server","timestamp":"2026-03-18 19:17:32"}
+{"level":"error","message":"Client init failed for 3c7a1512-1d06-4bec-a5a6-b99118890937: Protocol error (Runtime.callFunctionOn): Target closed","service":"chatdesk-server","timestamp":"2026-03-18 19:17:32"}
+{"level":"info","message":"Session destroyed for account 3c7a1512-1d06-4bec-a5a6-b99118890937","service":"chatdesk-server","timestamp":"2026-03-18 19:17:34"}
+{"level":"info","message":"Wiping local session data for 3c7a1512-1d06-4bec-a5a6-b99118890937 (force new)","service":"chatdesk-server","timestamp":"2026-03-18 19:17:37"}
+{"level":"info","message":"QR received for account 3c7a1512-1d06-4bec-a5a6-b99118890937","service":"chatdesk-server","timestamp":"2026-03-18 19:17:44"}
+{"level":"info","message":"ChatDesk server running on port 4000 [development]","service":"chatdesk-server","timestamp":"2026-03-18 19:17:51"}
+{"level":"info","message":"Restoring 1 WhatsApp session(s)...","service":"chatdesk-server","timestamp":"2026-03-18 19:17:51"}
+{"level":"info","message":"Listening for new user signups","service":"chatdesk-server","timestamp":"2026-03-18 19:17:52"}
+{"level":"warn","message":"Session creation already in progress for 3c7a1512-1d06-4bec-a5a6-b99118890937","service":"chatdesk-server","timestamp":"2026-03-18 19:17:52"}
+{"level":"info","message":"QR received for account 3c7a1512-1d06-4bec-a5a6-b99118890937","service":"chatdesk-server","timestamp":"2026-03-18 19:18:02"}
+{"level":"info","message":"ChatDesk server running on port 4000 [development]","service":"chatdesk-server","timestamp":"2026-03-18 19:18:10"}
+{"level":"info","message":"Restoring 1 WhatsApp session(s)...","service":"chatdesk-server","timestamp":"2026-03-18 19:18:10"}
+{"level":"info","message":"Listening for new user signups","service":"chatdesk-server","timestamp":"2026-03-18 19:18:11"}
+{"level":"info","message":"ChatDesk server running on port 4000 [development]","service":"chatdesk-server","timestamp":"2026-03-18 19:18:14"}
+{"level":"info","message":"Restoring 1 WhatsApp session(s)...","service":"chatdesk-server","timestamp":"2026-03-18 19:18:14"}
+{"level":"info","message":"Listening for new user signups","service":"chatdesk-server","timestamp":"2026-03-18 19:18:15"}
+{"level":"error","message":"Client init failed for 3c7a1512-1d06-4bec-a5a6-b99118890937: Protocol error (Runtime.callFunctionOn): Target closed","service":"chatdesk-server","timestamp":"2026-03-18 19:18:20"}
+{"level":"info","message":"Session destroyed for account 3c7a1512-1d06-4bec-a5a6-b99118890937","service":"chatdesk-server","timestamp":"2026-03-18 19:18:22"}
+{"level":"warn","message":"Session creation already in progress for 8d9274e6-e515-49c5-807f-4cc899a5ebfc","service":"chatdesk-server","timestamp":"2026-03-18 19:19:16"}
+{"level":"warn","message":"Session already exists for account 8d9274e6-e515-49c5-807f-4cc899a5ebfc, destroying old one first","service":"chatdesk-server","timestamp":"2026-03-18 19:19:19"}
+{"level":"error","message":"Client init failed for 8d9274e6-e515-49c5-807f-4cc899a5ebfc: Protocol error (Runtime.callFunctionOn): Target closed","service":"chatdesk-server","timestamp":"2026-03-18 19:19:19"}
+{"level":"info","message":"Session destroyed for account 8d9274e6-e515-49c5-807f-4cc899a5ebfc","service":"chatdesk-server","timestamp":"2026-03-18 19:19:21"}
+{"level":"info","message":"Wiping local session data for 8d9274e6-e515-49c5-807f-4cc899a5ebfc (force new)","service":"chatdesk-server","timestamp":"2026-03-18 19:19:24"}
+{"level":"info","message":"QR received for account 8d9274e6-e515-49c5-807f-4cc899a5ebfc","service":"chatdesk-server","timestamp":"2026-03-18 19:19:31"}
+{"level":"info","message":"ChatDesk server running on port 4000 [development]","service":"chatdesk-server","timestamp":"2026-03-18 19:19:38"}
+{"level":"info","message":"Restoring 1 WhatsApp session(s)...","service":"chatdesk-server","timestamp":"2026-03-18 19:19:38"}
+{"level":"info","message":"Listening for new user signups","service":"chatdesk-server","timestamp":"2026-03-18 19:19:39"}
+{"level":"warn","message":"Session creation already in progress for 8d9274e6-e515-49c5-807f-4cc899a5ebfc","service":"chatdesk-server","timestamp":"2026-03-18 19:19:39"}
+{"level":"info","message":"QR received for account 8d9274e6-e515-49c5-807f-4cc899a5ebfc","service":"chatdesk-server","timestamp":"2026-03-18 19:19:48"}
+{"level":"info","message":"SIGINT received — shutting down gracefully","service":"chatdesk-server","timestamp":"2026-03-18 19:19:54"}
+{"level":"info","message":"ChatDesk server running on port 4000 [development]","service":"chatdesk-server","timestamp":"2026-03-18 19:41:40"}
+{"level":"info","message":"Restoring 1 WhatsApp session(s)...","service":"chatdesk-server","timestamp":"2026-03-18 19:41:41"}
+{"level":"info","message":"Listening for new user signups","service":"chatdesk-server","timestamp":"2026-03-18 19:41:41"}
+{"level":"info","message":"QR received for account 8d9274e6-e515-49c5-807f-4cc899a5ebfc","service":"chatdesk-server","timestamp":"2026-03-18 19:41:41"}
+{"level":"warn","message":"Session already exists for account 8d9274e6-e515-49c5-807f-4cc899a5ebfc, destroying old one first","service":"chatdesk-server","timestamp":"2026-03-18 19:42:00"}
+{"level":"info","message":"Session destroyed for account 8d9274e6-e515-49c5-807f-4cc899a5ebfc","service":"chatdesk-server","timestamp":"2026-03-18 19:42:00"}
+{"level":"warn","message":"Session creation already in progress for 8d9274e6-e515-49c5-807f-4cc899a5ebfc","service":"chatdesk-server","timestamp":"2026-03-18 19:42:00"}
+{"level":"info","message":"QR received for account 8d9274e6-e515-49c5-807f-4cc899a5ebfc","service":"chatdesk-server","timestamp":"2026-03-18 19:42:01"}
+{"level":"info","message":"ChatDesk server running on port 4000 [development]","service":"chatdesk-server","timestamp":"2026-03-18 19:42:19"}
+{"level":"info","message":"Restoring 1 WhatsApp session(s)...","service":"chatdesk-server","timestamp":"2026-03-18 19:42:19"}
+{"level":"info","message":"Listening for new user signups","service":"chatdesk-server","timestamp":"2026-03-18 19:42:19"}
+{"level":"info","message":"ChatDesk server running on port 4000 [development]","service":"chatdesk-server","timestamp":"2026-03-18 19:42:30"}
+{"level":"info","message":"Restoring 1 WhatsApp session(s)...","service":"chatdesk-server","timestamp":"2026-03-18 19:42:31"}
+{"level":"info","message":"Listening for new user signups","service":"chatdesk-server","timestamp":"2026-03-18 19:42:31"}
+{"level":"info","message":"QR received for account 8d9274e6-e515-49c5-807f-4cc899a5ebfc","service":"chatdesk-server","timestamp":"2026-03-18 19:42:31"}
+{"level":"warn","message":"WhatsApp disconnected for account 8d9274e6-e515-49c5-807f-4cc899a5ebfc: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 19:43:13"}
+{"level":"info","message":"Scheduling auto-reconnect for 8d9274e6-e515-49c5-807f-4cc899a5ebfc (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 19:43:14"}
+{"level":"info","message":"Auto-reconnect initiated for 8d9274e6-e515-49c5-807f-4cc899a5ebfc (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 19:43:19"}
+{"level":"info","message":"QR received for account 8d9274e6-e515-49c5-807f-4cc899a5ebfc","service":"chatdesk-server","timestamp":"2026-03-18 19:43:20"}
+{"level":"warn","message":"Session already exists for account 8d9274e6-e515-49c5-807f-4cc899a5ebfc, destroying old one first","service":"chatdesk-server","timestamp":"2026-03-18 19:43:51"}
+{"level":"info","message":"Session destroyed for account 8d9274e6-e515-49c5-807f-4cc899a5ebfc","service":"chatdesk-server","timestamp":"2026-03-18 19:43:51"}
+{"level":"warn","message":"Session creation already in progress for 8d9274e6-e515-49c5-807f-4cc899a5ebfc","service":"chatdesk-server","timestamp":"2026-03-18 19:43:51"}
+{"level":"info","message":"QR received for account 8d9274e6-e515-49c5-807f-4cc899a5ebfc","service":"chatdesk-server","timestamp":"2026-03-18 19:43:52"}
+{"level":"info","message":"SIGINT received — shutting down gracefully","service":"chatdesk-server","timestamp":"2026-03-18 19:44:11"}
+{"level":"info","message":"ChatDesk server running on port 4000 [development]","service":"chatdesk-server","timestamp":"2026-03-18 19:51:09"}
+{"level":"info","message":"Restoring 1 WhatsApp session(s)...","service":"chatdesk-server","timestamp":"2026-03-18 19:51:09"}
+{"level":"info","message":"Listening for new user signups","service":"chatdesk-server","timestamp":"2026-03-18 19:51:10"}
+{"level":"info","message":"QR received for account 8d9274e6-e515-49c5-807f-4cc899a5ebfc","service":"chatdesk-server","timestamp":"2026-03-18 19:51:10"}
+{"level":"info","message":"Session destroyed for account 8d9274e6-e515-49c5-807f-4cc899a5ebfc","service":"chatdesk-server","timestamp":"2026-03-18 19:51:17"}
+{"level":"warn","message":"404 — WhatsApp account not found","service":"chatdesk-server","timestamp":"2026-03-18 19:51:18"}
+{"level":"info","message":"SIGINT received — shutting down gracefully","service":"chatdesk-server","timestamp":"2026-03-18 19:51:21"}
+{"level":"info","message":"ChatDesk server running on port 4000 [development]","service":"chatdesk-server","timestamp":"2026-03-18 19:51:25"}
+{"level":"info","message":"No WhatsApp sessions to restore","service":"chatdesk-server","timestamp":"2026-03-18 19:51:25"}
+{"level":"info","message":"Listening for new user signups","service":"chatdesk-server","timestamp":"2026-03-18 19:51:25"}
+{"level":"warn","message":"404 — WhatsApp account not found","service":"chatdesk-server","timestamp":"2026-03-18 19:51:25"}
+{"level":"warn","message":"404 — WhatsApp account not found","service":"chatdesk-server","timestamp":"2026-03-18 19:51:28"}
+{"level":"warn","message":"404 — WhatsApp account not found","service":"chatdesk-server","timestamp":"2026-03-18 19:51:30"}
+{"level":"warn","message":"404 — WhatsApp account not found","service":"chatdesk-server","timestamp":"2026-03-18 19:51:33"}
+{"level":"warn","message":"404 — WhatsApp account not found","service":"chatdesk-server","timestamp":"2026-03-18 19:51:36"}
+{"level":"warn","message":"404 — WhatsApp account not found","service":"chatdesk-server","timestamp":"2026-03-18 19:51:39"}
+{"level":"warn","message":"404 — WhatsApp account not found","service":"chatdesk-server","timestamp":"2026-03-18 19:51:42"}
+{"level":"warn","message":"404 — WhatsApp account not found","service":"chatdesk-server","timestamp":"2026-03-18 19:51:46"}
+{"level":"warn","message":"404 — WhatsApp account not found","service":"chatdesk-server","timestamp":"2026-03-18 19:51:49"}
+{"level":"warn","message":"404 — WhatsApp account not found","service":"chatdesk-server","timestamp":"2026-03-18 19:51:52"}
+{"level":"warn","message":"404 — WhatsApp account not found","service":"chatdesk-server","timestamp":"2026-03-18 19:51:54"}
+{"level":"warn","message":"404 — WhatsApp account not found","service":"chatdesk-server","timestamp":"2026-03-18 19:51:57"}
+{"level":"warn","message":"404 — WhatsApp account not found","service":"chatdesk-server","timestamp":"2026-03-18 19:52:01"}
+{"level":"warn","message":"404 — WhatsApp account not found","service":"chatdesk-server","timestamp":"2026-03-18 19:52:03"}
+{"level":"warn","message":"404 — WhatsApp account not found","service":"chatdesk-server","timestamp":"2026-03-18 19:52:07"}
+{"level":"warn","message":"404 — WhatsApp account not found","service":"chatdesk-server","timestamp":"2026-03-18 19:52:10"}
+{"level":"warn","message":"404 — WhatsApp account not found","service":"chatdesk-server","timestamp":"2026-03-18 19:52:12"}
+{"level":"warn","message":"Session creation already in progress for 454ddfed-3d43-4e60-8cfa-1924834504f3","service":"chatdesk-server","timestamp":"2026-03-18 19:52:13"}
+{"level":"info","message":"QR received for account 454ddfed-3d43-4e60-8cfa-1924834504f3","service":"chatdesk-server","timestamp":"2026-03-18 19:52:14"}
+{"level":"warn","message":"404 — WhatsApp account not found","service":"chatdesk-server","timestamp":"2026-03-18 19:52:15"}
+{"level":"warn","message":"404 — WhatsApp account not found","service":"chatdesk-server","timestamp":"2026-03-18 19:52:18"}
+{"level":"warn","message":"404 — WhatsApp account not found","service":"chatdesk-server","timestamp":"2026-03-18 19:52:21"}
+{"level":"warn","message":"404 — WhatsApp account not found","service":"chatdesk-server","timestamp":"2026-03-18 19:52:24"}
+{"level":"warn","message":"404 — WhatsApp account not found","service":"chatdesk-server","timestamp":"2026-03-18 19:52:27"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: restartRequired (code 515)","service":"chatdesk-server","timestamp":"2026-03-18 19:52:28"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 19:52:28"}
+{"level":"warn","message":"404 — WhatsApp account not found","service":"chatdesk-server","timestamp":"2026-03-18 19:52:30"}
+{"level":"warn","message":"404 — WhatsApp account not found","service":"chatdesk-server","timestamp":"2026-03-18 19:52:33"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 19:52:33"}
+{"level":"warn","message":"404 — WhatsApp account not found","service":"chatdesk-server","timestamp":"2026-03-18 19:52:36"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 19:52:37"}
+{"level":"info","message":"Auto-created contact 28355db3-cfb5-40a2-9f9a-3d867fc7af54 for phone 33764828153 in org 023578ff-1474-4375-9cb0-9b45c915d924","service":"chatdesk-server","timestamp":"2026-03-18 19:52:37"}
+{"level":"error","message":"Failed to create contact for 33764828153: duplicate key value violates unique constraint \"contacts_organization_id_phone_number_key\"","service":"chatdesk-server","timestamp":"2026-03-18 19:52:37"}
+{"level":"error","message":"Error handling message for 454ddfed-3d43-4e60-8cfa-1924834504f3: duplicate key value violates unique constraint \"contacts_organization_id_phone_number_key\"","service":"chatdesk-server","timestamp":"2026-03-18 19:52:37"}
+{"level":"error","message":"Failed to create contact for 33764828153: duplicate key value violates unique constraint \"contacts_organization_id_phone_number_key\"","service":"chatdesk-server","timestamp":"2026-03-18 19:52:37"}
+{"level":"error","message":"Error handling message for 454ddfed-3d43-4e60-8cfa-1924834504f3: duplicate key value violates unique constraint \"contacts_organization_id_phone_number_key\"","service":"chatdesk-server","timestamp":"2026-03-18 19:52:37"}
+{"level":"error","message":"Failed to create contact for 33764828153: duplicate key value violates unique constraint \"contacts_organization_id_phone_number_key\"","service":"chatdesk-server","timestamp":"2026-03-18 19:52:37"}
+{"level":"error","message":"Error handling message for 454ddfed-3d43-4e60-8cfa-1924834504f3: duplicate key value violates unique constraint \"contacts_organization_id_phone_number_key\"","service":"chatdesk-server","timestamp":"2026-03-18 19:52:37"}
+{"level":"info","message":"Created conversation e8315c72-f039-4b29-bff4-8cd5ff0e2102 for contact 28355db3-cfb5-40a2-9f9a-3d867fc7af54","service":"chatdesk-server","timestamp":"2026-03-18 19:52:37"}
+{"level":"info","message":"Created conversation 113081f1-e390-45f8-bc2d-5c7d7c04e90c for contact 28355db3-cfb5-40a2-9f9a-3d867fc7af54","service":"chatdesk-server","timestamp":"2026-03-18 19:52:37"}
+{"level":"info","message":"Created conversation 710a705e-cfdd-4e59-99bc-f17688c0a96e for contact 28355db3-cfb5-40a2-9f9a-3d867fc7af54","service":"chatdesk-server","timestamp":"2026-03-18 19:52:37"}
+{"level":"info","message":"Email sent to temmodaryl317@gmail.com: <74c4374e-0415-a92c-f95f-7df0b6fb1e13@mallgram.org>","service":"chatdesk-server","timestamp":"2026-03-18 19:52:38"}
+{"level":"info","message":"Email sent to temmodaryl317@gmail.com: <856ab86a-e4c6-3489-0460-6899988b60bd@mallgram.org>","service":"chatdesk-server","timestamp":"2026-03-18 19:52:38"}
+{"level":"info","message":"Email sent to temmodaryl317@gmail.com: <a2d64944-2d36-798d-6ebb-90f82008b727@mallgram.org>","service":"chatdesk-server","timestamp":"2026-03-18 19:52:38"}
+{"level":"info","message":"Email sent to temmodaryl317@gmail.com: <af333080-06e2-591f-678e-2f6616b68e4a@mallgram.org>","service":"chatdesk-server","timestamp":"2026-03-18 19:52:38"}
+{"level":"warn","message":"404 — WhatsApp account not found","service":"chatdesk-server","timestamp":"2026-03-18 19:52:39"}
+{"level":"info","message":"Email sent to temmodaryl317@gmail.com: <d2f45f57-4399-e5c7-a4d9-86626f2c455b@mallgram.org>","service":"chatdesk-server","timestamp":"2026-03-18 19:52:39"}
+{"level":"warn","message":"404 — WhatsApp account not found","service":"chatdesk-server","timestamp":"2026-03-18 19:52:42"}
+{"level":"warn","message":"404 — WhatsApp account not found","service":"chatdesk-server","timestamp":"2026-03-18 19:52:45"}
+{"level":"warn","message":"404 — WhatsApp account not found","service":"chatdesk-server","timestamp":"2026-03-18 19:52:48"}
+{"level":"warn","message":"404 — WhatsApp account not found","service":"chatdesk-server","timestamp":"2026-03-18 19:52:51"}
+{"level":"warn","message":"404 — WhatsApp account not found","service":"chatdesk-server","timestamp":"2026-03-18 19:52:54"}
+{"level":"warn","message":"404 — WhatsApp account not found","service":"chatdesk-server","timestamp":"2026-03-18 19:52:57"}
+{"level":"warn","message":"404 — WhatsApp account not found","service":"chatdesk-server","timestamp":"2026-03-18 19:53:00"}
+{"level":"warn","message":"404 — WhatsApp account not found","service":"chatdesk-server","timestamp":"2026-03-18 19:53:03"}
+{"level":"warn","message":"404 — WhatsApp account not found","service":"chatdesk-server","timestamp":"2026-03-18 19:53:06"}
+{"level":"warn","message":"404 — WhatsApp account not found","service":"chatdesk-server","timestamp":"2026-03-18 19:53:09"}
+{"level":"warn","message":"404 — WhatsApp account not found","service":"chatdesk-server","timestamp":"2026-03-18 19:53:12"}
+{"level":"warn","message":"404 — WhatsApp account not found","service":"chatdesk-server","timestamp":"2026-03-18 19:53:15"}
+{"level":"warn","message":"404 — WhatsApp account not found","service":"chatdesk-server","timestamp":"2026-03-18 19:53:18"}
+{"level":"warn","message":"404 — WhatsApp account not found","service":"chatdesk-server","timestamp":"2026-03-18 19:53:21"}
+{"level":"warn","message":"404 — WhatsApp account not found","service":"chatdesk-server","timestamp":"2026-03-18 19:53:24"}
+{"level":"warn","message":"404 — WhatsApp account not found","service":"chatdesk-server","timestamp":"2026-03-18 19:53:27"}
+{"level":"warn","message":"404 — WhatsApp account not found","service":"chatdesk-server","timestamp":"2026-03-18 19:53:30"}
+{"level":"warn","message":"404 — WhatsApp account not found","service":"chatdesk-server","timestamp":"2026-03-18 19:53:33"}
+{"level":"warn","message":"404 — WhatsApp account not found","service":"chatdesk-server","timestamp":"2026-03-18 19:53:36"}
+{"level":"warn","message":"404 — WhatsApp account not found","service":"chatdesk-server","timestamp":"2026-03-18 19:53:40"}
+{"level":"warn","message":"404 — WhatsApp account not found","service":"chatdesk-server","timestamp":"2026-03-18 19:53:42"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 19:53:44"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 19:53:44"}
+{"level":"warn","message":"404 — WhatsApp account not found","service":"chatdesk-server","timestamp":"2026-03-18 19:53:45"}
+{"level":"warn","message":"404 — WhatsApp account not found","service":"chatdesk-server","timestamp":"2026-03-18 19:53:48"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 19:53:49"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 19:53:50"}
+{"level":"warn","message":"404 — WhatsApp account not found","service":"chatdesk-server","timestamp":"2026-03-18 19:53:51"}
+{"level":"warn","message":"404 — WhatsApp account not found","service":"chatdesk-server","timestamp":"2026-03-18 19:53:54"}
+{"level":"warn","message":"404 — WhatsApp account not found","service":"chatdesk-server","timestamp":"2026-03-18 19:53:57"}
+{"level":"warn","message":"404 — WhatsApp account not found","service":"chatdesk-server","timestamp":"2026-03-18 19:54:00"}
+{"level":"warn","message":"404 — WhatsApp account not found","service":"chatdesk-server","timestamp":"2026-03-18 19:54:03"}
+{"level":"warn","message":"404 — WhatsApp account not found","service":"chatdesk-server","timestamp":"2026-03-18 19:54:06"}
+{"level":"warn","message":"404 — WhatsApp account not found","service":"chatdesk-server","timestamp":"2026-03-18 19:54:09"}
+{"level":"warn","message":"404 — WhatsApp account not found","service":"chatdesk-server","timestamp":"2026-03-18 19:54:12"}
+{"level":"warn","message":"404 — WhatsApp account not found","service":"chatdesk-server","timestamp":"2026-03-18 19:54:15"}
+{"level":"warn","message":"404 — WhatsApp account not found","service":"chatdesk-server","timestamp":"2026-03-18 19:54:18"}
+{"level":"warn","message":"404 — WhatsApp account not found","service":"chatdesk-server","timestamp":"2026-03-18 19:54:21"}
+{"level":"warn","message":"404 — WhatsApp account not found","service":"chatdesk-server","timestamp":"2026-03-18 19:54:24"}
+{"level":"warn","message":"404 — WhatsApp account not found","service":"chatdesk-server","timestamp":"2026-03-18 19:54:27"}
+{"level":"warn","message":"404 — WhatsApp account not found","service":"chatdesk-server","timestamp":"2026-03-18 19:54:30"}
+{"level":"warn","message":"404 — WhatsApp account not found","service":"chatdesk-server","timestamp":"2026-03-18 19:54:33"}
+{"level":"warn","message":"404 — WhatsApp account not found","service":"chatdesk-server","timestamp":"2026-03-18 19:54:36"}
+{"level":"warn","message":"404 — WhatsApp account not found","service":"chatdesk-server","timestamp":"2026-03-18 19:54:39"}
+{"level":"warn","message":"404 — WhatsApp account not found","service":"chatdesk-server","timestamp":"2026-03-18 19:54:42"}
+{"level":"warn","message":"404 — WhatsApp account not found","service":"chatdesk-server","timestamp":"2026-03-18 19:54:45"}
+{"level":"warn","message":"404 — WhatsApp account not found","service":"chatdesk-server","timestamp":"2026-03-18 19:54:48"}
+{"level":"warn","message":"404 — WhatsApp account not found","service":"chatdesk-server","timestamp":"2026-03-18 19:54:51"}
+{"level":"warn","message":"404 — WhatsApp account not found","service":"chatdesk-server","timestamp":"2026-03-18 19:54:54"}
+{"level":"warn","message":"404 — WhatsApp account not found","service":"chatdesk-server","timestamp":"2026-03-18 19:54:57"}
+{"level":"warn","message":"404 — WhatsApp account not found","service":"chatdesk-server","timestamp":"2026-03-18 19:55:00"}
+{"level":"warn","message":"400 — Validation error","service":"chatdesk-server","timestamp":"2026-03-18 19:55:01"}
+{"level":"warn","message":"404 — WhatsApp account not found","service":"chatdesk-server","timestamp":"2026-03-18 19:55:03"}
+{"level":"warn","message":"404 — WhatsApp account not found","service":"chatdesk-server","timestamp":"2026-03-18 19:55:07"}
+{"level":"warn","message":"400 — Validation error","service":"chatdesk-server","timestamp":"2026-03-18 19:55:07"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 19:55:08"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 19:55:08"}
+{"level":"warn","message":"404 — WhatsApp account not found","service":"chatdesk-server","timestamp":"2026-03-18 19:55:09"}
+{"level":"warn","message":"404 — WhatsApp account not found","service":"chatdesk-server","timestamp":"2026-03-18 19:55:12"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 19:55:13"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 19:55:14"}
+{"level":"warn","message":"404 — WhatsApp account not found","service":"chatdesk-server","timestamp":"2026-03-18 19:55:15"}
+{"level":"warn","message":"404 — WhatsApp account not found","service":"chatdesk-server","timestamp":"2026-03-18 19:55:18"}
+{"level":"warn","message":"404 — WhatsApp account not found","service":"chatdesk-server","timestamp":"2026-03-18 19:55:21"}
+{"level":"warn","message":"404 — WhatsApp account not found","service":"chatdesk-server","timestamp":"2026-03-18 19:55:24"}
+{"level":"warn","message":"404 — WhatsApp account not found","service":"chatdesk-server","timestamp":"2026-03-18 19:55:28"}
+{"level":"warn","message":"404 — WhatsApp account not found","service":"chatdesk-server","timestamp":"2026-03-18 19:55:30"}
+{"level":"warn","message":"404 — WhatsApp account not found","service":"chatdesk-server","timestamp":"2026-03-18 19:55:33"}
+{"level":"warn","message":"404 — WhatsApp account not found","service":"chatdesk-server","timestamp":"2026-03-18 19:55:36"}
+{"level":"warn","message":"404 — WhatsApp account not found","service":"chatdesk-server","timestamp":"2026-03-18 19:55:39"}
+{"level":"warn","message":"404 — WhatsApp account not found","service":"chatdesk-server","timestamp":"2026-03-18 19:55:42"}
+{"level":"warn","message":"404 — WhatsApp account not found","service":"chatdesk-server","timestamp":"2026-03-18 19:55:45"}
+{"level":"warn","message":"404 — WhatsApp account not found","service":"chatdesk-server","timestamp":"2026-03-18 19:55:48"}
+{"level":"warn","message":"404 — WhatsApp account not found","service":"chatdesk-server","timestamp":"2026-03-18 19:55:51"}
+{"level":"warn","message":"404 — WhatsApp account not found","service":"chatdesk-server","timestamp":"2026-03-18 19:55:54"}
+{"level":"warn","message":"404 — WhatsApp account not found","service":"chatdesk-server","timestamp":"2026-03-18 19:55:57"}
+{"level":"warn","message":"404 — WhatsApp account not found","service":"chatdesk-server","timestamp":"2026-03-18 19:56:00"}
+{"level":"warn","message":"404 — WhatsApp account not found","service":"chatdesk-server","timestamp":"2026-03-18 19:56:03"}
+{"level":"warn","message":"404 — WhatsApp account not found","service":"chatdesk-server","timestamp":"2026-03-18 19:56:06"}
+{"level":"warn","message":"404 — WhatsApp account not found","service":"chatdesk-server","timestamp":"2026-03-18 19:56:09"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 19:56:12"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 19:56:12"}
+{"level":"warn","message":"404 — WhatsApp account not found","service":"chatdesk-server","timestamp":"2026-03-18 19:56:12"}
+{"level":"warn","message":"404 — WhatsApp account not found","service":"chatdesk-server","timestamp":"2026-03-18 19:56:15"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 19:56:17"}
+{"level":"warn","message":"404 — WhatsApp account not found","service":"chatdesk-server","timestamp":"2026-03-18 19:56:18"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 19:56:18"}
+{"level":"warn","message":"404 — WhatsApp account not found","service":"chatdesk-server","timestamp":"2026-03-18 19:56:21"}
+{"level":"warn","message":"404 — WhatsApp account not found","service":"chatdesk-server","timestamp":"2026-03-18 19:56:24"}
+{"level":"warn","message":"404 — WhatsApp account not found","service":"chatdesk-server","timestamp":"2026-03-18 19:56:27"}
+{"level":"warn","message":"404 — WhatsApp account not found","service":"chatdesk-server","timestamp":"2026-03-18 19:56:30"}
+{"level":"warn","message":"404 — WhatsApp account not found","service":"chatdesk-server","timestamp":"2026-03-18 19:56:33"}
+{"level":"warn","message":"404 — WhatsApp account not found","service":"chatdesk-server","timestamp":"2026-03-18 19:56:36"}
+{"level":"warn","message":"404 — WhatsApp account not found","service":"chatdesk-server","timestamp":"2026-03-18 19:56:40"}
+{"level":"warn","message":"404 — WhatsApp account not found","service":"chatdesk-server","timestamp":"2026-03-18 19:56:43"}
+{"level":"info","message":"Created conversation a3ffc7ba-c3c2-4f28-91ad-ce487dbcb7c2 for contact 236425d6-aa6d-40db-a030-e5b2d966a10c","service":"chatdesk-server","timestamp":"2026-03-18 19:56:43"}
+{"level":"info","message":"Auto-reply rule \"Reply to customers\" matched for conv a3ffc7ba-c3c2-4f28-91ad-ce487dbcb7c2","service":"chatdesk-server","timestamp":"2026-03-18 19:56:43"}
+{"level":"info","message":"Email sent to temmodaryl317@gmail.com: <7973b07e-b803-6065-1347-7b48c1f22057@mallgram.org>","service":"chatdesk-server","timestamp":"2026-03-18 19:56:44"}
+{"level":"warn","message":"404 — WhatsApp account not found","service":"chatdesk-server","timestamp":"2026-03-18 19:56:45"}
+{"level":"info","message":"AI agent \"Presentation\" replied to conv a3ffc7ba-c3c2-4f28-91ad-ce487dbcb7c2","service":"chatdesk-server","timestamp":"2026-03-18 19:56:48"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 19:57:57"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 19:57:57"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 19:58:03"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 19:58:04"}
+{"level":"info","message":"Email sent to temmodaryl317@gmail.com: <43c7bf51-a9bd-a55f-73d0-a6552a6ecfa6@mallgram.org>","service":"chatdesk-server","timestamp":"2026-03-18 19:58:08"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 19:59:04"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 19:59:04"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 19:59:09"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 19:59:10"}
+{"level":"info","message":"Auto-reply rule \"Price plan detail\" matched for conv a3ffc7ba-c3c2-4f28-91ad-ce487dbcb7c2","service":"chatdesk-server","timestamp":"2026-03-18 19:59:44"}
+{"level":"info","message":"Email sent to temmodaryl317@gmail.com: <4df03483-c451-f238-8881-2f671b751126@mallgram.org>","service":"chatdesk-server","timestamp":"2026-03-18 19:59:44"}
+{"level":"info","message":"AI agent \"Pricing\" replied to conv a3ffc7ba-c3c2-4f28-91ad-ce487dbcb7c2","service":"chatdesk-server","timestamp":"2026-03-18 19:59:48"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 20:00:49"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 20:00:49"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 20:00:54"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 20:00:55"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 20:01:53"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 20:01:53"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 20:01:58"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 20:01:59"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 20:02:56"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 20:02:56"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 20:03:01"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 20:03:03"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 20:04:00"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 20:04:00"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 20:04:05"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 20:04:06"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 20:05:03"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 20:05:04"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 20:05:09"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 20:05:10"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 20:06:07"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 20:06:07"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 20:06:12"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 20:06:13"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 20:07:11"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 20:07:11"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 20:07:16"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 20:07:17"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 20:08:14"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 20:08:15"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 20:08:20"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 20:08:21"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 20:09:18"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 20:09:18"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 20:09:23"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 20:09:24"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 20:10:22"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 20:10:22"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 20:10:27"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 20:10:28"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 20:11:25"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 20:11:25"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 20:11:30"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 20:11:32"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 20:12:29"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 20:12:29"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 20:12:34"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 20:12:35"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 20:13:32"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 20:13:32"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 20:13:38"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 20:13:38"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 20:14:36"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 20:14:36"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 20:14:41"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 20:14:43"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 20:15:40"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 20:15:40"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 20:15:45"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 20:15:47"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 20:16:44"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 20:16:44"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 20:16:50"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 20:16:51"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 20:17:48"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 20:17:48"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 20:17:54"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 20:17:55"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 20:18:52"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 20:18:53"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 20:18:58"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 20:18:59"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 20:19:56"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 20:19:57"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 20:20:02"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 20:20:03"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 20:21:00"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 20:21:01"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 20:21:06"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 20:21:07"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 20:22:04"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 20:22:04"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 20:22:09"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 20:22:11"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 20:23:08"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 20:23:09"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 20:23:14"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 20:23:15"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 20:24:12"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 20:24:13"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 20:24:18"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 20:24:19"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 20:25:17"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 20:25:17"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 20:25:22"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 20:25:23"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 20:26:21"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 20:26:21"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 20:26:26"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 20:26:27"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 20:27:24"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 20:27:24"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 20:27:30"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 20:27:30"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 20:28:28"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 20:28:28"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 20:28:33"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 20:28:35"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 20:29:32"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 20:29:32"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 20:29:37"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 20:29:38"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 20:30:35"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 20:30:35"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 20:30:40"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 20:30:42"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 20:31:39"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 20:31:39"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 20:31:44"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 20:31:45"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 20:32:43"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 20:32:43"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 20:32:48"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 20:32:49"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 20:33:46"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 20:33:46"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 20:33:51"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 20:33:52"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 20:34:50"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 20:34:50"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 20:34:56"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 20:34:57"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 20:35:54"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 20:35:54"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 20:36:00"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 20:36:01"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 20:36:58"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 20:36:58"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 20:37:03"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 20:37:04"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 20:38:02"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 20:38:02"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 20:38:07"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 20:38:08"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 20:39:05"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 20:39:05"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 20:39:11"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 20:39:11"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 20:40:09"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 20:40:09"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 20:40:14"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 20:40:15"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 20:41:13"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 20:41:13"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 20:41:18"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 20:41:19"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 20:42:16"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 20:42:16"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 20:42:22"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 20:42:23"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 20:43:20"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 20:43:21"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 20:43:26"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 20:43:27"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 20:44:24"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 20:44:24"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 20:44:30"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 20:44:30"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 20:45:28"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 20:45:28"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 20:45:33"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 20:45:35"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 20:46:32"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 20:46:32"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 20:46:37"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 20:46:38"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 20:47:36"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 20:47:36"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 20:47:41"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 20:47:42"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 20:48:39"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 20:48:40"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 20:48:45"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 20:48:46"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 20:49:43"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 20:49:43"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 20:49:48"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 20:49:49"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 20:50:47"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 20:50:47"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 20:50:52"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 20:50:53"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 20:51:50"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 20:51:50"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 20:51:55"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 20:51:56"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 20:52:53"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 20:52:54"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 20:52:59"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 20:53:00"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 20:53:57"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 20:53:57"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 20:54:02"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 20:54:03"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 20:55:01"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 20:55:01"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 20:55:06"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 20:55:07"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 20:56:05"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 20:56:05"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 20:56:10"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 20:56:12"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 20:57:10"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 20:57:10"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 20:57:15"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 20:57:16"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 20:58:14"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 20:58:14"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 20:58:19"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 20:58:20"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 20:59:17"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 20:59:18"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 20:59:23"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 20:59:24"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 21:00:21"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 21:00:21"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 21:00:27"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 21:00:28"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 21:01:25"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 21:01:25"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 21:01:30"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 21:01:31"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 21:02:29"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 21:02:29"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 21:02:34"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 21:02:35"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 21:03:32"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 21:03:32"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 21:03:38"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 21:03:39"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 21:04:36"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 21:04:36"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 21:04:42"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 21:04:43"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 21:05:40"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 21:05:40"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 21:05:46"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 21:05:47"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 21:06:44"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 21:06:45"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 21:06:50"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 21:06:51"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 21:07:48"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 21:07:48"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 21:07:54"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 21:07:55"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 21:08:52"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 21:08:53"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 21:08:58"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 21:09:00"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 21:09:58"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 21:09:58"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 21:10:03"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 21:10:04"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 21:11:02"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 21:11:02"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 21:11:07"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 21:11:08"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 21:12:05"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 21:12:05"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 21:12:11"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 21:12:12"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 21:13:09"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 21:13:09"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 21:13:15"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 21:13:16"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 21:14:13"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 21:14:14"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 21:14:19"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 21:14:20"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 21:15:18"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 21:15:18"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 21:15:23"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 21:15:25"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 21:16:22"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 21:16:22"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 21:16:27"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 21:16:28"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 21:17:26"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 21:17:26"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 21:17:31"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 21:17:32"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 21:18:29"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 21:18:30"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 21:18:35"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 21:18:36"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 21:19:33"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 21:19:33"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 21:19:38"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 21:19:40"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 21:20:37"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 21:20:38"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 21:20:43"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 21:20:44"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 21:21:42"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 21:21:42"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 21:21:47"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 21:21:48"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 21:22:46"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 21:22:46"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 21:22:51"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 21:22:52"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 21:23:50"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 21:23:50"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 21:23:55"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 21:23:57"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 21:24:54"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 21:24:54"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 21:25:00"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 21:25:01"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 21:25:58"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 21:25:58"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 21:26:04"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 21:26:05"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 21:27:02"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 21:27:03"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 21:27:08"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 21:27:09"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 21:28:07"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 21:28:07"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 21:28:12"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 21:28:13"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 21:29:10"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 21:29:10"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 21:29:16"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 21:29:17"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 21:30:14"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 21:30:15"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 21:30:20"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 21:30:21"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 21:31:18"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 21:31:19"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 21:31:24"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 21:31:25"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 21:32:22"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 21:32:22"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 21:32:27"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 21:32:29"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 21:33:26"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 21:33:26"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 21:33:32"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 21:33:33"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 21:34:27"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 21:34:27"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 21:34:32"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 21:34:33"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 21:35:31"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 21:35:31"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 21:35:36"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 21:35:37"}
+{"level":"info","message":"Listening for new user signups","service":"chatdesk-server","timestamp":"2026-03-18 21:35:37"}
+{"level":"info","message":"Listening for new user signups","service":"chatdesk-server","timestamp":"2026-03-18 21:36:04"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 21:36:35"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 21:36:35"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 21:36:40"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 21:36:41"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 21:37:39"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 21:37:39"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 21:37:44"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 21:37:45"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 21:38:42"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 21:38:43"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 21:38:48"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 21:38:49"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 21:39:47"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 21:39:47"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 21:39:52"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 21:39:53"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 21:40:50"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 21:40:51"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 21:40:56"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 21:40:57"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 21:41:54"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 21:41:55"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 21:42:00"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 21:42:01"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 21:42:58"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 21:42:58"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 21:43:04"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 21:43:05"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 21:44:02"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 21:44:02"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 21:44:07"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 21:44:09"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 21:45:06"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 21:45:07"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 21:45:13"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 21:45:14"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 21:46:11"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 21:46:11"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 21:46:17"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 21:46:18"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 21:47:15"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 21:47:15"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 21:47:20"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 21:47:21"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 21:48:19"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 21:48:19"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 21:48:24"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 21:48:25"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 21:49:23"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 21:49:23"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 21:49:28"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 21:49:29"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 21:50:26"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 21:50:26"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 21:50:32"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 21:50:33"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 21:51:30"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 21:51:30"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 21:51:36"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 21:51:37"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 21:52:34"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 21:52:34"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 21:52:39"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 21:52:40"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 21:53:38"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 21:53:38"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 21:53:44"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 21:53:45"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 21:54:42"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 21:54:42"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 21:54:47"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 21:54:48"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 21:55:46"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 21:55:46"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 21:55:51"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 21:55:52"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 21:56:49"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 21:56:50"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 21:56:55"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 21:56:56"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 21:57:54"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 21:57:54"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 21:57:59"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 21:58:00"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 21:58:58"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 21:58:58"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 21:59:03"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 21:59:04"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 22:00:02"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 22:00:02"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 22:00:07"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 22:00:08"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 22:01:05"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 22:01:05"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 22:01:11"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 22:01:12"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 22:02:09"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 22:02:10"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 22:02:15"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 22:02:16"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 22:03:14"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 22:03:14"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 22:03:19"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 22:03:20"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 22:04:18"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 22:04:18"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 22:04:23"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 22:04:24"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 22:05:22"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 22:05:22"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 22:05:27"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 22:05:28"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 22:06:26"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 22:06:26"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 22:06:31"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 22:06:32"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 22:07:29"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 22:07:30"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 22:07:35"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 22:07:36"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 22:08:33"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 22:08:33"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 22:08:39"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 22:08:40"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 22:09:37"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 22:09:37"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 22:09:43"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 22:09:43"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 22:10:41"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 22:10:41"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 22:10:46"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 22:10:47"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 22:11:44"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 22:11:45"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 22:11:50"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 22:11:51"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 22:12:48"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 22:12:49"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 22:12:54"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 22:12:55"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 22:13:52"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 22:13:52"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 22:13:57"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 22:13:59"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 22:14:56"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 22:14:56"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 22:15:02"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 22:15:03"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 22:16:01"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 22:16:01"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 22:16:06"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 22:16:07"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 22:17:05"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 22:17:05"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 22:17:10"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 22:17:11"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 22:18:08"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 22:18:08"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 22:18:13"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 22:18:15"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 22:19:12"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 22:19:12"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 22:19:18"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 22:19:19"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 22:20:16"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 22:20:16"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 22:20:21"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 22:20:22"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 22:21:19"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 22:21:20"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 22:21:25"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 22:21:26"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 22:22:23"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 22:22:23"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 22:22:28"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 22:22:30"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 22:23:27"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 22:23:27"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 22:23:33"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 22:23:33"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 22:24:31"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 22:24:31"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 22:24:36"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 22:24:38"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 22:25:35"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 22:25:35"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 22:25:41"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 22:25:42"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 22:26:39"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 22:26:39"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 22:26:45"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 22:26:45"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 22:27:43"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 22:27:43"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 22:27:49"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 22:27:50"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 22:28:47"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 22:28:47"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 22:28:52"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 22:28:53"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 22:29:51"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 22:29:51"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 22:29:56"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 22:29:57"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 22:30:55"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 22:30:55"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 22:31:01"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 22:31:02"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 22:31:59"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 22:31:59"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 22:32:05"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 22:32:06"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 22:33:03"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 22:33:03"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 22:33:09"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 22:33:09"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 22:34:07"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 22:34:07"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 22:34:12"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 22:34:14"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 22:35:11"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 22:35:12"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 22:35:17"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 22:35:18"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 22:36:15"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 22:36:15"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 22:36:21"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 22:36:22"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 22:37:19"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 22:37:19"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 22:37:24"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 22:37:25"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 22:38:23"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 22:38:23"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 22:38:28"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 22:38:29"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 22:39:27"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 22:39:27"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 22:39:32"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 22:39:34"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 22:40:31"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 22:40:31"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 22:40:37"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 22:40:37"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 22:41:35"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 22:41:35"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 22:41:40"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 22:41:41"}
+{"level":"info","message":"Listening for new user signups","service":"chatdesk-server","timestamp":"2026-03-18 22:42:21"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 22:42:38"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 22:42:39"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 22:42:45"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 22:42:46"}
+{"level":"info","message":"Listening for new user signups","service":"chatdesk-server","timestamp":"2026-03-18 22:42:47"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 22:43:43"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 22:43:43"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 22:43:48"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 22:43:49"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 22:44:47"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 22:44:47"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 22:44:52"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 22:44:54"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 22:45:51"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 22:45:52"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 22:45:57"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 22:45:58"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 22:46:55"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 22:46:56"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 22:47:01"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 22:47:02"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 22:47:59"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 22:47:59"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 22:48:04"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 22:48:05"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 22:49:03"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 22:49:03"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 22:49:08"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 22:49:09"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 22:50:07"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 22:50:07"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 22:50:12"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 22:50:13"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 22:51:10"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 22:51:11"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 22:51:16"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 22:51:17"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 22:52:15"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 22:52:15"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 22:52:20"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 22:52:21"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 22:53:19"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 22:53:19"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 22:53:24"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 22:53:25"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 22:54:23"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 22:54:23"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 22:54:29"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 22:54:29"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 22:55:27"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 22:55:27"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 22:55:33"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 22:55:34"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 22:56:31"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 22:56:31"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 22:56:37"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 22:56:38"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 22:57:36"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 22:57:36"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 22:57:41"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 22:57:43"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 22:58:40"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 22:58:41"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 22:58:46"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 22:58:47"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 22:59:45"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 22:59:45"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 22:59:50"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 22:59:51"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 23:00:48"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 23:00:49"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 23:00:54"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 23:00:55"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 23:01:52"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 23:01:52"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 23:01:57"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 23:01:59"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 23:02:56"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 23:02:57"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 23:03:02"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 23:03:03"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 23:04:00"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 23:04:00"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 23:04:06"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 23:04:07"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 23:05:04"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 23:05:04"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 23:05:10"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 23:05:11"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 23:06:08"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 23:06:08"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 23:06:14"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 23:06:14"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 23:07:12"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 23:07:12"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 23:07:18"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 23:07:19"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 23:08:16"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 23:08:16"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 23:08:22"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 23:08:23"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 23:09:20"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 23:09:20"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 23:09:25"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 23:09:26"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 23:10:24"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 23:10:24"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 23:10:29"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 23:10:31"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 23:11:28"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 23:11:28"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 23:11:33"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 23:11:34"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 23:12:31"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 23:12:31"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 23:12:37"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 23:12:37"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 23:13:35"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 23:13:35"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 23:13:40"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 23:13:41"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 23:14:39"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 23:14:39"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 23:14:44"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 23:14:45"}
+{"level":"info","message":"Email sent to temmodaryl317@gmail.com: <339f4331-d434-cace-9b31-f6fd294c509d@mallgram.org>","service":"chatdesk-server","timestamp":"2026-03-18 23:15:45"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 23:16:38"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 23:16:38"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 23:16:46"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 23:16:48"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 23:17:45"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 23:17:45"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 23:17:50"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 23:17:52"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 23:18:49"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 23:18:49"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 23:18:54"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 23:18:55"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 23:19:53"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 23:19:53"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 23:19:58"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 23:19:59"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 23:20:57"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 23:20:57"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 23:21:03"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 23:21:04"}
+{"level":"info","message":"Auto-created contact db1e25a2-e4d7-485a-b4c4-0f291cbb4286 for phone 39638605553806@lid in org 023578ff-1474-4375-9cb0-9b45c915d924","service":"chatdesk-server","timestamp":"2026-03-18 23:21:53"}
+{"level":"info","message":"Created conversation 0a263636-e8ba-4096-a0f4-c92204f54692 for contact db1e25a2-e4d7-485a-b4c4-0f291cbb4286","service":"chatdesk-server","timestamp":"2026-03-18 23:21:54"}
+{"level":"info","message":"Email sent to temmodaryl317@gmail.com: <c48547e1-a51f-8939-3eed-fcd1fc997798@mallgram.org>","service":"chatdesk-server","timestamp":"2026-03-18 23:21:54"}
+{"level":"info","message":"Email sent to temmodaryl317@gmail.com: <9776ff17-7ee6-5af5-3a03-9b0d59de465d@mallgram.org>","service":"chatdesk-server","timestamp":"2026-03-18 23:21:55"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 23:22:50"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 23:22:50"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 23:22:56"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 23:22:57"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 23:23:55"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 23:23:55"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 23:24:00"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 23:24:01"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 23:24:59"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 23:25:00"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 23:25:05"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 23:25:06"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 23:26:03"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 23:26:04"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 23:26:09"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 23:26:10"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 23:27:08"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 23:27:08"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 23:27:13"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 23:27:14"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 23:28:11"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 23:28:12"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 23:28:17"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 23:28:18"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 23:29:15"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 23:29:15"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 23:29:20"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 23:29:22"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 23:30:19"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 23:30:19"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 23:30:25"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 23:30:26"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 23:31:23"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 23:31:24"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 23:31:29"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 23:31:30"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 23:32:27"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 23:32:28"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 23:32:33"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 23:32:34"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 23:33:31"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 23:33:32"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 23:33:37"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 23:33:38"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 23:34:35"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 23:34:36"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 23:34:41"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 23:34:42"}
+{"level":"warn","message":"WhatsApp disconnected for account 454ddfed-3d43-4e60-8cfa-1924834504f3: connectionClosed (code 428)","service":"chatdesk-server","timestamp":"2026-03-18 23:35:39"}
+{"level":"info","message":"Scheduling auto-reconnect for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1) in 5s","service":"chatdesk-server","timestamp":"2026-03-18 23:35:39"}
+{"level":"info","message":"Auto-reconnect initiated for 454ddfed-3d43-4e60-8cfa-1924834504f3 (attempt 1)","service":"chatdesk-server","timestamp":"2026-03-18 23:35:44"}
+{"level":"info","message":"WhatsApp connected for account 454ddfed-3d43-4e60-8cfa-1924834504f3 (33764828153)","service":"chatdesk-server","timestamp":"2026-03-18 23:35:45"}

@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useSearchParams } from "react-router-dom";
 import { api } from "@/lib/api";
+import { supabase } from "@/lib/supabase";
 import {
   HiOutlineChatBubbleLeftRight,
   HiOutlineMagnifyingGlass,
@@ -13,6 +14,7 @@ import {
   HiOutlineCheckCircle,
   HiOutlineClock,
   HiOutlineArchiveBox,
+  HiOutlinePaperClip,
   HiOutlineBolt,
 } from "react-icons/hi2";
 
@@ -95,6 +97,61 @@ function ConvItem({ conv, isActive, onClick }) {
 
 /* ── Message Bubble ──────────────────────── */
 
+function MediaPreview({ msg }) {
+  const { media_url, message_type } = msg;
+  if (!media_url) return null;
+
+  if (message_type === "image") {
+    return (
+      <a href={media_url} target="_blank" rel="noopener noreferrer">
+        <img
+          src={media_url}
+          alt=""
+          className="mb-1 max-h-48 rounded-lg object-cover"
+          loading="lazy"
+        />
+      </a>
+    );
+  }
+
+  if (message_type === "video") {
+    return (
+      <video
+        src={media_url}
+        controls
+        className="mb-1 max-h-48 rounded-lg"
+        preload="metadata"
+      />
+    );
+  }
+
+  if (message_type === "audio") {
+    return (
+      <audio
+        src={media_url}
+        controls
+        className="mb-1 w-full"
+        preload="metadata"
+      />
+    );
+  }
+
+  if (message_type === "document" || message_type === "sticker") {
+    return (
+      <a
+        href={media_url}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="mb-1 inline-flex items-center gap-1.5 rounded-lg bg-black/10 px-3 py-1.5 text-xs hover:bg-black/20 dark:bg-white/10 dark:hover:bg-white/20"
+      >
+        📎 {msg.content || "Attachment"}
+      </a>
+    );
+  }
+
+  return null;
+}
+
 function MsgBubble({ msg }) {
   const isCustomer = msg.sender_type === "customer";
   const isSystem = msg.sender_type === "system";
@@ -118,13 +175,7 @@ function MsgBubble({ msg }) {
             : "rounded-br-md bg-[var(--color-primary)] text-white"
         }`}
       >
-        {msg.message_type === "image" && msg.media_url && (
-          <img
-            src={msg.media_url}
-            alt=""
-            className="mb-1 max-h-48 rounded-lg"
-          />
-        )}
+        <MediaPreview msg={msg} />
         {msg.content && <p className="whitespace-pre-wrap">{msg.content}</p>}
         <p
           className={`mt-1 text-[10px] ${isCustomer ? "text-[var(--color-text-tertiary)]" : "text-white/70"}`}
@@ -266,6 +317,10 @@ export default function Conversations() {
   const [msgsLoading, setMsgsLoading] = useState(false);
   const [notes, setNotes] = useState([]);
   const [newMsg, setNewMsg] = useState("");
+  const [mediaFile, setMediaFile] = useState(null);
+  const [mediaPreview, setMediaPreview] = useState(null);
+  const [uploading, setUploading] = useState(false);
+  const fileInputRef = useRef(null);
   const urlSearch = searchParams.get("search") || "";
   const [search, setSearch] = useState(urlSearch);
   const [debouncedSearch, setDebouncedSearch] = useState(urlSearch);
@@ -411,16 +466,73 @@ export default function Conversations() {
     }
   };
 
+  // Media file helpers
+  const MEDIA_TYPE_MAP = {
+    "image/": "image",
+    "video/": "video",
+    "audio/": "audio",
+  };
+
+  const resolveMediaType = (mime) => {
+    for (const [prefix, type] of Object.entries(MEDIA_TYPE_MAP)) {
+      if (mime.startsWith(prefix)) return type;
+    }
+    return "document";
+  };
+
+  const handleFileSelect = (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setMediaFile(file);
+    if (file.type.startsWith("image/")) {
+      setMediaPreview(URL.createObjectURL(file));
+    } else {
+      setMediaPreview(null);
+    }
+  };
+
+  const clearMedia = () => {
+    setMediaFile(null);
+    setMediaPreview(null);
+    if (fileInputRef.current) fileInputRef.current.value = "";
+  };
+
   // Send message (uses the WhatsApp API endpoint)
   const handleSend = async () => {
-    if (!newMsg.trim() || !activeConv) return;
+    if ((!newMsg.trim() && !mediaFile) || !activeConv) return;
+
     try {
+      let mediaUrl = null;
+      let messageType = "text";
+
+      // Upload media to Supabase Storage if a file is selected
+      if (mediaFile) {
+        setUploading(true);
+        messageType = resolveMediaType(mediaFile.type);
+        const ext = mediaFile.name.split(".").pop();
+        const path = `${activeConv.organization_id || "org"}/${activeConv.id}/${Date.now()}_${Math.random().toString(36).slice(2, 8)}.${ext}`;
+        const { error: uploadErr } = await supabase.storage
+          .from("whatsapp-media")
+          .upload(path, mediaFile);
+
+        if (uploadErr) throw uploadErr;
+
+        const {
+          data: { publicUrl },
+        } = supabase.storage.from("whatsapp-media").getPublicUrl(path);
+        mediaUrl = publicUrl;
+      }
+
       await api.post("/whatsapp/messages/send", {
         conversationId: activeConv.id,
-        content: newMsg.trim(),
-        messageType: "text",
+        content: newMsg.trim() || mediaFile?.name || "",
+        messageType,
+        mediaUrl,
       });
+
       setNewMsg("");
+      clearMedia();
+
       // Refresh messages
       const res = await api.get(
         `/crm/conversations/${activeConv.id}/messages?page=1&limit=100`,
@@ -428,6 +540,8 @@ export default function Conversations() {
       setMessages(res.data || []);
     } catch {
       /* toast would go here */
+    } finally {
+      setUploading(false);
     }
   };
 
@@ -633,7 +747,43 @@ export default function Conversations() {
                   ))}
                 </div>
               )}
+              {/* Media attachment preview */}
+              {mediaFile && (
+                <div className="mb-2 flex items-center gap-2 rounded-lg border border-[var(--color-border)] bg-[var(--color-bg-secondary)] p-2">
+                  {mediaPreview && (
+                    <img
+                      src={mediaPreview}
+                      alt=""
+                      className="h-12 w-12 rounded object-cover"
+                    />
+                  )}
+                  <span className="flex-1 truncate text-xs text-[var(--color-text-secondary)]">
+                    {mediaFile.name}
+                  </span>
+                  <button
+                    onClick={clearMedia}
+                    className="shrink-0 rounded p-1 text-[var(--color-text-tertiary)] hover:bg-[var(--color-bg)]"
+                  >
+                    <HiOutlineXMark className="h-4 w-4" />
+                  </button>
+                </div>
+              )}
               <div className="flex items-center gap-2">
+                {/* File upload button */}
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/*,video/*,audio/*,.pdf,.doc,.docx,.xls,.xlsx"
+                  onChange={handleFileSelect}
+                  className="hidden"
+                />
+                <button
+                  onClick={() => fileInputRef.current?.click()}
+                  className="rounded-lg p-2.5 text-[var(--color-text-secondary)] hover:bg-[var(--color-bg-secondary)]"
+                  title={t("dashboard.conversations.attachFile")}
+                >
+                  <HiOutlinePaperClip className="h-5 w-5" />
+                </button>
                 <input
                   value={newMsg}
                   onChange={handleMsgChange}
@@ -648,7 +798,7 @@ export default function Conversations() {
                 />
                 <button
                   onClick={handleSend}
-                  disabled={!newMsg.trim()}
+                  disabled={(!newMsg.trim() && !mediaFile) || uploading}
                   className="rounded-lg bg-[var(--color-primary)] p-2.5 text-white transition-opacity hover:opacity-90 disabled:opacity-50"
                 >
                   <HiOutlinePaperAirplane className="h-5 w-5" />

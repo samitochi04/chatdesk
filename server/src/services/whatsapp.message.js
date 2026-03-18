@@ -1,8 +1,17 @@
+const {
+  downloadMediaMessage,
+  getContentType,
+} = require("@whiskeysockets/baileys");
 const { supabaseAdmin } = require("../config/supabase");
 const aiService = require("./ai.service");
 const emailService = require("./email.service");
 const { logActivity } = require("./activity.service");
 const logger = require("../utils/logger");
+
+// Lazy-loaded to avoid circular dependency
+function getUploadMediaToStorage() {
+  return require("./whatsapp.session").uploadMediaToStorage;
+}
 
 /**
  * Create in-app notification for specific org members.
@@ -25,20 +34,17 @@ async function notifyOrgMembers({
 
     if (!members || members.length === 0) return;
 
-    // Check preferences for each member
     const notifications = [];
     const emailRecipients = [];
     for (const m of members) {
       if (m.id === excludeUserId) continue;
 
-      // Check notification preferences
       const { data: prefs } = await supabaseAdmin
         .from("notification_preferences")
         .select("*")
         .eq("user_id", m.id)
         .single();
 
-      // Default to true if no preferences set
       const appKey = `${type}_app`;
       const emailKey = `${type}_email`;
       const shouldNotifyApp = !prefs || prefs[appKey] !== false;
@@ -64,7 +70,6 @@ async function notifyOrgMembers({
       await supabaseAdmin.from("notifications").insert(notifications);
     }
 
-    // Send emails to members who have email notifications enabled
     if (emailRecipients.length > 0 && emailData) {
       for (const userId of emailRecipients) {
         try {
@@ -98,53 +103,78 @@ async function notifyOrgMembers({
   }
 }
 
+/* ── Helpers to extract body/phone from Baileys message ── */
+
+function getMessageBody(msg) {
+  const m = msg.message;
+  if (!m) return null;
+  return (
+    m.conversation ||
+    m.extendedTextMessage?.text ||
+    m.imageMessage?.caption ||
+    m.videoMessage?.caption ||
+    m.documentMessage?.caption ||
+    m.buttonsResponseMessage?.selectedDisplayText ||
+    m.listResponseMessage?.title ||
+    m.templateButtonReplyMessage?.selectedDisplayText ||
+    null
+  );
+}
+
+function getPhoneFromJid(jid) {
+  return jid?.replace("@s.whatsapp.net", "").replace("@c.us", "") || "";
+}
+
 /**
- * Core handler for every incoming WhatsApp message.
- *
- * Flow:
- *  1. Ignore non-chat messages (status broadcasts, etc.)
- *  2. Find or create the contact
- *  3. Find or create the conversation
- *  4. Store the message
- *  5. Check auto-reply rules → send canned response if matched
- *  6. If conversation is AI-handled, forward to AI agent (Step 3 placeholder)
+ * Core handler for every incoming WhatsApp message (Baileys format).
  */
-async function handleIncomingMessage(client, message, account) {
-  // 1. Ignore group messages and status broadcasts
-  const chat = await message.getChat();
-  if (chat.isGroup) return;
-  if (message.from === "status@broadcast") return;
+async function handleIncomingMessage(sock, msg, account) {
+  const remoteJid = msg.key.remoteJid;
+  if (!remoteJid) return;
+
+  // Skip group messages and status broadcasts
+  if (remoteJid.endsWith("@g.us")) return;
+  if (remoteJid === "status@broadcast") return;
 
   const orgId = account.organization_id;
   const waAccountId = account.id;
-  // WhatsApp phone format: "5511999998888@c.us"
-  const rawPhone = message.from.replace("@c.us", "");
+  const rawPhone = getPhoneFromJid(remoteJid);
 
-  // 2. Find or create contact
-  const contact = await findOrCreateContact(orgId, rawPhone, message);
+  // Find or create contact
+  const contact = await findOrCreateContact(orgId, rawPhone, msg);
 
-  // 3. Find or create conversation
+  // Find or create conversation
   const conversation = await findOrCreateConversation(
     orgId,
     waAccountId,
     contact.id,
   );
 
-  // 4. Store the incoming message
-  const msgType = resolveMessageType(message);
+  // Store the incoming message
+  const msgType = resolveMessageType(msg);
   let mediaUrl = null;
-  if (message.hasMedia) {
+  if (msgType !== "text") {
     try {
-      const media = await message.downloadMedia();
-      if (media) {
-        mediaUrl = `data:${media.mimetype};base64,${media.data}`;
+      const buffer = await downloadMediaMessage(msg, "buffer", {});
+      if (buffer) {
+        const contentType = getContentType(msg.message);
+        const mediaObj = msg.message?.[contentType];
+        const mimetype = mediaObj?.mimetype || "application/octet-stream";
+        const uploadMediaToStorage = getUploadMediaToStorage();
+        mediaUrl = await uploadMediaToStorage(
+          { data: buffer.toString("base64"), mimetype },
+          orgId,
+          conversation.id,
+        );
       }
     } catch (err) {
       logger.warn(
-        `Failed to download media for message ${message.id._serialized}: ${err.message}`,
+        `Failed to download media for message ${msg.key.id}: ${err.message}`,
       );
     }
   }
+
+  const body = getMessageBody(msg);
 
   const { data: savedMsg, error: msgError } = await supabaseAdmin
     .from("messages")
@@ -153,10 +183,10 @@ async function handleIncomingMessage(client, message, account) {
       organization_id: orgId,
       sender_type: "customer",
       sender_id: null,
-      content: message.body || null,
+      content: body,
       message_type: msgType,
       media_url: mediaUrl,
-      whatsapp_message_id: message.id._serialized || null,
+      whatsapp_message_id: msg.key.id || null,
       status: "delivered",
     })
     .select("id")
@@ -167,21 +197,20 @@ async function handleIncomingMessage(client, message, account) {
     return;
   }
 
-  // Notify org members of new message (fire-and-forget)
+  // Notify org members
   const contactName = contact.name || contact.phone_number;
   notifyOrgMembers({
     orgId,
     type: "new_message",
     title: `New message from ${contactName}`,
-    body: message.body ? message.body.substring(0, 100) : "[media]",
+    body: body ? body.substring(0, 100) : "[media]",
     link: `/dashboard/conversations?id=${conversation.id}`,
     emailData: {
       contactName,
-      messagePreview: message.body ? message.body.substring(0, 200) : "[media]",
+      messagePreview: body ? body.substring(0, 200) : "[media]",
     },
   });
 
-  // Log activity
   logActivity({
     organizationId: orgId,
     userId: null,
@@ -191,24 +220,50 @@ async function handleIncomingMessage(client, message, account) {
     metadata: { contactId: contact.id, conversationId: conversation.id },
   });
 
-  // 5. Check auto-reply rules
-  if (message.body) {
-    await checkAutoReply(client, message, orgId, conversation);
+  // Check auto-reply rules
+  if (body) {
+    await checkAutoReply(sock, remoteJid, body, orgId, conversation);
   }
 
-  // 6. AI agent handling
-  if (conversation.is_ai_handled && conversation.ai_agent_id && message.body) {
+  // Evaluate AI triggers
+  if (body) {
     try {
-      const aiReply = await aiService.handleAIConversation(
+      const matchedTriggers = await aiService.evaluateTriggers(
+        orgId,
+        { body },
+        contact,
         conversation,
-        message.body,
       );
+      for (const trigger of matchedTriggers) {
+        await aiService.executeTriggerAction(trigger, {
+          orgId,
+          contact,
+          conversation,
+        });
+      }
+      if (matchedTriggers.some((t) => t.action_type === "assign_agent")) {
+        const { data: refreshed } = await supabaseAdmin
+          .from("conversations")
+          .select("*")
+          .eq("id", conversation.id)
+          .single();
+        if (refreshed) {
+          Object.assign(conversation, refreshed);
+        }
+      }
+    } catch (err) {
+      logger.error(`Trigger evaluation error: ${err.message}`);
+    }
+  }
+
+  // AI agent handling
+  if (conversation.is_ai_handled && conversation.ai_agent_id && body) {
+    try {
+      const aiReply = await aiService.handleAIConversation(conversation, body);
 
       if (aiReply) {
-        // Send AI reply via WhatsApp
-        await client.sendMessage(message.from, aiReply);
+        await sock.sendMessage(remoteJid, { text: aiReply });
 
-        // Store AI reply in DB
         await supabaseAdmin.from("messages").insert({
           conversation_id: conversation.id,
           organization_id: orgId,
@@ -230,7 +285,7 @@ async function handleIncomingMessage(client, message, account) {
 /**
  * Find existing contact by phone or create a new one.
  */
-async function findOrCreateContact(orgId, phone, message) {
+async function findOrCreateContact(orgId, phone, msg) {
   const { data: existing } = await supabaseAdmin
     .from("contacts")
     .select("*")
@@ -240,13 +295,10 @@ async function findOrCreateContact(orgId, phone, message) {
 
   if (existing) return existing;
 
-  // Try to get the contact name from WhatsApp
+  // Try to get contact name from Baileys message pushName
   let contactName = null;
-  try {
-    const waContact = await message.getContact();
-    contactName = waContact.pushname || waContact.name || null;
-  } catch (_) {
-    // ignore
+  if (msg && msg.pushName) {
+    contactName = msg.pushName;
   }
 
   const { data: created, error } = await supabaseAdmin
@@ -270,7 +322,6 @@ async function findOrCreateContact(orgId, phone, message) {
     `Auto-created contact ${created.id} for phone ${phone} in org ${orgId}`,
   );
 
-  // Notify org members of new contact
   notifyOrgMembers({
     orgId,
     type: "new_contact",
@@ -283,7 +334,6 @@ async function findOrCreateContact(orgId, phone, message) {
     },
   });
 
-  // Log activity
   logActivity({
     organizationId: orgId,
     userId: null,
@@ -300,7 +350,6 @@ async function findOrCreateContact(orgId, phone, message) {
  * Find existing open conversation or create a new one.
  */
 async function findOrCreateConversation(orgId, waAccountId, contactId) {
-  // Look for an open/pending conversation for this contact + WA account
   const { data: existing } = await supabaseAdmin
     .from("conversations")
     .select("*")
@@ -337,9 +386,14 @@ async function findOrCreateConversation(orgId, waAccountId, contactId) {
 
 /**
  * Check if the incoming message matches any auto-reply rule for this org.
- * Rules are sorted by priority DESC — first match wins.
  */
-async function checkAutoReply(client, message, orgId, conversation) {
+async function checkAutoReply(
+  sock,
+  remoteJid,
+  messageBody,
+  orgId,
+  conversation,
+) {
   const { data: rules, error } = await supabaseAdmin
     .from("auto_reply_rules")
     .select("*")
@@ -349,7 +403,7 @@ async function checkAutoReply(client, message, orgId, conversation) {
 
   if (error || !rules || rules.length === 0) return;
 
-  const text = message.body.toLowerCase().trim();
+  const text = messageBody.toLowerCase().trim();
 
   for (const rule of rules) {
     const matched = rule.trigger_keywords.some((keyword) =>
@@ -363,12 +417,11 @@ async function checkAutoReply(client, message, orgId, conversation) {
 
       let replyText = rule.response_text;
 
-      // If an AI agent is assigned, use it to generate the response
       if (rule.ai_agent_id) {
         try {
           const aiReply = await aiService.handleAIConversation(
             { ...conversation, ai_agent_id: rule.ai_agent_id },
-            message.body,
+            messageBody,
           );
           if (aiReply) {
             replyText = aiReply;
@@ -377,19 +430,16 @@ async function checkAutoReply(client, message, orgId, conversation) {
           logger.error(
             `AI agent error for auto-reply rule "${rule.name}": ${err.message}`,
           );
-          // Fall back to canned response_text
         }
       }
 
-      // Send the response via WhatsApp
       try {
-        await client.sendMessage(message.from, replyText);
+        await sock.sendMessage(remoteJid, { text: replyText });
       } catch (err) {
         logger.error(`Failed to send auto-reply: ${err.message}`);
         return;
       }
 
-      // Store the auto-reply message in DB
       await supabaseAdmin.from("messages").insert({
         conversation_id: conversation.id,
         organization_id: orgId,
@@ -400,7 +450,7 @@ async function checkAutoReply(client, message, orgId, conversation) {
         status: "sent",
       });
 
-      break; // first match wins
+      break;
     }
   }
 }
@@ -416,7 +466,6 @@ async function sendMessage(
   const orgId = conversation.organization_id;
   const contactId = conversation.contact_id;
 
-  // Get the contact's phone number
   const { data: contact, error: contactErr } = await supabaseAdmin
     .from("contacts")
     .select("phone_number")
@@ -427,27 +476,29 @@ async function sendMessage(
     throw new Error("Contact not found");
   }
 
-  const chatId = `${contact.phone_number}@c.us`;
+  const jid = `${contact.phone_number}@s.whatsapp.net`;
 
-  // Send via WhatsApp
   let waMessage;
   try {
-    if (messageType === "text" || !mediaUrl) {
-      waMessage = await session.client.sendMessage(chatId, content);
+    if (
+      (messageType === "text" || messageType === "contact_card") &&
+      !mediaUrl
+    ) {
+      waMessage = await session.sock.sendMessage(jid, { text: content });
+    } else if (mediaUrl) {
+      // Determine media type and send accordingly
+      const mediaContent = buildMediaContent(messageType, mediaUrl, content);
+      waMessage = await session.sock.sendMessage(jid, mediaContent);
     } else {
-      // For media messages, we'd need to handle MessageMedia
-      // For now send as text with a note about media
-      waMessage = await session.client.sendMessage(
-        chatId,
-        content || "[media]",
-      );
+      waMessage = await session.sock.sendMessage(jid, {
+        text: content || "[media]",
+      });
     }
   } catch (err) {
-    logger.error(`Failed to send WA message to ${chatId}: ${err.message}`);
+    logger.error(`Failed to send WA message to ${jid}: ${err.message}`);
     throw err;
   }
 
-  // Store the outgoing message in DB
   const { data: savedMsg, error: msgError } = await supabaseAdmin
     .from("messages")
     .insert({
@@ -458,7 +509,7 @@ async function sendMessage(
       content: content || null,
       message_type: messageType || "text",
       media_url: mediaUrl || null,
-      whatsapp_message_id: waMessage?.id?._serialized || null,
+      whatsapp_message_id: waMessage?.key?.id || null,
       status: "sent",
     })
     .select("*")
@@ -473,17 +524,56 @@ async function sendMessage(
 }
 
 /**
- * Map whatsapp-web.js message types to our DB enum values.
+ * Build Baileys media content object from URL.
  */
-function resolveMessageType(message) {
-  if (message.type === "chat") return "text";
-  if (message.type === "image") return "image";
-  if (message.type === "video") return "video";
-  if (message.type === "ptt" || message.type === "audio") return "audio";
-  if (message.type === "document") return "document";
-  if (message.type === "location") return "location";
-  if (message.type === "sticker") return "sticker";
-  if (message.type === "vcard" || message.type === "multi_vcard")
+function buildMediaContent(messageType, mediaUrl, caption) {
+  if (messageType === "image") {
+    return { image: { url: mediaUrl }, caption: caption || undefined };
+  }
+  if (messageType === "video") {
+    return { video: { url: mediaUrl }, caption: caption || undefined };
+  }
+  if (messageType === "audio") {
+    return { audio: { url: mediaUrl }, mimetype: "audio/mpeg" };
+  }
+  if (messageType === "document") {
+    return {
+      document: { url: mediaUrl },
+      mimetype: "application/octet-stream",
+      fileName: caption || "document",
+    };
+  }
+  // Default: try as document
+  return {
+    document: { url: mediaUrl },
+    mimetype: "application/octet-stream",
+    fileName: caption || "file",
+  };
+}
+
+/**
+ * Map Baileys message types to our DB enum values.
+ */
+function resolveMessageType(msg) {
+  const contentType = getContentType(msg.message);
+  if (!contentType) return "text";
+
+  if (contentType === "conversation" || contentType === "extendedTextMessage")
+    return "text";
+  if (contentType === "imageMessage") return "image";
+  if (contentType === "videoMessage") return "video";
+  if (contentType === "audioMessage") return "audio";
+  if (contentType === "documentMessage") return "document";
+  if (
+    contentType === "locationMessage" ||
+    contentType === "liveLocationMessage"
+  )
+    return "location";
+  if (contentType === "stickerMessage") return "sticker";
+  if (
+    contentType === "contactMessage" ||
+    contentType === "contactsArrayMessage"
+  )
     return "contact_card";
   return "text";
 }
@@ -494,4 +584,5 @@ module.exports = {
   findOrCreateContact,
   findOrCreateConversation,
   checkAutoReply,
+  resolveMessageType,
 };

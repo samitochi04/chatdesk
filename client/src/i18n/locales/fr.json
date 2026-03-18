@@ -220,7 +220,8 @@
       "submit": "Se connecter",
       "forgotPassword": "Mot de passe oublié ?",
       "noAccount": "Vous n'avez pas de compte ?",
-      "signUpLink": "S'inscrire"
+      "signUpLink": "S'inscrire",
+      "emailNotConfirmed": "Veuillez confirmer votre e-mail avant de vous connecter. Vérifiez votre boîte de réception."
     },
     "signUp": {
       "title": "Créez votre compte",
@@ -243,6 +244,28 @@
       "success": "Lien de réinitialisation envoyé à votre e-mail."
     }
   },
+  "onboarding": {
+    "welcome": "Bienvenue sur ChatDesk",
+    "setupMessage": "Votre compte est en cours de configuration. Veuillez partager les détails de votre entreprise afin que nous puissions tout préparer pour vous.",
+    "businessName": "Nom de l'entreprise",
+    "phone": "Numéro de téléphone",
+    "businessType": "Type d'entreprise",
+    "country": "Pays",
+    "selectType": "Sélectionner le type...",
+    "submit": "Envoyer les informations",
+    "thankYou": "Merci !",
+    "submittedMessage": "Nous avons reçu vos informations. Notre équipe configurera votre organisation et vous contactera sous peu.",
+    "types": {
+      "retail": "Commerce / E-commerce",
+      "services": "Services",
+      "food": "Restauration",
+      "health": "Santé & Bien-être",
+      "education": "Éducation",
+      "realEstate": "Immobilier",
+      "logistics": "Logistique & Livraison",
+      "other": "Autre"
+    }
+  },
   "dashboard": {
     "sidebar": {
       "overview": "Vue d'ensemble",
@@ -252,6 +275,8 @@
       "whatsapp": "WhatsApp",
       "aiAgents": "Agents IA",
       "autoReplies": "Réponses auto",
+      "knowledgeBase": "Base de connaissances",
+      "triggers": "Déclencheurs",
       "broadcasts": "Diffusions",
       "analytics": "Analytique",
       "quickReplies": "Réponses rapides",
@@ -294,7 +319,8 @@
       "aiAgent": "Agent IA",
       "notes": "Notes",
       "addNote": "Ajouter une note...",
-      "contactInfo": "Infos du contact"
+      "contactInfo": "Infos du contact",
+      "attachFile": "Joindre un fichier"
     },
     "contacts": {
       "title": "Contacts",
@@ -365,8 +391,12 @@
       "noAccounts": "Aucun compte WhatsApp",
       "noAccountsHint": "Connectez votre premier numéro WhatsApp pour commencer.",
       "confirmDelete": "Êtes-vous sûr de vouloir supprimer ce compte ?",
+      "confirmDeletePreserve": "Supprimer ce compte WhatsApp ? Vos conversations et messages seront conservés.",
       "deleteAccount": "Supprimer le compte",
-      "lastConnected": "Dernière connexion"
+      "lastConnected": "Dernière connexion",
+      "forceReconnect": "Nouveau QR",
+      "forceReconnectHint": "Générer un nouveau code QR (utilisez si la connexion normale échoue)",
+      "refreshQr": "Actualiser le code QR"
     },
     "aiAgents": {
       "title": "Agents IA",
@@ -395,7 +425,81 @@
       "marketing": "Marketing",
       "followUp": "Suivi",
       "support": "Support",
-      "custom": "Personnalisé"
+      "custom": "Personnalisé",
+      "automationMode": "Mode automatisation complète",
+      "automationModeHint": "L'agent gère toutes les conversations de manière autonome sans intervention humaine.",
+      "vendorStyle": "Comportement vendeur",
+      "vendorStyleHint": "L'agent agit comme le propriétaire — ton chaleureux, personnel, suggère des produits."
+    },
+    "knowledgeBase": {
+      "pageTitle": "Base de connaissances",
+      "pageSubtitle": "Ajoutez des informations que vos agents IA pourront utiliser pour répondre aux questions.",
+      "createEntry": "Ajouter une entrée",
+      "editEntry": "Modifier l'entrée",
+      "title_": "Titre",
+      "titleHint": "ex. Tarifs, Politique de retour",
+      "content": "Contenu",
+      "contentHint": "Ajoutez les informations que l'agent IA devrait connaître...",
+      "agent": "Agent IA",
+      "allAgents": "Tous les agents (partagé)",
+      "agentHint": "Laissez vide pour partager avec tous les agents, ou sélectionnez-en un.",
+      "active": "Actif",
+      "inactive": "Inactif",
+      "cancel": "Annuler",
+      "save": "Enregistrer",
+      "noEntries": "Aucune entrée dans la base de connaissances",
+      "noEntriesHint": "Ajoutez des informations pour aider vos agents IA à répondre aux questions.",
+      "confirmDelete": "Êtes-vous sûr de vouloir supprimer cette entrée ?"
+    },
+    "triggers": {
+      "pageTitle": "Déclencheurs IA",
+      "pageSubtitle": "Automatisez des actions en fonction du contenu des messages, de la classification ou des événements.",
+      "createTrigger": "Créer un déclencheur",
+      "editTrigger": "Modifier le déclencheur",
+      "name": "Nom du déclencheur",
+      "description": "Description",
+      "triggerType": "Quand",
+      "actionType": "Alors",
+      "agent": "Agent IA",
+      "anyAgent": "N'importe quel agent",
+      "keywords": "Mots-clés",
+      "keywordsHint": "Séparés par des virgules, ex. prix, coût, combien",
+      "intentDescription": "Description de l'intention",
+      "intentHint": "Décrivez l'intention à détecter, ex. Le client veut acheter un produit",
+      "classificationValue": "Classification du contact",
+      "selectClassification": "Sélectionner la classification…",
+      "assignTo": "Assigner à l'agent",
+      "selectAgent": "Sélectionner un agent…",
+      "messageTemplate": "Modèle de message",
+      "messageHint": "Message à envoyer lorsque le déclencheur s'active…",
+      "classifyAs": "Classifier le contact comme",
+      "tagName": "Nom de l'étiquette",
+      "tagHint": "Étiquette à appliquer au contact",
+      "priority": "Priorité",
+      "priorityHint": "Les déclencheurs de priorité plus élevée sont évalués en premier.",
+      "active": "Actif",
+      "inactive": "Inactif",
+      "cancel": "Annuler",
+      "save": "Enregistrer",
+      "noTriggers": "Aucun déclencheur",
+      "noTriggersHint": "Créez votre premier déclencheur pour automatiser des actions sur les messages entrants.",
+      "confirmDelete": "Êtes-vous sûr de vouloir supprimer ce déclencheur ?",
+      "upgradeRequired": "Passez au forfait Growth ou supérieur pour les déclencheurs.",
+      "types": {
+        "keyword": "Correspondance de mots-clés",
+        "intent": "Détection d'intention",
+        "classification": "Classification du contact",
+        "new_contact": "Nouveau contact",
+        "no_response": "Pas de réponse",
+        "schedule": "Programmé"
+      },
+      "actions": {
+        "assign_agent": "Assigner un agent IA",
+        "send_message": "Envoyer un message",
+        "notify_team": "Notifier l'équipe",
+        "classify": "Classifier le contact",
+        "tag_contact": "Étiqueter le contact"
+      }
     },
     "autoReplies": {
       "title": "Règles de réponse auto",
