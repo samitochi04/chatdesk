@@ -105,24 +105,52 @@ async function notifyOrgMembers({
 
 /* ── Helpers to extract body/phone from Baileys message ── */
 
-function getMessageBody(msg) {
-  const m = msg.message;
-  if (!m) return null;
+function getMessageBody(messageContent) {
+  if (!messageContent) return null;
   return (
-    m.conversation ||
-    m.extendedTextMessage?.text ||
-    m.imageMessage?.caption ||
-    m.videoMessage?.caption ||
-    m.documentMessage?.caption ||
-    m.buttonsResponseMessage?.selectedDisplayText ||
-    m.listResponseMessage?.title ||
-    m.templateButtonReplyMessage?.selectedDisplayText ||
+    messageContent.conversation ||
+    messageContent.extendedTextMessage?.text ||
+    messageContent.imageMessage?.caption ||
+    messageContent.videoMessage?.caption ||
+    messageContent.documentMessage?.caption ||
+    messageContent.buttonsResponseMessage?.selectedDisplayText ||
+    messageContent.listResponseMessage?.title ||
+    messageContent.templateButtonReplyMessage?.selectedDisplayText ||
     null
   );
 }
 
 function getPhoneFromJid(jid) {
-  return jid?.replace("@s.whatsapp.net", "").replace("@c.us", "") || "";
+  if (!jid) return "";
+  // Strip the domain suffix
+  const bare = jid
+    .replace("@s.whatsapp.net", "")
+    .replace("@c.us", "")
+    .replace("@lid", "");
+  // LID JIDs look like "number:device@lid" — take the part before the colon
+  return bare.includes(":") ? bare.split(":")[0] : bare;
+}
+
+function isValidUserJid(jid) {
+  if (!jid) return false;
+  // Skip group chats and broadcasts
+  if (jid.endsWith("@g.us")) return false;
+  if (jid === "status@broadcast") return false;
+  // Allow @s.whatsapp.net, @c.us, and @lid (Baileys v7 linked-device JIDs)
+  return true;
+}
+
+/** Unwrap ephemeral / viewOnce / documentWithCaption wrappers */
+function unwrapMessage(message) {
+  if (!message) return message;
+  return (
+    message.ephemeralMessage?.message ||
+    message.viewOnceMessage?.message ||
+    message.viewOnceMessageV2?.message ||
+    message.documentWithCaptionMessage?.message ||
+    message.editedMessage?.message ||
+    message
+  );
 }
 
 /**
@@ -132,13 +160,30 @@ async function handleIncomingMessage(sock, msg, account) {
   const remoteJid = msg.key.remoteJid;
   if (!remoteJid) return;
 
-  // Skip group messages and status broadcasts
-  if (remoteJid.endsWith("@g.us")) return;
-  if (remoteJid === "status@broadcast") return;
+  // Skip group messages, status broadcasts, and LID JIDs
+  if (!isValidUserJid(remoteJid)) return;
+
+  // Unwrap ephemeral / viewOnce / documentWithCaption wrappers
+  const normalized = unwrapMessage(msg.message);
+
+  // Skip protocol/system messages with no real content
+  const contentType = getContentType(normalized);
+  if (
+    !contentType ||
+    contentType === "protocolMessage" ||
+    contentType === "senderKeyDistributionMessage" ||
+    contentType === "messageContextInfo"
+  )
+    return;
 
   const orgId = account.organization_id;
   const waAccountId = account.id;
   const rawPhone = getPhoneFromJid(remoteJid);
+
+  // Skip messages from the connected account's own number
+  if (rawPhone === account.phone_number) return;
+
+  logger.info(`Incoming message from ${rawPhone}: type=${contentType}`);
 
   // Find or create contact
   const contact = await findOrCreateContact(orgId, rawPhone, msg);
@@ -151,18 +196,18 @@ async function handleIncomingMessage(sock, msg, account) {
   );
 
   // Store the incoming message
-  const msgType = resolveMessageType(msg);
+  const msgType = resolveMessageType(normalized);
   let mediaUrl = null;
   if (msgType !== "text") {
     try {
       const buffer = await downloadMediaMessage(msg, "buffer", {});
       if (buffer) {
-        const contentType = getContentType(msg.message);
-        const mediaObj = msg.message?.[contentType];
+        const ct = getContentType(normalized);
+        const mediaObj = normalized?.[ct];
         const mimetype = mediaObj?.mimetype || "application/octet-stream";
         const uploadMediaToStorage = getUploadMediaToStorage();
         mediaUrl = await uploadMediaToStorage(
-          { data: buffer.toString("base64"), mimetype },
+          { data: buffer, mimetype },
           orgId,
           conversation.id,
         );
@@ -174,7 +219,20 @@ async function handleIncomingMessage(sock, msg, account) {
     }
   }
 
-  const body = getMessageBody(msg);
+  const body = getMessageBody(normalized);
+
+  // For media messages without a caption, set a descriptive content
+  // so the conversation preview doesn't show "No messages yet"
+  const MEDIA_LABELS = {
+    image: "\ud83d\udcf7 Photo",
+    video: "\ud83c\udfa5 Video",
+    audio: "\ud83c\udfa4 Voice message",
+    document: "\ud83d\udcce Document",
+    sticker: "Sticker",
+    location: "\ud83d\udccd Location",
+    contact_card: "\ud83d\udcc7 Contact",
+  };
+  const contentForDb = body || MEDIA_LABELS[msgType] || null;
 
   const { data: savedMsg, error: msgError } = await supabaseAdmin
     .from("messages")
@@ -183,7 +241,7 @@ async function handleIncomingMessage(sock, msg, account) {
       organization_id: orgId,
       sender_type: "customer",
       sender_id: null,
-      content: body,
+      content: contentForDb,
       message_type: msgType,
       media_url: mediaUrl,
       whatsapp_message_id: msg.key.id || null,
@@ -321,27 +379,6 @@ async function findOrCreateContact(orgId, phone, msg) {
   logger.info(
     `Auto-created contact ${created.id} for phone ${phone} in org ${orgId}`,
   );
-
-  notifyOrgMembers({
-    orgId,
-    type: "new_contact",
-    title: `New contact: ${contactName || phone}`,
-    body: `Phone: ${phone}`,
-    link: `/dashboard/contacts`,
-    emailData: {
-      contactName: contactName || null,
-      contactPhone: phone,
-    },
-  });
-
-  logActivity({
-    organizationId: orgId,
-    userId: null,
-    action: "created",
-    entityType: "contact",
-    entityId: created.id,
-    metadata: { phone, source: "whatsapp_auto" },
-  });
 
   return created;
 }
@@ -534,7 +571,7 @@ function buildMediaContent(messageType, mediaUrl, caption) {
     return { video: { url: mediaUrl }, caption: caption || undefined };
   }
   if (messageType === "audio") {
-    return { audio: { url: mediaUrl }, mimetype: "audio/mpeg" };
+    return { audio: { url: mediaUrl }, ptt: true };
   }
   if (messageType === "document") {
     return {
@@ -554,8 +591,8 @@ function buildMediaContent(messageType, mediaUrl, caption) {
 /**
  * Map Baileys message types to our DB enum values.
  */
-function resolveMessageType(msg) {
-  const contentType = getContentType(msg.message);
+function resolveMessageType(messageContent) {
+  const contentType = getContentType(messageContent);
   if (!contentType) return "text";
 
   if (contentType === "conversation" || contentType === "extendedTextMessage")

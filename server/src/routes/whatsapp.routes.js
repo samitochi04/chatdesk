@@ -1,4 +1,5 @@
 const { Router } = require("express");
+const multer = require("multer");
 const ctrl = require("../controllers/whatsapp.controller");
 const {
   auth,
@@ -54,6 +55,13 @@ router.delete(
 );
 
 // ── Messaging ───────────────────────────────
+
+const upload = multer({
+  storage: multer.memoryStorage(),
+  limits: { fileSize: 25 * 1024 * 1024 },
+});
+
+router.post("/media/upload", upload.single("file"), ctrl.uploadMedia);
 
 router.post(
   "/messages/send",

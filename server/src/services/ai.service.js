@@ -127,7 +127,10 @@ function buildSystemPrompt(agent, knowledgeBase, orgContext) {
   // Response guidelines
   parts.push(
     "\nResponse guidelines:" +
-      "\n- Keep responses concise and WhatsApp-friendly (short paragraphs, use emojis sparingly)." +
+      "\n- ALWAYS reply in plain text only. NEVER use markdown formatting such as **, *, #, `, or any other markdown syntax." +
+      "\n- Do NOT use emojis in your responses." +
+      "\n- Keep responses concise and WhatsApp-friendly (short paragraphs)." +
+      "\n- Use numbered lists with plain numbers like '1.' instead of bold or bullet formatting." +
       "\n- If you don't know something, say so honestly rather than making up information." +
       "\n- Always be respectful and professional.",
   );

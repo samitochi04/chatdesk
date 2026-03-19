@@ -43,6 +43,8 @@ export function AuthProvider({ children }) {
   };
 
   useEffect(() => {
+    let initialLoadDone = false;
+
     supabase.auth.getSession().then(async ({ data: { session } }) => {
       const sessionUser = session?.user ?? null;
       // Reject unconfirmed users
@@ -50,6 +52,7 @@ export function AuthProvider({ children }) {
         await supabase.auth.signOut();
         setUser(null);
         setLoading(false);
+        initialLoadDone = true;
         return;
       }
       setUser(sessionUser);
@@ -57,18 +60,22 @@ export function AuthProvider({ children }) {
         await fetchProfile(sessionUser.id);
       }
       setLoading(false);
+      initialLoadDone = true;
     });
 
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, session) => {
+      // Skip events until the initial getSession has completed
+      // to avoid a flash of unauthenticated state
+      if (!initialLoadDone) return;
+
       const sessionUser = session?.user ?? null;
       if (sessionUser && !sessionUser.email_confirmed_at) {
         supabase.auth.signOut();
         setUser(null);
         setProfile(null);
         setOrganization(null);
-        setLoading(false);
         return;
       }
       setUser(sessionUser);
@@ -78,7 +85,6 @@ export function AuthProvider({ children }) {
         setProfile(null);
         setOrganization(null);
       }
-      setLoading(false);
     });
 
     return () => subscription.unsubscribe();

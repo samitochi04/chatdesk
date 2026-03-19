@@ -2,7 +2,6 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useSearchParams } from "react-router-dom";
 import { api } from "@/lib/api";
-import { supabase } from "@/lib/supabase";
 import {
   HiOutlineChatBubbleLeftRight,
   HiOutlineMagnifyingGlass,
@@ -16,6 +15,7 @@ import {
   HiOutlineArchiveBox,
   HiOutlinePaperClip,
   HiOutlineBolt,
+  HiOutlineMicrophone,
 } from "react-icons/hi2";
 
 const STATUS_TABS = ["open", "pending", "closed", "archived"];
@@ -95,66 +95,170 @@ function ConvItem({ conv, isActive, onClick }) {
   );
 }
 
-/* ── Message Bubble ──────────────────────── */
+/* ── Audio Player (WhatsApp-style) ───────── */
 
-function MediaPreview({ msg }) {
-  const { media_url, message_type } = msg;
-  if (!media_url) return null;
+function AudioPlayer({ src, isOutgoing }) {
+  const audioRef = useRef(null);
+  const [playing, setPlaying] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const [duration, setDuration] = useState(0);
+  const [currentTime, setCurrentTime] = useState(0);
 
-  if (message_type === "image") {
-    return (
-      <a href={media_url} target="_blank" rel="noopener noreferrer">
-        <img
-          src={media_url}
-          alt=""
-          className="mb-1 max-h-48 rounded-lg object-cover"
-          loading="lazy"
-        />
-      </a>
-    );
-  }
+  const toggle = () => {
+    if (!audioRef.current) return;
+    if (playing) audioRef.current.pause();
+    else audioRef.current.play();
+    setPlaying(!playing);
+  };
 
-  if (message_type === "video") {
-    return (
-      <video
-        src={media_url}
-        controls
-        className="mb-1 max-h-48 rounded-lg"
-        preload="metadata"
-      />
-    );
-  }
+  const handleSeek = (e) => {
+    if (!audioRef.current || !duration) return;
+    const rect = e.currentTarget.getBoundingClientRect();
+    const pct = (e.clientX - rect.left) / rect.width;
+    audioRef.current.currentTime = pct * duration;
+  };
 
-  if (message_type === "audio") {
-    return (
+  const fmt = (s) => {
+    if (!s || !isFinite(s)) return "0:00";
+    return `${Math.floor(s / 60)}:${Math.floor(s % 60)
+      .toString()
+      .padStart(2, "0")}`;
+  };
+
+  return (
+    <div className="flex items-center gap-2.5 min-w-[200px]">
       <audio
-        src={media_url}
-        controls
-        className="mb-1 w-full"
+        ref={audioRef}
+        src={src}
         preload="metadata"
+        onLoadedMetadata={() => setDuration(audioRef.current?.duration || 0)}
+        onTimeUpdate={() => {
+          const a = audioRef.current;
+          if (a?.duration) {
+            setCurrentTime(a.currentTime);
+            setProgress((a.currentTime / a.duration) * 100);
+          }
+        }}
+        onEnded={() => {
+          setPlaying(false);
+          setProgress(0);
+          setCurrentTime(0);
+        }}
       />
-    );
-  }
-
-  if (message_type === "document" || message_type === "sticker") {
-    return (
-      <a
-        href={media_url}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="mb-1 inline-flex items-center gap-1.5 rounded-lg bg-black/10 px-3 py-1.5 text-xs hover:bg-black/20 dark:bg-white/10 dark:hover:bg-white/20"
+      <button
+        onClick={toggle}
+        className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full transition-colors ${
+          isOutgoing
+            ? "bg-white/20 text-white hover:bg-white/30"
+            : "bg-[var(--color-primary)] text-white hover:opacity-90"
+        }`}
       >
-        📎 {msg.content || "Attachment"}
-      </a>
-    );
-  }
-
-  return null;
+        {playing ? (
+          <svg className="h-3.5 w-3.5" viewBox="0 0 16 16" fill="currentColor">
+            <rect x="3" y="2" width="4" height="12" rx="1" />
+            <rect x="9" y="2" width="4" height="12" rx="1" />
+          </svg>
+        ) : (
+          <svg
+            className="h-3.5 w-3.5 ml-0.5"
+            viewBox="0 0 16 16"
+            fill="currentColor"
+          >
+            <path d="M4 2.5v11l9-5.5L4 2.5z" />
+          </svg>
+        )}
+      </button>
+      <div className="flex flex-1 flex-col gap-1.5 min-w-0">
+        <div
+          className="relative h-1 w-full cursor-pointer rounded-full"
+          style={{
+            backgroundColor: isOutgoing
+              ? "rgba(255,255,255,0.2)"
+              : "rgba(0,0,0,0.08)",
+          }}
+          onClick={handleSeek}
+        >
+          <div
+            className="absolute left-0 top-0 h-full rounded-full transition-[width] duration-100"
+            style={{
+              width: `${progress}%`,
+              backgroundColor: isOutgoing
+                ? "rgba(255,255,255,0.7)"
+                : "var(--color-primary)",
+            }}
+          />
+        </div>
+        <span
+          className={`text-[10px] leading-none ${
+            isOutgoing ? "text-white/60" : "text-[var(--color-text-tertiary)]"
+          }`}
+        >
+          {currentTime > 0 ? fmt(currentTime) : fmt(duration)}
+        </span>
+      </div>
+    </div>
+  );
 }
 
-function MsgBubble({ msg }) {
+/* ── Media Lightbox (fullscreen overlay) ─── */
+
+function MediaLightbox({ url, type, onClose }) {
+  useEffect(() => {
+    const onKey = (e) => e.key === "Escape" && onClose();
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [onClose]);
+
+  return (
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 backdrop-blur-sm"
+      onClick={onClose}
+    >
+      <button
+        onClick={onClose}
+        className="absolute right-4 top-4 z-10 rounded-full bg-black/50 p-2 text-white transition-colors hover:bg-black/70"
+      >
+        <HiOutlineXMark className="h-6 w-6" />
+      </button>
+      <div
+        className="max-h-[90vh] max-w-[90vw]"
+        onClick={(e) => e.stopPropagation()}
+      >
+        {type === "image" ? (
+          <img
+            src={url}
+            alt=""
+            className="max-h-[90vh] max-w-[90vw] rounded-lg object-contain"
+          />
+        ) : (
+          <video
+            src={url}
+            controls
+            autoPlay
+            className="max-h-[90vh] max-w-[90vw] rounded-lg"
+          />
+        )}
+      </div>
+    </div>
+  );
+}
+
+/* ── Message Bubble ──────────────────────── */
+
+const MEDIA_LABEL_SET = new Set([
+  "📷 Photo",
+  "🎥 Video",
+  "🎤 Voice message",
+  "📎 Document",
+  "Sticker",
+  "📍 Location",
+  "📇 Contact",
+]);
+
+function MsgBubble({ msg, onMediaClick }) {
   const isCustomer = msg.sender_type === "customer";
   const isSystem = msg.sender_type === "system";
+  const isOutgoing = !isCustomer;
 
   if (isSystem) {
     return (
@@ -164,27 +268,127 @@ function MsgBubble({ msg }) {
     );
   }
 
+  const hasMedia = msg.media_url && msg.message_type !== "text";
+  const isImage = hasMedia && msg.message_type === "image";
+  const isVideo = hasMedia && msg.message_type === "video";
+  const isAudio = hasMedia && msg.message_type === "audio";
+  const isDoc =
+    hasMedia &&
+    (msg.message_type === "document" || msg.message_type === "sticker");
+  const showContent =
+    msg.content && !(hasMedia && MEDIA_LABEL_SET.has(msg.content));
+  const time = new Date(msg.created_at).toLocaleTimeString([], {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+  const timeColor = isCustomer
+    ? "text-[var(--color-text-tertiary)]"
+    : "text-white/70";
+
   return (
     <div
       className={`flex ${isCustomer ? "justify-start" : "justify-end"} mb-2`}
     >
       <div
-        className={`max-w-[75%] rounded-2xl px-4 py-2 text-sm ${
+        className={`max-w-[75%] overflow-hidden rounded-2xl text-sm ${
           isCustomer
             ? "rounded-bl-md bg-[var(--color-surface)] text-[var(--color-text-primary)]"
             : "rounded-br-md bg-[var(--color-primary)] text-white"
         }`}
       >
-        <MediaPreview msg={msg} />
-        {msg.content && <p className="whitespace-pre-wrap">{msg.content}</p>}
-        <p
-          className={`mt-1 text-[10px] ${isCustomer ? "text-[var(--color-text-tertiary)]" : "text-white/70"}`}
+        {/* Image */}
+        {isImage && (
+          <div
+            className="cursor-pointer"
+            onClick={() => onMediaClick?.(msg.media_url, "image")}
+          >
+            <img
+              src={msg.media_url}
+              alt=""
+              className="w-full max-h-72 object-cover"
+              loading="lazy"
+            />
+          </div>
+        )}
+
+        {/* Video thumbnail with play overlay */}
+        {isVideo && (
+          <div
+            className="relative cursor-pointer"
+            onClick={() => onMediaClick?.(msg.media_url, "video")}
+          >
+            <video
+              src={msg.media_url}
+              className="w-full max-h-72 object-cover"
+              preload="metadata"
+            />
+            <div className="absolute inset-0 flex items-center justify-center bg-black/30">
+              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-black/50 backdrop-blur-sm">
+                <svg
+                  className="h-5 w-5 ml-0.5 text-white"
+                  viewBox="0 0 16 16"
+                  fill="currentColor"
+                >
+                  <path d="M4 2.5v11l9-5.5L4 2.5z" />
+                </svg>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Audio */}
+        {isAudio && (
+          <div className="px-3 py-2.5">
+            <AudioPlayer src={msg.media_url} isOutgoing={isOutgoing} />
+          </div>
+        )}
+
+        {/* Document / Sticker */}
+        {isDoc && (
+          <div className="px-3 pt-2.5">
+            <a
+              href={msg.media_url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`inline-flex items-center gap-2 rounded-lg px-3 py-2 text-xs font-medium transition-colors ${
+                isOutgoing
+                  ? "bg-white/10 text-white hover:bg-white/20"
+                  : "bg-black/5 text-[var(--color-text-primary)] hover:bg-black/10 dark:bg-white/10 dark:hover:bg-white/20"
+              }`}
+            >
+              <svg
+                className="h-4 w-4 shrink-0"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z"
+                  clipRule="evenodd"
+                />
+              </svg>
+              {msg.content && !MEDIA_LABEL_SET.has(msg.content)
+                ? msg.content
+                : "Document"}
+            </a>
+          </div>
+        )}
+
+        {/* Text + timestamp */}
+        <div
+          className={`${
+            (isImage || isVideo) && !showContent ? "px-3 py-1" : "px-3 py-2"
+          }`}
         >
-          {new Date(msg.created_at).toLocaleTimeString([], {
-            hour: "2-digit",
-            minute: "2-digit",
-          })}
-        </p>
+          {showContent && (
+            <p className="whitespace-pre-wrap break-words">{msg.content}</p>
+          )}
+          <p
+            className={`text-right text-[10px] ${showContent ? "mt-1" : ""} ${timeColor}`}
+          >
+            {time}
+          </p>
+        </div>
       </div>
     </div>
   );
@@ -329,6 +533,12 @@ export default function Conversations() {
   const [quickReplies, setQuickReplies] = useState([]);
   const [showQuickReplies, setShowQuickReplies] = useState(false);
   const messagesEndRef = useRef(null);
+  const [isRecording, setIsRecording] = useState(false);
+  const [recordingDuration, setRecordingDuration] = useState(0);
+  const mediaRecorderRef = useRef(null);
+  const recordingTimerRef = useRef(null);
+  const audioChunksRef = useRef([]);
+  const [lightbox, setLightbox] = useState(null);
 
   // Sync search from URL params (when navigating from TopBar)
   useEffect(() => {
@@ -497,6 +707,93 @@ export default function Conversations() {
     if (fileInputRef.current) fileInputRef.current.value = "";
   };
 
+  // Lightbox
+  const openLightbox = (url, type) => setLightbox({ url, type });
+
+  // Voice recording
+  const startRecording = async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      const recorder = new MediaRecorder(stream);
+      audioChunksRef.current = [];
+
+      recorder.ondataavailable = (e) => {
+        if (e.data.size > 0) audioChunksRef.current.push(e.data);
+      };
+
+      recorder.onstop = async () => {
+        stream.getTracks().forEach((t) => t.stop());
+        if (audioChunksRef.current.length === 0) return;
+        const blob = new Blob(audioChunksRef.current, {
+          type: recorder.mimeType || "audio/webm",
+        });
+        await sendVoiceNote(blob);
+      };
+
+      mediaRecorderRef.current = recorder;
+      recorder.start();
+      setIsRecording(true);
+      setRecordingDuration(0);
+      recordingTimerRef.current = setInterval(
+        () => setRecordingDuration((d) => d + 1),
+        1000,
+      );
+    } catch {
+      /* mic access denied */
+    }
+  };
+
+  const stopRecording = () => {
+    if (mediaRecorderRef.current?.state === "recording") {
+      mediaRecorderRef.current.stop();
+    }
+    clearInterval(recordingTimerRef.current);
+    setIsRecording(false);
+    setRecordingDuration(0);
+  };
+
+  const cancelRecording = () => {
+    if (mediaRecorderRef.current) {
+      const stream = mediaRecorderRef.current.stream;
+      mediaRecorderRef.current.ondataavailable = null;
+      mediaRecorderRef.current.onstop = () =>
+        stream?.getTracks().forEach((t) => t.stop());
+      if (mediaRecorderRef.current.state === "recording")
+        mediaRecorderRef.current.stop();
+    }
+    clearInterval(recordingTimerRef.current);
+    audioChunksRef.current = [];
+    setIsRecording(false);
+    setRecordingDuration(0);
+  };
+
+  const sendVoiceNote = async (blob) => {
+    if (!activeConv || !blob) return;
+    try {
+      setUploading(true);
+      const formData = new FormData();
+      formData.append("file", blob, `voice_${Date.now()}.webm`);
+      formData.append("conversationId", activeConv.id);
+      const uploadRes = await api.post("/whatsapp/media/upload", formData);
+
+      await api.post("/whatsapp/messages/send", {
+        conversationId: activeConv.id,
+        content: "",
+        messageType: "audio",
+        mediaUrl: uploadRes.data.url,
+      });
+
+      const res = await api.get(
+        `/crm/conversations/${activeConv.id}/messages?page=1&limit=100`,
+      );
+      setMessages(res.data || []);
+    } catch {
+      /* toast would go here */
+    } finally {
+      setUploading(false);
+    }
+  };
+
   // Send message (uses the WhatsApp API endpoint)
   const handleSend = async () => {
     if ((!newMsg.trim() && !mediaFile) || !activeConv) return;
@@ -505,22 +802,15 @@ export default function Conversations() {
       let mediaUrl = null;
       let messageType = "text";
 
-      // Upload media to Supabase Storage if a file is selected
+      // Upload media via backend API (bypasses Supabase RLS)
       if (mediaFile) {
         setUploading(true);
         messageType = resolveMediaType(mediaFile.type);
-        const ext = mediaFile.name.split(".").pop();
-        const path = `${activeConv.organization_id || "org"}/${activeConv.id}/${Date.now()}_${Math.random().toString(36).slice(2, 8)}.${ext}`;
-        const { error: uploadErr } = await supabase.storage
-          .from("whatsapp-media")
-          .upload(path, mediaFile);
-
-        if (uploadErr) throw uploadErr;
-
-        const {
-          data: { publicUrl },
-        } = supabase.storage.from("whatsapp-media").getPublicUrl(path);
-        mediaUrl = publicUrl;
+        const formData = new FormData();
+        formData.append("file", mediaFile);
+        formData.append("conversationId", activeConv.id);
+        const uploadRes = await api.post("/whatsapp/media/upload", formData);
+        mediaUrl = uploadRes.data.url;
       }
 
       await api.post("/whatsapp/messages/send", {
@@ -713,7 +1003,13 @@ export default function Conversations() {
                   {t("dashboard.conversations.noMessages")}
                 </div>
               ) : (
-                messages.map((msg) => <MsgBubble key={msg.id} msg={msg} />)
+                messages.map((msg) => (
+                  <MsgBubble
+                    key={msg.id}
+                    msg={msg}
+                    onMediaClick={openLightbox}
+                  />
+                ))
               )}
               <div ref={messagesEndRef} />
             </div>
@@ -769,7 +1065,6 @@ export default function Conversations() {
                 </div>
               )}
               <div className="flex items-center gap-2">
-                {/* File upload button */}
                 <input
                   ref={fileInputRef}
                   type="file"
@@ -777,32 +1072,70 @@ export default function Conversations() {
                   onChange={handleFileSelect}
                   className="hidden"
                 />
-                <button
-                  onClick={() => fileInputRef.current?.click()}
-                  className="rounded-lg p-2.5 text-[var(--color-text-secondary)] hover:bg-[var(--color-bg-secondary)]"
-                  title={t("dashboard.conversations.attachFile")}
-                >
-                  <HiOutlinePaperClip className="h-5 w-5" />
-                </button>
-                <input
-                  value={newMsg}
-                  onChange={handleMsgChange}
-                  onKeyDown={(e) =>
-                    e.key === "Enter" && !e.shiftKey && handleSend()
-                  }
-                  placeholder={
-                    t("dashboard.conversations.typeMessage") +
-                    ' — type "/" for quick replies'
-                  }
-                  className="flex-1 rounded-lg border border-[var(--color-border)] bg-[var(--color-bg)] px-4 py-2.5 text-sm text-[var(--color-text-primary)] placeholder:text-[var(--color-text-tertiary)] focus:border-[var(--color-primary)] focus:outline-none"
-                />
-                <button
-                  onClick={handleSend}
-                  disabled={(!newMsg.trim() && !mediaFile) || uploading}
-                  className="rounded-lg bg-[var(--color-primary)] p-2.5 text-white transition-opacity hover:opacity-90 disabled:opacity-50"
-                >
-                  <HiOutlinePaperAirplane className="h-5 w-5" />
-                </button>
+                {isRecording ? (
+                  <>
+                    <button
+                      onClick={cancelRecording}
+                      className="rounded-lg p-2.5 text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20"
+                      title="Cancel"
+                    >
+                      <HiOutlineXMark className="h-5 w-5" />
+                    </button>
+                    <div className="flex flex-1 items-center gap-3 rounded-lg bg-red-50 px-4 py-2.5 dark:bg-red-900/20">
+                      <span className="h-2.5 w-2.5 animate-pulse rounded-full bg-red-500" />
+                      <span className="text-sm font-medium text-red-600 dark:text-red-400">
+                        {Math.floor(recordingDuration / 60)}:
+                        {(recordingDuration % 60).toString().padStart(2, "0")}
+                      </span>
+                      <span className="text-xs text-red-400 dark:text-red-500">
+                        Recording…
+                      </span>
+                    </div>
+                    <button
+                      onClick={stopRecording}
+                      className="rounded-lg bg-[var(--color-primary)] p-2.5 text-white transition-opacity hover:opacity-90"
+                      title="Send voice note"
+                    >
+                      <HiOutlinePaperAirplane className="h-5 w-5" />
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <button
+                      onClick={() => fileInputRef.current?.click()}
+                      className="rounded-lg p-2.5 text-[var(--color-text-secondary)] hover:bg-[var(--color-bg-secondary)]"
+                      title={t("dashboard.conversations.attachFile")}
+                    >
+                      <HiOutlinePaperClip className="h-5 w-5" />
+                    </button>
+                    <button
+                      onClick={startRecording}
+                      className="rounded-lg p-2.5 text-[var(--color-text-secondary)] hover:bg-[var(--color-bg-secondary)]"
+                      title="Record voice note"
+                    >
+                      <HiOutlineMicrophone className="h-5 w-5" />
+                    </button>
+                    <input
+                      value={newMsg}
+                      onChange={handleMsgChange}
+                      onKeyDown={(e) =>
+                        e.key === "Enter" && !e.shiftKey && handleSend()
+                      }
+                      placeholder={
+                        t("dashboard.conversations.typeMessage") +
+                        ' — type "/" for quick replies'
+                      }
+                      className="flex-1 rounded-lg border border-[var(--color-border)] bg-[var(--color-bg)] px-4 py-2.5 text-sm text-[var(--color-text-primary)] placeholder:text-[var(--color-text-tertiary)] focus:border-[var(--color-primary)] focus:outline-none"
+                    />
+                    <button
+                      onClick={handleSend}
+                      disabled={(!newMsg.trim() && !mediaFile) || uploading}
+                      className="rounded-lg bg-[var(--color-primary)] p-2.5 text-white transition-opacity hover:opacity-90 disabled:opacity-50"
+                    >
+                      <HiOutlinePaperAirplane className="h-5 w-5" />
+                    </button>
+                  </>
+                )}
               </div>
             </div>
           </>
@@ -828,6 +1161,15 @@ export default function Conversations() {
             onAddNote={handleAddNote}
           />
         </div>
+      )}
+
+      {/* Media lightbox */}
+      {lightbox && (
+        <MediaLightbox
+          url={lightbox.url}
+          type={lightbox.type}
+          onClose={() => setLightbox(null)}
+        />
       )}
     </div>
   );

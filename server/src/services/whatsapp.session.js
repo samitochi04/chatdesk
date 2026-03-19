@@ -122,6 +122,21 @@ async function createSession(account, onMessage, opts = {}) {
       keepAliveIntervalMs: HEARTBEAT_MS,
       connectTimeoutMs: 60000,
       retryRequestDelayMs: 2000,
+      getMessage: async (key) => {
+        // Required by Baileys v7 for message retries / decryption
+        // Try to find the message in our DB
+        if (key.id) {
+          const { data } = await supabaseAdmin
+            .from("messages")
+            .select("content")
+            .eq("whatsapp_message_id", key.id)
+            .single();
+          if (data?.content) {
+            return { conversation: data.content };
+          }
+        }
+        return undefined;
+      },
     });
 
     const sessionEntry = {
@@ -250,13 +265,30 @@ async function createSession(account, onMessage, opts = {}) {
 
     // ── Incoming messages ──────────────────────────
     sock.ev.on("messages.upsert", async ({ messages: msgs, type }) => {
-      if (type !== "notify") return;
+      logger.info(
+        `messages.upsert event: type=${type}, count=${msgs?.length || 0}, account=${accountId}`,
+      );
+      if (type !== "notify" && type !== "append") return;
 
       for (const msg of msgs) {
         try {
           if (!msg.message) continue;
           if (msg.key.remoteJid === "status@broadcast") continue;
           if (msg.key.remoteJid?.endsWith("@g.us")) continue;
+
+          // Unwrap ephemeral/viewOnce wrappers & skip protocol messages
+          const unwrapped = unwrapMessage(msg.message);
+          const ct = getContentType(unwrapped);
+          logger.info(
+            `Processing msg from ${msg.key.remoteJid}: contentType=${ct}, fromMe=${msg.key.fromMe}`,
+          );
+          if (
+            !ct ||
+            ct === "protocolMessage" ||
+            ct === "senderKeyDistributionMessage" ||
+            ct === "messageContextInfo"
+          )
+            continue;
 
           if (msg.key.fromMe) {
             await handleOutgoingFromPhone(sock, msg, account);
@@ -407,10 +439,34 @@ function scheduleReconnect(accountId, sessionEntry, onMessage) {
   }, delay);
 }
 
+/** Unwrap ephemeral / viewOnce / documentWithCaption wrappers */
+function unwrapMessage(message) {
+  if (!message) return message;
+  return (
+    message.ephemeralMessage?.message ||
+    message.viewOnceMessage?.message ||
+    message.viewOnceMessageV2?.message ||
+    message.documentWithCaptionMessage?.message ||
+    message.editedMessage?.message ||
+    message
+  );
+}
+
 /* ── Handle outgoing messages sent from the phone ── */
 
 async function handleOutgoingFromPhone(sock, msg, account) {
   const waId = msg.key.id;
+  const normalized = unwrapMessage(msg.message);
+
+  // Skip protocol/system messages
+  const ct = getContentType(normalized);
+  if (
+    !ct ||
+    ct === "protocolMessage" ||
+    ct === "senderKeyDistributionMessage" ||
+    ct === "messageContextInfo"
+  )
+    return;
 
   const { data: exists } = await supabaseAdmin
     .from("messages")
@@ -420,10 +476,22 @@ async function handleOutgoingFromPhone(sock, msg, account) {
   if (exists) return;
 
   const remoteJid = msg.key.remoteJid;
-  if (!remoteJid || remoteJid.endsWith("@g.us")) return;
+  if (
+    !remoteJid ||
+    remoteJid.endsWith("@g.us") ||
+    remoteJid === "status@broadcast"
+  )
+    return;
 
   const orgId = account.organization_id;
-  const rawPhone = remoteJid.replace("@s.whatsapp.net", "");
+  const bare = remoteJid
+    .replace("@s.whatsapp.net", "")
+    .replace("@c.us", "")
+    .replace("@lid", "");
+  const rawPhone = bare.includes(":") ? bare.split(":")[0] : bare;
+
+  // Skip if remote is the connected phone itself
+  if (rawPhone === account.phone_number) return;
 
   const {
     findOrCreateContact,
@@ -438,17 +506,16 @@ async function handleOutgoingFromPhone(sock, msg, account) {
     contact.id,
   );
 
-  const msgType = resolveMessageType(msg);
+  const msgType = resolveMessageType(normalized);
   let mediaUrl = null;
   if (msgType !== "text") {
     try {
       const buffer = await downloadMediaMessage(msg, "buffer", {});
       if (buffer) {
-        const contentType = getContentType(msg.message);
-        const mediaObj = msg.message?.[contentType];
+        const mediaObj = normalized?.[ct];
         const mimetype = mediaObj?.mimetype || "application/octet-stream";
         mediaUrl = await uploadMediaToStorage(
-          { data: buffer.toString("base64"), mimetype },
+          { data: buffer, mimetype },
           orgId,
           conversation.id,
         );
@@ -459,18 +526,27 @@ async function handleOutgoingFromPhone(sock, msg, account) {
   }
 
   const body =
-    msg.message?.conversation ||
-    msg.message?.extendedTextMessage?.text ||
-    msg.message?.imageMessage?.caption ||
-    msg.message?.videoMessage?.caption ||
+    normalized?.conversation ||
+    normalized?.extendedTextMessage?.text ||
+    normalized?.imageMessage?.caption ||
+    normalized?.videoMessage?.caption ||
     null;
+
+  const MEDIA_LABELS = {
+    image: "\ud83d\udcf7 Photo",
+    video: "\ud83c\udfa5 Video",
+    audio: "\ud83c\udfa4 Voice message",
+    document: "\ud83d\udcce Document",
+    sticker: "Sticker",
+  };
+  const contentForDb = body || MEDIA_LABELS[msgType] || null;
 
   await supabaseAdmin.from("messages").insert({
     conversation_id: conversation.id,
     organization_id: orgId,
     sender_type: "team_member",
     sender_id: null,
-    content: body,
+    content: contentForDb,
     message_type: msgType,
     media_url: mediaUrl,
     whatsapp_message_id: waId,
@@ -497,7 +573,10 @@ async function uploadMediaToStorage(media, orgId, conversationId) {
       });
 
     if (error) {
-      logger.warn(`Media upload failed: ${error.message}`);
+      logger.error(
+        `Supabase Storage upload failed for ${fileName}: ${error.message}`,
+      );
+      // Fallback to data URI so the media is still viewable
       return `data:${media.mimetype};base64,${buffer.toString("base64")}`;
     }
 
@@ -505,12 +584,13 @@ async function uploadMediaToStorage(media, orgId, conversationId) {
       .from("whatsapp-media")
       .getPublicUrl(fileName);
 
+    logger.info(`Media uploaded: ${urlData?.publicUrl}`);
     return (
       urlData?.publicUrl ||
       `data:${media.mimetype};base64,${buffer.toString("base64")}`
     );
   } catch (err) {
-    logger.warn(`Media upload error: ${err.message}`);
+    logger.error(`Media upload exception: ${err.message}`);
     const b64 = Buffer.isBuffer(media.data)
       ? media.data.toString("base64")
       : media.data;
@@ -519,6 +599,7 @@ async function uploadMediaToStorage(media, orgId, conversationId) {
 }
 
 function getExtensionFromMimetype(mimetype) {
+  const base = mimetype.split(";")[0].trim();
   const map = {
     "image/jpeg": "jpg",
     "image/png": "png",
@@ -529,12 +610,13 @@ function getExtensionFromMimetype(mimetype) {
     "audio/ogg": "ogg",
     "audio/mpeg": "mp3",
     "audio/mp4": "m4a",
+    "audio/webm": "webm",
     "application/pdf": "pdf",
     "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": "xlsx",
     "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
       "docx",
   };
-  return map[mimetype] || mimetype.split("/")[1] || "bin";
+  return map[base] || base.split("/")[1] || "bin";
 }
 
 /* ── Restore sessions on startup ──────────── */

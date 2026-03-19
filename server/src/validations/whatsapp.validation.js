@@ -12,7 +12,7 @@ const registerAccount = Joi.object({
 
 const sendMessage = Joi.object({
   conversationId: Joi.string().uuid().required(),
-  content: Joi.string().max(4096).required(),
+  content: Joi.string().max(4096).allow("", null).default(""),
   messageType: Joi.string()
     .valid(
       "text",

@@ -305,6 +305,27 @@ const sendMessageHandler = catchAsync(async (req, res) => {
 });
 
 /**
+ * POST /api/whatsapp/media/upload
+ * Upload a media file via the server (uses supabaseAdmin to bypass RLS).
+ */
+const uploadMedia = catchAsync(async (req, res) => {
+  if (!req.file) throw ApiError.badRequest("No file provided");
+
+  const orgId = req.organization.id;
+  const conversationId = req.body.conversationId;
+  if (!conversationId) throw ApiError.badRequest("conversationId is required");
+
+  const { uploadMediaToStorage } = require("../services/whatsapp.session");
+  const publicUrl = await uploadMediaToStorage(
+    { data: req.file.buffer, mimetype: req.file.mimetype },
+    orgId,
+    conversationId,
+  );
+
+  res.json({ success: true, data: { url: publicUrl } });
+});
+
+/**
  * GET /api/whatsapp/sessions
  * Get overview of all live WhatsApp sessions (health monitoring).
  */
@@ -328,5 +349,6 @@ module.exports = {
   listAccounts,
   deleteAccount,
   sendMessageHandler,
+  uploadMedia,
   listSessions,
 };

@@ -2,11 +2,15 @@ import { supabase } from "./supabase";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
-async function getAuthHeaders() {
+async function getAuthHeaders(isFormData) {
   const {
     data: { session },
   } = await supabase.auth.getSession();
-  const headers = { "Content-Type": "application/json" };
+  const headers = {};
+  // Don't set Content-Type for FormData — browser sets it with boundary
+  if (!isFormData) {
+    headers["Content-Type"] = "application/json";
+  }
   if (session?.access_token) {
     headers["Authorization"] = `Bearer ${session.access_token}`;
   }
@@ -14,7 +18,8 @@ async function getAuthHeaders() {
 }
 
 async function request(endpoint, options = {}) {
-  const headers = await getAuthHeaders();
+  const isFormData = options.body instanceof FormData;
+  const headers = await getAuthHeaders(isFormData);
   const res = await fetch(`${API_URL}${endpoint}`, {
     ...options,
     headers: { ...headers, ...options.headers },
@@ -33,7 +38,10 @@ async function request(endpoint, options = {}) {
 export const api = {
   get: (endpoint) => request(endpoint),
   post: (endpoint, data) =>
-    request(endpoint, { method: "POST", body: JSON.stringify(data) }),
+    request(endpoint, {
+      method: "POST",
+      body: data instanceof FormData ? data : JSON.stringify(data),
+    }),
   put: (endpoint, data) =>
     request(endpoint, { method: "PUT", body: JSON.stringify(data) }),
   patch: (endpoint, data) =>
