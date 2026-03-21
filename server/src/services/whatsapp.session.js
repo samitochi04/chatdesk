@@ -25,6 +25,13 @@ const PRESENCE_HEARTBEAT_MS = 2 * 60 * 1000;
 const WATCHDOG_CHECK_MS = 60 * 1000;
 const STALE_SOCKET_MS = 5 * 60 * 1000;
 const QR_TIMEOUT_MS = 120000;
+const MESSAGE_STATUS_RANK = {
+  pending: 0,
+  sent: 1,
+  delivered: 2,
+  read: 3,
+  failed: -1,
+};
 
 const baileysLogger = pino({ level: "silent" });
 
@@ -357,9 +364,18 @@ async function createSession(account, onMessage, opts = {}) {
       for (const { key, update: upd } of updates) {
         try {
           if (!upd.status) continue;
-          const statusMap = { 2: "delivered", 3: "read", 4: "read" };
-          const newStatus = statusMap[upd.status];
+          const newStatus = mapAckStatus(upd.status);
           if (!newStatus || !key.id) continue;
+
+          const { data: existing } = await supabaseAdmin
+            .from("messages")
+            .select("status")
+            .eq("whatsapp_message_id", key.id)
+            .single();
+
+          const currentRank = MESSAGE_STATUS_RANK[existing?.status] ?? 0;
+          const nextRank = MESSAGE_STATUS_RANK[newStatus] ?? 0;
+          if (nextRank < currentRank) continue;
 
           await supabaseAdmin
             .from("messages")
@@ -466,6 +482,16 @@ function clearReconnectTimer(sessionEntry) {
     clearTimeout(sessionEntry.reconnectTimer);
     sessionEntry.reconnectTimer = null;
   }
+}
+
+function mapAckStatus(rawStatus) {
+  // WhatsApp ack progression:
+  // 1=server ack (sent), 2=device ack (delivered), 3=read, 4+=read/played.
+  if (rawStatus >= 4) return "read";
+  if (rawStatus === 3) return "read";
+  if (rawStatus === 2) return "delivered";
+  if (rawStatus === 1) return "sent";
+  return null;
 }
 
 /* ── Auto-reconnect ──────────────────────── */

@@ -1,6 +1,14 @@
 const { supabaseAdmin } = require("../config/supabase");
 const logger = require("../utils/logger");
 
+const RECIPIENT_STATUS_RANK = {
+  pending: 0,
+  sent: 1,
+  delivered: 2,
+  read: 3,
+  failed: -1,
+};
+
 // Lazy-require to break circular dependency with whatsapp.session
 function getSessionManager() {
   return require("./whatsapp.session");
@@ -253,7 +261,6 @@ async function processBroadcast(broadcast, session, delayMs) {
       .update({
         status: "sent",
         sent_at: new Date().toISOString(),
-        delivered_count: sentCount,
       })
       .eq("id", broadcastId);
 
@@ -280,6 +287,24 @@ async function processBroadcast(broadcast, session, delayMs) {
 async function handleBroadcastAck(waMessageId, newStatus) {
   if (!waMessageId) return;
 
+  const rank = RECIPIENT_STATUS_RANK[newStatus];
+  if (typeof rank !== "number" || rank < 0) return;
+
+  const { data: current } = await supabaseAdmin
+    .from("broadcast_recipients")
+    .select("id, broadcast_id, status, delivered_at, read_at")
+    .eq("whatsapp_message_id", waMessageId)
+    .single();
+
+  // No match means this ack isn't for a broadcast message — that's fine.
+  if (!current) return;
+
+  const currentRank = RECIPIENT_STATUS_RANK[current.status] ?? 0;
+  if (rank < currentRank) {
+    // Ignore regressive acks (e.g. delayed delivered after already read).
+    return;
+  }
+
   const timestampCol =
     newStatus === "delivered"
       ? "delivered_at"
@@ -288,22 +313,23 @@ async function handleBroadcastAck(waMessageId, newStatus) {
         : null;
 
   const update = { status: newStatus };
+  // Ensure delivered_at also exists when moving to read.
+  if (newStatus === "read" && !current.delivered_at) {
+    update.delivered_at = new Date().toISOString();
+  }
   if (timestampCol) {
     update[timestampCol] = new Date().toISOString();
   }
 
-  const { data: recipient, error } = await supabaseAdmin
+  const { error } = await supabaseAdmin
     .from("broadcast_recipients")
     .update(update)
-    .eq("whatsapp_message_id", waMessageId)
-    .select("broadcast_id")
-    .single();
+    .eq("id", current.id);
 
-  // No match means this ack isn't for a broadcast message — that's fine
-  if (error || !recipient) return;
+  if (error) return;
 
   // Roll up counts on the broadcasts row
-  await rollUpCounts(recipient.broadcast_id);
+  await rollUpCounts(current.broadcast_id);
 }
 
 /**
@@ -312,15 +338,19 @@ async function handleBroadcastAck(waMessageId, newStatus) {
 async function rollUpCounts(broadcastId) {
   const { data: stats } = await supabaseAdmin
     .from("broadcast_recipients")
-    .select("status")
+    .select("status, delivered_at, read_at")
     .eq("broadcast_id", broadcastId);
 
   if (!stats) return;
 
   const delivered = stats.filter(
-    (r) => r.status === "delivered" || r.status === "read",
+    (r) =>
+      r.status === "delivered" ||
+      r.status === "read" ||
+      !!r.delivered_at ||
+      !!r.read_at,
   ).length;
-  const read = stats.filter((r) => r.status === "read").length;
+  const read = stats.filter((r) => r.status === "read" || !!r.read_at).length;
 
   await supabaseAdmin
     .from("broadcasts")

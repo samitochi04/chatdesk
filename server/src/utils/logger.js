@@ -1,5 +1,37 @@
 const winston = require("winston");
+const fs = require("fs");
+const path = require("path");
 const config = require("../config");
+
+const LOG_RETENTION_DAYS = 7;
+const LOG_CLEANUP_INTERVAL_MS = 24 * 60 * 60 * 1000;
+const LOG_FILES = ["error.log", "combined.log"];
+const logsDir = path.join(process.cwd(), "logs");
+
+function truncateOldLogsIfNeeded() {
+  const cutoff = Date.now() - LOG_RETENTION_DAYS * 24 * 60 * 60 * 1000;
+
+  for (const fileName of LOG_FILES) {
+    const filePath = path.join(logsDir, fileName);
+    try {
+      if (!fs.existsSync(filePath)) continue;
+
+      const stat = fs.statSync(filePath);
+      if (stat.mtimeMs < cutoff) {
+        fs.truncateSync(filePath, 0);
+      }
+    } catch {
+      // Ignore cleanup errors to avoid impacting app startup/runtime.
+    }
+  }
+}
+
+if (!fs.existsSync(logsDir)) {
+  fs.mkdirSync(logsDir, { recursive: true });
+}
+
+truncateOldLogsIfNeeded();
+setInterval(truncateOldLogsIfNeeded, LOG_CLEANUP_INTERVAL_MS).unref();
 
 const logger = winston.createLogger({
   level: config.logLevel,
