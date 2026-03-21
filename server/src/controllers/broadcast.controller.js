@@ -16,6 +16,7 @@ const createBroadcast = catchAsync(async (req, res) => {
     messageTemplate,
     whatsappAccountId,
     targetTagIds,
+    targetClassifications,
     scheduledAt,
   } = req.body;
 
@@ -47,6 +48,23 @@ const createBroadcast = catchAsync(async (req, res) => {
     }
   }
 
+  // Validate classification values if provided
+  const allowedClassifications = new Set([
+    "new_lead",
+    "interested",
+    "said_no",
+    "bought",
+    "didnt_buy",
+  ]);
+  if (targetClassifications && targetClassifications.length > 0) {
+    const hasInvalid = targetClassifications.some(
+      (value) => !allowedClassifications.has(value),
+    );
+    if (hasInvalid) {
+      throw ApiError.badRequest("One or more classifications are invalid");
+    }
+  }
+
   const { data: broadcast, error } = await supabaseAdmin
     .from("broadcasts")
     .insert({
@@ -55,6 +73,7 @@ const createBroadcast = catchAsync(async (req, res) => {
       name,
       message_template: messageTemplate,
       target_tag_ids: targetTagIds || [],
+      target_classifications: targetClassifications || [],
       scheduled_at: scheduledAt || null,
       created_by: req.user.id,
       status: "draft",

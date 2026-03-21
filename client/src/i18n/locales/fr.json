@@ -320,7 +320,9 @@
       "notes": "Notes",
       "addNote": "Ajouter une note...",
       "contactInfo": "Infos du contact",
-      "attachFile": "Joindre un fichier"
+      "attachFile": "Joindre un fichier",
+      "saveContact": "Enregistrer le contact",
+      "savingContact": "Enregistrement..."
     },
     "contacts": {
       "title": "Contacts",
@@ -346,7 +348,12 @@
       "viewConversations": "Voir les conversations",
       "info": "Infos du contact",
       "noTags": "Aucun tag assigné",
-      "notesLabel": "Notes"
+      "notesLabel": "Notes",
+      "new_lead": "Nouveau prospect",
+      "interested": "Intéressé",
+      "said_no": "Refusé",
+      "bought": "A acheté",
+      "didnt_buy": "N'a pas acheté"
     },
     "pipeline": {
       "title": "Pipeline de ventes",
@@ -535,10 +542,11 @@
       "messageHint": "Tapez votre message de diffusion ici...",
       "whatsappAccount": "Compte WhatsApp",
       "recipients": "Destinataires",
-      "recipientHint": "Sélectionnez des tags pour cibler des contacts spécifiques, ou laissez vide pour envoyer à tous.",
-      "noTags": "Aucun tag disponible",
+      "recipientHint": "Sélectionnez des classifications pour cibler des contacts spécifiques, ou laissez vide pour envoyer à tous.",
+      "noTags": "Aucune classification disponible",
       "allContacts": "Tous les contacts",
       "tagsSelected": "tags sélectionnés",
+      "classificationsSelected": "classifications sélectionnées",
       "schedule": "Planifier",
       "sendNow": "Envoyer maintenant",
       "scheduleLater": "Planifier pour plus tard",

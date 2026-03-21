@@ -41,10 +41,23 @@ async function scheduleBroadcast(broadcastId, orgId) {
     );
   }
 
-  // Resolve contacts from target_tag_ids
+  // Resolve contacts from classification criteria (primary) or legacy tags
   let contactIds = [];
 
-  if (broadcast.target_tag_ids && broadcast.target_tag_ids.length > 0) {
+  if (
+    broadcast.target_classifications &&
+    broadcast.target_classifications.length > 0
+  ) {
+    const { data: classifiedContacts } = await supabaseAdmin
+      .from("contacts")
+      .select("id")
+      .eq("organization_id", orgId)
+      .in("classification", broadcast.target_classifications);
+
+    if (classifiedContacts) {
+      contactIds = classifiedContacts.map((c) => c.id);
+    }
+  } else if (broadcast.target_tag_ids && broadcast.target_tag_ids.length > 0) {
     const { data: taggedContacts } = await supabaseAdmin
       .from("contact_tags")
       .select("contact_id")
@@ -67,7 +80,7 @@ async function scheduleBroadcast(broadcastId, orgId) {
   }
 
   if (contactIds.length === 0) {
-    throw new Error("No recipients found for the selected tags");
+    throw new Error("No recipients found for the selected filters");
   }
 
   // Insert broadcast_recipients (ignore duplicates with onConflict)

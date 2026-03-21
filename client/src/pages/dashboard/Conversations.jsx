@@ -50,10 +50,25 @@ function avatarFallback(name) {
     .toUpperCase();
 }
 
+function getConversationPhone(conversation) {
+  return conversation?.contacts?.phone_number || conversation?.participant_phone || "";
+}
+
+function getConversationName(conversation) {
+  return (
+    conversation?.contacts?.name ||
+    conversation?.participant_name ||
+    getConversationPhone(conversation) ||
+    "Unknown"
+  );
+}
+
 /* ── Conversation List Item ──────────────── */
 
 function ConvItem({ conv, isActive, onClick }) {
   const contact = conv.contacts;
+  const displayName = getConversationName(conv);
+  const displayPhone = getConversationPhone(conv);
   return (
     <button
       onClick={() => onClick(conv)}
@@ -68,14 +83,14 @@ function ConvItem({ conv, isActive, onClick }) {
             alt=""
           />
         ) : (
-          avatarFallback(contact?.name || contact?.phone_number)
+          avatarFallback(displayName || displayPhone)
         )}
       </div>
 
       <div className="min-w-0 flex-1">
         <div className="flex items-center justify-between">
           <p className="truncate text-sm font-medium text-[var(--color-text-primary)]">
-            {contact?.name || contact?.phone_number || "Unknown"}
+            {displayName}
           </p>
           <span className="ml-2 shrink-0 text-xs text-[var(--color-text-tertiary)]">
             {timeAgo(conv.last_message_at)}
@@ -396,9 +411,17 @@ function MsgBubble({ msg, onMediaClick }) {
 
 /* ── Contact Sidebar ─────────────────────── */
 
-function ContactPanel({ conversation, notes, onAddNote }) {
+function ContactPanel({
+  conversation,
+  notes,
+  onAddNote,
+  onSaveContact,
+  savingContact,
+}) {
   const { t } = useTranslation();
   const contact = conversation?.contacts;
+  const displayName = getConversationName(conversation);
+  const displayPhone = getConversationPhone(conversation);
   const [noteText, setNoteText] = useState("");
 
   if (!conversation) return null;
@@ -415,14 +438,25 @@ function ContactPanel({ conversation, notes, onAddNote }) {
       <div className="border-b border-[var(--color-border)] p-4">
         <div className="flex flex-col items-center text-center">
           <div className="flex h-16 w-16 items-center justify-center rounded-full bg-[var(--color-primary)]/15 text-xl font-bold text-[var(--color-primary)]">
-            {avatarFallback(contact?.name || contact?.phone_number)}
+            {avatarFallback(displayName || displayPhone)}
           </div>
           <h3 className="mt-2 font-semibold text-[var(--color-text-primary)]">
-            {contact?.name || "Unknown"}
+            {displayName}
           </h3>
           <p className="text-sm text-[var(--color-text-secondary)]">
-            {contact?.phone_number}
+            {displayPhone || "-"}
           </p>
+          {!contact?.id && displayPhone && (
+            <button
+              onClick={onSaveContact}
+              disabled={savingContact}
+              className="mt-3 rounded-lg border border-[var(--color-border)] px-3 py-1.5 text-xs font-medium text-[var(--color-text-primary)] hover:bg-[var(--color-bg-secondary)] disabled:cursor-not-allowed disabled:opacity-60"
+            >
+              {savingContact
+                ? t("dashboard.conversations.savingContact")
+                : t("dashboard.conversations.saveContact")}
+            </button>
+          )}
           {contact?.classification && (
             <span className="mt-1 inline-block rounded-full bg-[var(--color-primary)]/10 px-2 py-0.5 text-xs font-medium text-[var(--color-primary)]">
               {contact.classification}
@@ -532,6 +566,7 @@ export default function Conversations() {
   const [showContact, setShowContact] = useState(false);
   const [quickReplies, setQuickReplies] = useState([]);
   const [showQuickReplies, setShowQuickReplies] = useState(false);
+  const [savingContact, setSavingContact] = useState(false);
   const messagesEndRef = useRef(null);
   const [isRecording, setIsRecording] = useState(false);
   const [recordingDuration, setRecordingDuration] = useState(0);
@@ -865,6 +900,31 @@ export default function Conversations() {
     }
   };
 
+  const handleSaveContact = async () => {
+    if (!activeConv || activeConv.contacts?.id || !getConversationPhone(activeConv))
+      return;
+
+    try {
+      setSavingContact(true);
+      const res = await api.post(
+        `/crm/conversations/${activeConv.id}/save-contact`,
+        {
+          name: activeConv.participant_name || "",
+        },
+      );
+
+      const updated = res.data;
+      setActiveConv(updated);
+      setConversations((prev) =>
+        prev.map((c) => (c.id === updated.id ? updated : c)),
+      );
+    } catch {
+      /* ignore */
+    } finally {
+      setSavingContact(false);
+    }
+  };
+
   return (
     <div className="-m-4 flex h-[calc(100vh-4rem)] sm:-m-6">
       {/* ── Panel 1: Conversation List ──────── */}
@@ -951,17 +1011,17 @@ export default function Conversations() {
                   <HiOutlineXMark className="h-5 w-5 text-[var(--color-text-secondary)]" />
                 </button>
                 <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[var(--color-primary)]/15 text-sm font-semibold text-[var(--color-primary)]">
-                  {avatarFallback(
-                    activeConv.contacts?.name ||
-                      activeConv.contacts?.phone_number,
-                  )}
+                  {avatarFallback(getConversationName(activeConv))}
                 </div>
                 <div>
                   <p className="text-sm font-medium text-[var(--color-text-primary)]">
-                    {activeConv.contacts?.name ||
-                      activeConv.contacts?.phone_number ||
-                      "Unknown"}
+                    {getConversationName(activeConv)}
                   </p>
+                  {!activeConv.contacts?.name && getConversationPhone(activeConv) && (
+                    <p className="text-xs text-[var(--color-text-secondary)]">
+                      {getConversationPhone(activeConv)}
+                    </p>
+                  )}
                   <p className="text-xs capitalize text-[var(--color-text-tertiary)]">
                     {activeConv.status}
                   </p>
@@ -1159,6 +1219,8 @@ export default function Conversations() {
             conversation={activeConv}
             notes={notes}
             onAddNote={handleAddNote}
+            onSaveContact={handleSaveContact}
+            savingContact={savingContact}
           />
         </div>
       )}

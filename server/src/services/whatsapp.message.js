@@ -1,6 +1,7 @@
 const {
   downloadMediaMessage,
   getContentType,
+  jidNormalizedUser,
 } = require("@whiskeysockets/baileys");
 const { supabaseAdmin } = require("../config/supabase");
 const aiService = require("./ai.service");
@@ -120,15 +121,57 @@ function getMessageBody(messageContent) {
   );
 }
 
+function normalizePhoneCandidate(value) {
+  if (!value) return null;
+  const digits = String(value).replace(/\D/g, "");
+  if (digits.length < 7 || digits.length > 15) return null;
+  return digits;
+}
+
+function normalizeRemoteJid(jid) {
+  if (!jid || typeof jid !== "string") return null;
+
+  if (typeof jidNormalizedUser === "function") {
+    return jidNormalizedUser(jid);
+  }
+
+  if (!jid.includes("@")) return null;
+  const [user, server] = jid.split("@");
+  const baseUser = user.includes(":") ? user.split(":")[0] : user;
+  return `${baseUser}@${server}`;
+}
+
 function getPhoneFromJid(jid) {
-  if (!jid) return "";
-  // Strip the domain suffix
-  const bare = jid
-    .replace("@s.whatsapp.net", "")
-    .replace("@c.us", "")
-    .replace("@lid", "");
-  // LID JIDs look like "number:device@lid" — take the part before the colon
-  return bare.includes(":") ? bare.split(":")[0] : bare;
+  if (!jid || typeof jid !== "string" || !jid.includes("@")) return null;
+
+  const [user, server] = jid.split("@");
+  if (["g.us", "broadcast", "lid"].includes(server)) return null;
+
+  const baseUser = user.includes(":") ? user.split(":")[0] : user;
+  return normalizePhoneCandidate(baseUser);
+}
+
+function extractIncomingIdentity(msg) {
+  const remoteJid = msg?.key?.remoteJid || null;
+  const participantJid = msg?.key?.participant || null;
+  const normalizedRemoteJid = normalizeRemoteJid(remoteJid) || remoteJid;
+
+  const candidates = [remoteJid, participantJid, normalizedRemoteJid].filter(
+    Boolean,
+  );
+
+  let phoneNumber = null;
+  for (const candidate of candidates) {
+    phoneNumber = getPhoneFromJid(candidate);
+    if (phoneNumber) break;
+  }
+
+  return {
+    remoteJid,
+    normalizedRemoteJid,
+    phoneNumber,
+    displayName: msg?.pushName || null,
+  };
 }
 
 function isValidUserJid(jid) {
@@ -156,12 +199,13 @@ function unwrapMessage(message) {
 /**
  * Core handler for every incoming WhatsApp message (Baileys format).
  */
-async function handleIncomingMessage(sock, msg, account) {
-  const remoteJid = msg.key.remoteJid;
-  if (!remoteJid) return;
+async function handleIncomingMessage(sock, msg, account, options = {}) {
+  const { skipSideEffects = false, skipMediaDownload = false } = options;
+  const identity = extractIncomingIdentity(msg);
+  if (!identity.remoteJid) return;
 
-  // Skip group messages, status broadcasts, and LID JIDs
-  if (!isValidUserJid(remoteJid)) return;
+  // Skip group messages and status broadcasts
+  if (!isValidUserJid(identity.remoteJid)) return;
 
   // Unwrap ephemeral / viewOnce / documentWithCaption wrappers
   const normalized = unwrapMessage(msg.message);
@@ -178,27 +222,43 @@ async function handleIncomingMessage(sock, msg, account) {
 
   const orgId = account.organization_id;
   const waAccountId = account.id;
-  const rawPhone = getPhoneFromJid(remoteJid);
+
+  // Avoid double-processing when Baileys replays history or reconnect events.
+  if (msg.key?.id) {
+    const { data: existingMsg } = await supabaseAdmin
+      .from("messages")
+      .select("id")
+      .eq("whatsapp_message_id", msg.key.id)
+      .single();
+
+    if (existingMsg) return;
+  }
 
   // Skip messages from the connected account's own number
-  if (rawPhone === account.phone_number) return;
+  if (identity.phoneNumber && identity.phoneNumber === account.phone_number)
+    return;
 
-  logger.info(`Incoming message from ${rawPhone}: type=${contentType}`);
+  logger.info(
+    `Incoming message from ${identity.phoneNumber || identity.remoteJid}: type=${contentType}`,
+  );
 
-  // Find or create contact
-  const contact = await findOrCreateContact(orgId, rawPhone, msg);
+  // Only attach to an existing contact. Unknown senders stay unsaved until manually saved.
+  const contact = identity.phoneNumber
+    ? await findContactByPhone(orgId, identity.phoneNumber)
+    : null;
 
   // Find or create conversation
-  const conversation = await findOrCreateConversation(
-    orgId,
-    waAccountId,
-    contact.id,
-  );
+  const conversation = await findOrCreateConversation(orgId, waAccountId, {
+    contactId: contact?.id || null,
+    remoteJid: identity.normalizedRemoteJid,
+    phoneNumber: identity.phoneNumber,
+    displayName: identity.displayName,
+  });
 
   // Store the incoming message
   const msgType = resolveMessageType(normalized);
   let mediaUrl = null;
-  if (msgType !== "text") {
+  if (msgType !== "text" && !skipMediaDownload) {
     try {
       const buffer = await downloadMediaMessage(msg, "buffer", {});
       if (buffer) {
@@ -256,35 +316,51 @@ async function handleIncomingMessage(sock, msg, account) {
   }
 
   // Notify org members
-  const contactName = contact.name || contact.phone_number;
-  notifyOrgMembers({
-    orgId,
-    type: "new_message",
-    title: `New message from ${contactName}`,
-    body: body ? body.substring(0, 100) : "[media]",
-    link: `/dashboard/conversations?id=${conversation.id}`,
-    emailData: {
-      contactName,
-      messagePreview: body ? body.substring(0, 200) : "[media]",
-    },
-  });
+  const contactName =
+    contact?.name ||
+    contact?.phone_number ||
+    conversation.participant_name ||
+    conversation.participant_phone ||
+    "Unknown";
+  if (!skipSideEffects) {
+    notifyOrgMembers({
+      orgId,
+      type: "new_message",
+      title: `New message from ${contactName}`,
+      body: body ? body.substring(0, 100) : "[media]",
+      link: `/dashboard/conversations?id=${conversation.id}`,
+      emailData: {
+        contactName,
+        messagePreview: body ? body.substring(0, 200) : "[media]",
+      },
+    });
 
-  logActivity({
-    organizationId: orgId,
-    userId: null,
-    action: "received",
-    entityType: "message",
-    entityId: savedMsg.id,
-    metadata: { contactId: contact.id, conversationId: conversation.id },
-  });
+    logActivity({
+      organizationId: orgId,
+      userId: null,
+      action: "received",
+      entityType: "message",
+      entityId: savedMsg.id,
+      metadata: {
+        contactId: contact?.id || null,
+        conversationId: conversation.id,
+      },
+    });
+  }
 
   // Check auto-reply rules
-  if (body) {
-    await checkAutoReply(sock, remoteJid, body, orgId, conversation);
+  if (body && !skipSideEffects) {
+    await checkAutoReply(
+      sock,
+      identity.normalizedRemoteJid || identity.remoteJid,
+      body,
+      orgId,
+      conversation,
+    );
   }
 
   // Evaluate AI triggers
-  if (body) {
+  if (body && !skipSideEffects) {
     try {
       const matchedTriggers = await aiService.evaluateTriggers(
         orgId,
@@ -315,12 +391,19 @@ async function handleIncomingMessage(sock, msg, account) {
   }
 
   // AI agent handling
-  if (conversation.is_ai_handled && conversation.ai_agent_id && body) {
+  if (
+    !skipSideEffects &&
+    conversation.is_ai_handled &&
+    conversation.ai_agent_id &&
+    body
+  ) {
     try {
       const aiReply = await aiService.handleAIConversation(conversation, body);
 
       if (aiReply) {
-        await sock.sendMessage(remoteJid, { text: aiReply });
+        await sock.sendMessage(identity.normalizedRemoteJid || identity.remoteJid, {
+          text: aiReply,
+        });
 
         await supabaseAdmin.from("messages").insert({
           conversation_id: conversation.id,
@@ -341,14 +424,37 @@ async function handleIncomingMessage(sock, msg, account) {
 }
 
 /**
+ * Find existing contact by phone.
+ */
+async function findContactByPhone(orgId, phone) {
+  const normalizedPhone = normalizePhoneCandidate(phone);
+  if (!normalizedPhone) return null;
+
+  const { data, error } = await supabaseAdmin
+    .from("contacts")
+    .select("*")
+    .eq("organization_id", orgId)
+    .eq("phone_number", normalizedPhone)
+    .single();
+
+  if (error || !data) return null;
+  return data;
+}
+
+/**
  * Find existing contact by phone or create a new one.
  */
 async function findOrCreateContact(orgId, phone, msg) {
+  const normalizedPhone = normalizePhoneCandidate(phone);
+  if (!normalizedPhone) {
+    throw new Error("Cannot create contact without a valid phone number");
+  }
+
   const { data: existing } = await supabaseAdmin
     .from("contacts")
     .select("*")
     .eq("organization_id", orgId)
-    .eq("phone_number", phone)
+    .eq("phone_number", normalizedPhone)
     .single();
 
   if (existing) return existing;
@@ -363,7 +469,7 @@ async function findOrCreateContact(orgId, phone, msg) {
     .from("contacts")
     .insert({
       organization_id: orgId,
-      phone_number: phone,
+      phone_number: normalizedPhone,
       name: contactName,
       classification: "new_lead",
       last_conversation_at: new Date().toISOString(),
@@ -386,19 +492,80 @@ async function findOrCreateContact(orgId, phone, msg) {
 /**
  * Find existing open conversation or create a new one.
  */
-async function findOrCreateConversation(orgId, waAccountId, contactId) {
-  const { data: existing } = await supabaseAdmin
+async function findOrCreateConversation(orgId, waAccountId, identity = {}) {
+  const {
+    contactId = null,
+    remoteJid = null,
+    phoneNumber = null,
+    displayName = null,
+  } = identity;
+
+  const normalizedRemoteJid = normalizeRemoteJid(remoteJid) || remoteJid;
+  const normalizedPhone = normalizePhoneCandidate(phoneNumber);
+
+  if (!contactId && !normalizedRemoteJid && !normalizedPhone) {
+    throw new Error("Cannot resolve conversation identity");
+  }
+
+  let query = supabaseAdmin
     .from("conversations")
     .select("*")
     .eq("organization_id", orgId)
     .eq("whatsapp_account_id", waAccountId)
-    .eq("contact_id", contactId)
     .in("status", ["open", "pending"])
     .order("created_at", { ascending: false })
-    .limit(1)
-    .single();
+    .limit(1);
+
+  if (contactId) {
+    query = query.eq("contact_id", contactId);
+  } else if (normalizedRemoteJid) {
+    query = query.is("contact_id", null).eq("remote_jid", normalizedRemoteJid);
+  } else {
+    query = query.is("contact_id", null).eq("participant_phone", normalizedPhone);
+  }
+
+  const { data: existing, error: existingError } = await query.maybeSingle();
+  if (existingError) {
+    logger.error(`Failed to fetch conversation: ${existingError.message}`);
+    throw existingError;
+  }
 
   if (existing) return existing;
+
+  if (contactId && normalizedPhone) {
+    const { data: anonymousConversation } = await supabaseAdmin
+      .from("conversations")
+      .select("*")
+      .eq("organization_id", orgId)
+      .eq("whatsapp_account_id", waAccountId)
+      .is("contact_id", null)
+      .eq("participant_phone", normalizedPhone)
+      .in("status", ["open", "pending"])
+      .order("created_at", { ascending: false })
+      .limit(1)
+      .maybeSingle();
+
+    if (anonymousConversation) {
+      const { data: promoted, error: promoteError } = await supabaseAdmin
+        .from("conversations")
+        .update({
+          contact_id: contactId,
+          participant_name:
+            anonymousConversation.participant_name || displayName || null,
+          remote_jid: anonymousConversation.remote_jid || normalizedRemoteJid,
+        })
+        .eq("id", anonymousConversation.id)
+        .select("*")
+        .single();
+
+      if (promoteError) {
+        logger.error(`Failed to promote conversation: ${promoteError.message}`);
+        throw promoteError;
+      }
+
+      return promoted;
+    }
+  }
 
   const { data: created, error } = await supabaseAdmin
     .from("conversations")
@@ -406,6 +573,9 @@ async function findOrCreateConversation(orgId, waAccountId, contactId) {
       organization_id: orgId,
       whatsapp_account_id: waAccountId,
       contact_id: contactId,
+      participant_phone: normalizedPhone,
+      participant_name: displayName || null,
+      remote_jid: normalizedRemoteJid,
       status: "open",
       last_message_at: new Date().toISOString(),
     })
@@ -417,7 +587,7 @@ async function findOrCreateConversation(orgId, waAccountId, contactId) {
     throw error;
   }
 
-  logger.info(`Created conversation ${created.id} for contact ${contactId}`);
+  logger.info(`Created conversation ${created.id} for account ${waAccountId}`);
   return created;
 }
 
@@ -503,17 +673,31 @@ async function sendMessage(
   const orgId = conversation.organization_id;
   const contactId = conversation.contact_id;
 
-  const { data: contact, error: contactErr } = await supabaseAdmin
-    .from("contacts")
-    .select("phone_number")
-    .eq("id", contactId)
-    .single();
+  let destinationPhone = null;
+  if (contactId) {
+    const { data: contact, error: contactErr } = await supabaseAdmin
+      .from("contacts")
+      .select("phone_number")
+      .eq("id", contactId)
+      .single();
 
-  if (contactErr || !contact) {
-    throw new Error("Contact not found");
+    if (!contactErr && contact?.phone_number) {
+      destinationPhone = normalizePhoneCandidate(contact.phone_number);
+    }
   }
 
-  const jid = `${contact.phone_number}@s.whatsapp.net`;
+  if (!destinationPhone) {
+    destinationPhone = normalizePhoneCandidate(conversation.participant_phone);
+  }
+
+  const normalizedRemoteJid = normalizeRemoteJid(conversation.remote_jid);
+  const jid = destinationPhone
+    ? `${destinationPhone}@s.whatsapp.net`
+    : normalizedRemoteJid;
+
+  if (!jid) {
+    throw new Error("Conversation recipient not found");
+  }
 
   let waMessage;
   try {
@@ -618,6 +802,7 @@ function resolveMessageType(messageContent) {
 module.exports = {
   handleIncomingMessage,
   sendMessage,
+  findContactByPhone,
   findOrCreateContact,
   findOrCreateConversation,
   checkAutoReply,

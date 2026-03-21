@@ -103,7 +103,7 @@ const connectAccount = catchAsync(async (req, res) => {
 
   // Wait for QR (with timeout)
   const qrTimeout = new Promise((resolve) =>
-    setTimeout(() => resolve(null), 45000),
+    setTimeout(() => resolve(null), 120000),
   );
   const qrDataUrl = await Promise.race([qrPromise, qrTimeout]);
 

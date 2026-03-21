@@ -11,6 +11,16 @@ const catchAsync = require("../utils/catchAsync");
 /*  Contacts                                                           */
 /* ================================================================== */
 
+function normalizePhoneNumber(value) {
+  const digits = String(value || "").replace(/\D/g, "");
+  if (digits.length < 7 || digits.length > 15) {
+    throw ApiError.badRequest(
+      "Phone number must contain 7-15 digits with country code",
+    );
+  }
+  return digits;
+}
+
 const listContacts = catchAsync(async (req, res) => {
   const orgId = req.organization.id;
   const { search, classification, tag, page, limit, sort, order } = req.query;
@@ -73,12 +83,13 @@ const getContact = catchAsync(async (req, res) => {
 const createContact = catchAsync(async (req, res) => {
   const orgId = req.organization.id;
   const { phoneNumber, name, email, classification, notes, tags } = req.body;
+  const normalizedPhone = normalizePhoneNumber(phoneNumber);
 
   const { data: existing } = await supabaseAdmin
     .from("contacts")
     .select("id")
     .eq("organization_id", orgId)
-    .eq("phone_number", phoneNumber)
+    .eq("phone_number", normalizedPhone)
     .single();
   if (existing)
     throw ApiError.conflict("A contact with this phone number already exists");
@@ -87,7 +98,7 @@ const createContact = catchAsync(async (req, res) => {
     .from("contacts")
     .insert({
       organization_id: orgId,
-      phone_number: phoneNumber,
+      phone_number: normalizedPhone,
       name: name || null,
       email: email || null,
       classification,
@@ -111,13 +122,13 @@ const createContact = catchAsync(async (req, res) => {
   notifyOrgMembers({
     orgId,
     type: "new_contact",
-    title: `New contact: ${name || phoneNumber}`,
+    title: `New contact: ${name || normalizedPhone}`,
     body: `Added by team member`,
     link: `/dashboard/contacts`,
     excludeUserId: req.user.id,
     emailData: {
       contactName: name || null,
-      contactPhone: phoneNumber,
+      contactPhone: normalizedPhone,
     },
   });
 
@@ -128,7 +139,7 @@ const createContact = catchAsync(async (req, res) => {
     action: "created",
     entityType: "contact",
     entityId: contact.id,
-    metadata: { phoneNumber, name },
+    metadata: { phoneNumber: normalizedPhone, name },
   });
 
   res.status(201).json({ success: true, data: contact });
@@ -138,6 +149,8 @@ const updateContact = catchAsync(async (req, res) => {
   const orgId = req.organization.id;
   const { id } = req.params;
   const updates = {};
+  if (req.body.phoneNumber !== undefined)
+    updates.phone_number = normalizePhoneNumber(req.body.phoneNumber);
   if (req.body.name !== undefined) updates.name = req.body.name;
   if (req.body.email !== undefined) updates.email = req.body.email;
   if (req.body.classification) updates.classification = req.body.classification;
@@ -285,11 +298,13 @@ const listConversations = catchAsync(async (req, res) => {
     if (contactIds.length > 0) {
       // Match conversations by contact OR by message preview
       query = query.or(
-        `contact_id.in.(${contactIds.join(",")}),last_message_preview.ilike.%${search}%`,
+        `contact_id.in.(${contactIds.join(",")}),participant_name.ilike.%${search}%,participant_phone.ilike.%${search}%,last_message_preview.ilike.%${search}%`,
       );
     } else {
-      // No matching contacts — search only by message preview
-      query = query.ilike("last_message_preview", `%${search}%`);
+      // No matching contacts — search anonymous identity + preview
+      query = query.or(
+        `participant_name.ilike.%${search}%,participant_phone.ilike.%${search}%,last_message_preview.ilike.%${search}%`,
+      );
     }
   }
 
@@ -367,6 +382,116 @@ const updateConversation = catchAsync(async (req, res) => {
   });
 
   res.json({ success: true, data });
+});
+
+const saveConversationContact = catchAsync(async (req, res) => {
+  const orgId = req.organization.id;
+  const { id } = req.params;
+  const { name, classification } = req.body;
+
+  const { data: conversation, error: convErr } = await supabaseAdmin
+    .from("conversations")
+    .select("*")
+    .eq("id", id)
+    .eq("organization_id", orgId)
+    .single();
+
+  if (convErr || !conversation) {
+    throw ApiError.notFound("Conversation not found");
+  }
+
+  if (conversation.contact_id) {
+    const { data: alreadySaved } = await supabaseAdmin
+      .from("conversations")
+      .select(
+        "*, contacts(id, name, phone_number, avatar_url, classification), profiles:assigned_to(id, full_name), ai_agents(id, name)",
+      )
+      .eq("id", conversation.id)
+      .single();
+
+    return res.json({ success: true, data: alreadySaved || conversation });
+  }
+
+  const phone = String(conversation.participant_phone || "").replace(/\D/g, "");
+  if (!phone || phone.length < 7 || phone.length > 15) {
+    throw ApiError.badRequest(
+      "Conversation has no valid phone number to create a contact",
+    );
+  }
+
+  let { data: contact } = await supabaseAdmin
+    .from("contacts")
+    .select("*")
+    .eq("organization_id", orgId)
+    .eq("phone_number", phone)
+    .single();
+
+  if (!contact) {
+    const contactPayload = {
+      organization_id: orgId,
+      phone_number: phone,
+      name: name || conversation.participant_name || null,
+      classification: classification || "new_lead",
+      last_conversation_at: new Date().toISOString(),
+    };
+
+    const { data: created, error: createErr } = await supabaseAdmin
+      .from("contacts")
+      .insert(contactPayload)
+      .select("*")
+      .single();
+
+    if (createErr && createErr.code !== "23505") {
+      throw ApiError.internal("Failed to save contact");
+    }
+
+    if (created) {
+      contact = created;
+    } else {
+      const { data: existingAfterConflict, error: fetchErr } =
+        await supabaseAdmin
+          .from("contacts")
+          .select("*")
+          .eq("organization_id", orgId)
+          .eq("phone_number", phone)
+          .single();
+
+      if (fetchErr || !existingAfterConflict) {
+        throw ApiError.internal("Failed to save contact");
+      }
+
+      contact = existingAfterConflict;
+    }
+  }
+
+  const { error: linkErr } = await supabaseAdmin
+    .from("conversations")
+    .update({
+      contact_id: contact.id,
+      participant_name: contact.name || conversation.participant_name,
+      participant_phone: contact.phone_number || conversation.participant_phone,
+    })
+    .eq("id", conversation.id)
+    .eq("organization_id", orgId);
+
+  if (linkErr) {
+    throw ApiError.internal("Failed to link conversation to contact");
+  }
+
+  const { data: updatedConversation, error: refreshedErr } = await supabaseAdmin
+    .from("conversations")
+    .select(
+      "*, contacts(id, name, phone_number, avatar_url, classification), profiles:assigned_to(id, full_name), ai_agents(id, name)",
+    )
+    .eq("id", conversation.id)
+    .eq("organization_id", orgId)
+    .single();
+
+  if (refreshedErr || !updatedConversation) {
+    throw ApiError.internal("Failed to fetch updated conversation");
+  }
+
+  res.json({ success: true, data: updatedConversation });
 });
 
 /* ================================================================== */
@@ -778,6 +903,7 @@ module.exports = {
   listConversations,
   getConversation,
   updateConversation,
+  saveConversationContact,
   listMessages,
   listNotes,
   createNote,

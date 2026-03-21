@@ -320,7 +320,9 @@
       "notes": "Notes",
       "addNote": "Add a note...",
       "contactInfo": "Contact Info",
-      "attachFile": "Attach file"
+      "attachFile": "Attach file",
+      "saveContact": "Save Contact",
+      "savingContact": "Saving..."
     },
     "contacts": {
       "title": "Contacts",
@@ -346,7 +348,12 @@
       "viewConversations": "View Conversations",
       "info": "Contact Info",
       "noTags": "No tags assigned",
-      "notesLabel": "Notes"
+      "notesLabel": "Notes",
+      "new_lead": "New Lead",
+      "interested": "Interested",
+      "said_no": "Said No",
+      "bought": "Bought",
+      "didnt_buy": "Didn't Buy"
     },
     "pipeline": {
       "title": "Sales Pipeline",
@@ -535,10 +542,11 @@
       "messageHint": "Type your broadcast message here...",
       "whatsappAccount": "WhatsApp Account",
       "recipients": "Recipients",
-      "recipientHint": "Select tags to target specific contacts, or leave empty to send to all.",
-      "noTags": "No tags available",
+      "recipientHint": "Select classifications to target specific contacts, or leave empty to send to all.",
+      "noTags": "No classifications available",
       "allContacts": "All contacts",
       "tagsSelected": "tags selected",
+      "classificationsSelected": "classifications selected",
       "schedule": "Schedule",
       "sendNow": "Send Now",
       "scheduleLater": "Schedule for Later",

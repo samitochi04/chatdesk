@@ -11,6 +11,14 @@ import {
   HiOutlineArrowLeft,
 } from "react-icons/hi2";
 
+const CONTACT_CLASSIFICATIONS = [
+  "new_lead",
+  "interested",
+  "said_no",
+  "bought",
+  "didnt_buy",
+];
+
 /* ── Status helpers ───────────────────── */
 
 const STATUS_COLORS = {
@@ -35,25 +43,20 @@ function CreateModal({ onClose, onSaved }) {
   const [name, setName] = useState("");
   const [messageTemplate, setMessageTemplate] = useState("");
   const [whatsappAccountId, setWhatsappAccountId] = useState("");
-  const [selectedTags, setSelectedTags] = useState([]);
+  const [selectedClassifications, setSelectedClassifications] = useState([]);
   const [scheduleType, setScheduleType] = useState("now");
   const [scheduledAt, setScheduledAt] = useState("");
 
   // Loaded data
   const [accounts, setAccounts] = useState([]);
-  const [tags, setTags] = useState([]);
 
   useEffect(() => {
     (async () => {
       try {
-        const [accRes, tagRes] = await Promise.all([
-          api.get("/whatsapp/accounts"),
-          api.get("/crm/tags"),
-        ]);
+        const [accRes] = await Promise.all([api.get("/whatsapp/accounts")]);
         const accs = accRes.data || [];
         setAccounts(accs);
         if (accs.length > 0) setWhatsappAccountId(accs[0].id);
-        setTags(tagRes.data || []);
       } catch {
         /* ignore */
       }
@@ -68,7 +71,7 @@ function CreateModal({ onClose, onSaved }) {
         name,
         messageTemplate,
         whatsappAccountId,
-        targetTagIds: selectedTags,
+        targetClassifications: selectedClassifications,
         scheduledAt:
           scheduleType === "later" && scheduledAt ? scheduledAt : null,
       };
@@ -164,38 +167,32 @@ function CreateModal({ onClose, onSaved }) {
             <p className="text-sm text-[var(--color-text-secondary)]">
               {t("dashboard.broadcasts.recipientHint")}
             </p>
-            {tags.length > 0 ? (
-              <div className="flex flex-wrap gap-2">
-                {tags.map((tag) => (
-                  <button
-                    key={tag.id}
-                    type="button"
-                    onClick={() =>
-                      setSelectedTags((prev) =>
-                        prev.includes(tag.id)
-                          ? prev.filter((id) => id !== tag.id)
-                          : [...prev, tag.id],
-                      )
-                    }
-                    className={`rounded-lg border px-3 py-1.5 text-sm transition-colors ${
-                      selectedTags.includes(tag.id)
-                        ? "border-[var(--color-primary)] bg-[var(--color-primary)]/10 text-[var(--color-primary)]"
-                        : "border-[var(--color-border)] text-[var(--color-text-secondary)] hover:bg-[var(--color-bg-secondary)]"
-                    }`}
-                  >
-                    {tag.name}
-                  </button>
-                ))}
-              </div>
-            ) : (
-              <p className="text-sm text-[var(--color-text-tertiary)]">
-                {t("dashboard.broadcasts.noTags")}
-              </p>
-            )}
+            <div className="flex flex-wrap gap-2">
+              {CONTACT_CLASSIFICATIONS.map((classification) => (
+                <button
+                  key={classification}
+                  type="button"
+                  onClick={() =>
+                    setSelectedClassifications((prev) =>
+                      prev.includes(classification)
+                        ? prev.filter((value) => value !== classification)
+                        : [...prev, classification],
+                    )
+                  }
+                  className={`rounded-lg border px-3 py-1.5 text-sm transition-colors ${
+                    selectedClassifications.includes(classification)
+                      ? "border-[var(--color-primary)] bg-[var(--color-primary)]/10 text-[var(--color-primary)]"
+                      : "border-[var(--color-border)] text-[var(--color-text-secondary)] hover:bg-[var(--color-bg-secondary)]"
+                  }`}
+                >
+                  {t(`dashboard.contacts.${classification}`, classification)}
+                </button>
+              ))}
+            </div>
             <p className="text-xs text-[var(--color-text-tertiary)]">
-              {selectedTags.length === 0
+              {selectedClassifications.length === 0
                 ? t("dashboard.broadcasts.allContacts")
-                : `${selectedTags.length} ${t("dashboard.broadcasts.tagsSelected")}`}
+                : `${selectedClassifications.length} ${t("dashboard.broadcasts.classificationsSelected")}`}
             </p>
           </div>
         )}
@@ -256,9 +253,9 @@ function CreateModal({ onClose, onSaved }) {
                 {t("dashboard.broadcasts.recipients")}:
               </span>{" "}
               <span className="text-[var(--color-text-primary)]">
-                {selectedTags.length === 0
+                {selectedClassifications.length === 0
                   ? t("dashboard.broadcasts.allContacts")
-                  : `${selectedTags.length} ${t("dashboard.broadcasts.tagsSelected")}`}
+                  : `${selectedClassifications.length} ${t("dashboard.broadcasts.classificationsSelected")}`}
               </span>
             </div>
             <div>

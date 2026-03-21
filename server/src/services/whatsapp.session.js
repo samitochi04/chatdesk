@@ -1,9 +1,9 @@
 const {
   default: makeWASocket,
   useMultiFileAuthState,
-  fetchLatestBaileysVersion,
   DisconnectReason,
   downloadMediaMessage,
+  fetchLatestBaileysVersion,
   Browsers,
   getContentType,
 } = require("@whiskeysockets/baileys");
@@ -20,7 +20,10 @@ const creatingLocks = new Set();
 
 const BASE_RECONNECT_DELAY = 5000;
 const MAX_RECONNECT_DELAY = 120000;
-const HEARTBEAT_MS = 3 * 60 * 1000;
+const SOCKET_KEEPALIVE_MS = 20 * 1000;
+const PRESENCE_HEARTBEAT_MS = 2 * 60 * 1000;
+const WATCHDOG_CHECK_MS = 60 * 1000;
+const STALE_SOCKET_MS = 5 * 60 * 1000;
 const QR_TIMEOUT_MS = 120000;
 
 const baileysLogger = pino({ level: "silent" });
@@ -108,20 +111,21 @@ async function createSession(account, onMessage, opts = {}) {
     fs.mkdirSync(authDir, { recursive: true });
 
     const { state, saveCreds } = await useMultiFileAuthState(authDir);
+
     const { version } = await fetchLatestBaileysVersion();
 
     const sock = makeWASocket({
-      version,
       auth: state,
       logger: baileysLogger,
-      browser: Browsers.ubuntu("Chrome"),
+      version,
+      browser: Browsers.macOS("Desktop"),
       printQRInTerminal: false,
       generateHighQualityLinkPreview: false,
-      syncFullHistory: false,
+      syncFullHistory: true,
       markOnlineOnConnect: true,
-      keepAliveIntervalMs: HEARTBEAT_MS,
-      connectTimeoutMs: 60000,
+      connectTimeoutMs: 90000,
       retryRequestDelayMs: 2000,
+      keepAliveIntervalMs: SOCKET_KEEPALIVE_MS,
       getMessage: async (key) => {
         // Required by Baileys v7 for message retries / decryption
         // Try to find the message in our DB
@@ -146,8 +150,12 @@ async function createSession(account, onMessage, opts = {}) {
       status: "pending",
       qrDataUrl: null,
       reconnectAttempts: 0,
+      reconnectTimer: null,
+      reconnectGeneration: 0,
       destroyedByUser: false,
       heartbeatInterval: null,
+      watchdogInterval: null,
+      lastEventAt: Date.now(),
     };
     sessions.set(accountId, sessionEntry);
 
@@ -167,6 +175,7 @@ async function createSession(account, onMessage, opts = {}) {
 
     // ── Connection update events ──────────────────────
     sock.ev.on("connection.update", async (update) => {
+      sessionEntry.lastEventAt = Date.now();
       const { connection, lastDisconnect, qr } = update;
 
       // QR code received
@@ -204,6 +213,9 @@ async function createSession(account, onMessage, opts = {}) {
         sessionEntry.status = "connected";
         sessionEntry.qrDataUrl = null;
         sessionEntry.reconnectAttempts = 0;
+        clearReconnectTimer(sessionEntry);
+        startHeartbeat(accountId, sessionEntry, sock);
+        startWatchdog(accountId, sessionEntry, onMessage);
         await updateAccountStatus(accountId, "connected", { qr_code: null });
 
         // Resolve QR promise if still pending
@@ -228,6 +240,7 @@ async function createSession(account, onMessage, opts = {}) {
 
         sessionEntry.status = "disconnected";
         stopHeartbeat(sessionEntry);
+        stopWatchdog(sessionEntry);
 
         // Logged out — credentials invalid, wipe and stop
         if (statusCode === DisconnectReason.loggedOut) {
@@ -265,6 +278,7 @@ async function createSession(account, onMessage, opts = {}) {
 
     // ── Incoming messages ──────────────────────────
     sock.ev.on("messages.upsert", async ({ messages: msgs, type }) => {
+      sessionEntry.lastEventAt = Date.now();
       logger.info(
         `messages.upsert event: type=${type}, count=${msgs?.length || 0}, account=${accountId}`,
       );
@@ -303,8 +317,43 @@ async function createSession(account, onMessage, opts = {}) {
       }
     });
 
+    // ── History sync on reconnect / initial login ──────────
+    sock.ev.on("messaging-history.set", async (history) => {
+      sessionEntry.lastEventAt = Date.now();
+      try {
+        const messages = history?.messages || [];
+        const syncType = history?.syncType || "unknown";
+        logger.info(
+          `messaging-history.set: type=${syncType}, count=${messages.length}, account=${accountId}`,
+        );
+
+        for (const msg of messages) {
+          try {
+            if (!msg?.message) continue;
+            if (msg.key?.remoteJid === "status@broadcast") continue;
+            if (msg.key?.remoteJid?.endsWith("@g.us")) continue;
+
+            if (msg.key?.fromMe) {
+              await handleOutgoingFromPhone(sock, msg, account);
+            } else {
+              await onMessage(sock, msg, account, {
+                skipSideEffects: true,
+              });
+            }
+          } catch (err) {
+            logger.error(
+              `History sync message processing failed for ${accountId}: ${err.message}`,
+            );
+          }
+        }
+      } catch (err) {
+        logger.error(`History sync failed for ${accountId}: ${err.message}`);
+      }
+    });
+
     // ── Message status updates (delivery/read receipts) ──
     sock.ev.on("messages.update", async (updates) => {
+      sessionEntry.lastEventAt = Date.now();
       for (const { key, update: upd } of updates) {
         try {
           if (!upd.status) continue;
@@ -340,7 +389,9 @@ async function destroySession(accountId, silent = false) {
   if (!session) return;
 
   session.destroyedByUser = true;
+  clearReconnectTimer(session);
   stopHeartbeat(session);
+  stopWatchdog(session);
 
   try {
     session.sock.ev.removeAllListeners();
@@ -364,11 +415,12 @@ function startHeartbeat(accountId, sessionEntry, sock) {
     try {
       if (sessions.has(accountId) && sessionEntry.status === "connected") {
         await sock.sendPresenceUpdate("available");
+        sessionEntry.lastEventAt = Date.now();
       }
     } catch (err) {
       logger.warn(`Heartbeat failed for ${accountId}: ${err.message}`);
     }
-  }, HEARTBEAT_MS);
+  }, PRESENCE_HEARTBEAT_MS);
 }
 
 function stopHeartbeat(sessionEntry) {
@@ -378,11 +430,58 @@ function stopHeartbeat(sessionEntry) {
   }
 }
 
+function startWatchdog(accountId, sessionEntry, onMessage) {
+  stopWatchdog(sessionEntry);
+  sessionEntry.watchdogInterval = setInterval(() => {
+    try {
+      if (!sessions.has(accountId)) return;
+      if (sessionEntry.status !== "connected") return;
+
+      const idleFor = Date.now() - (sessionEntry.lastEventAt || 0);
+      if (idleFor < STALE_SOCKET_MS) return;
+
+      logger.warn(
+        `Socket for ${accountId} appears stale (${Math.round(idleFor / 1000)}s idle). Triggering reconnect.`,
+      );
+
+      sessionEntry.status = "disconnected";
+      stopHeartbeat(sessionEntry);
+      stopWatchdog(sessionEntry);
+      scheduleReconnect(accountId, sessionEntry, onMessage);
+    } catch (err) {
+      logger.warn(`Watchdog check failed for ${accountId}: ${err.message}`);
+    }
+  }, WATCHDOG_CHECK_MS);
+}
+
+function stopWatchdog(sessionEntry) {
+  if (sessionEntry.watchdogInterval) {
+    clearInterval(sessionEntry.watchdogInterval);
+    sessionEntry.watchdogInterval = null;
+  }
+}
+
+function clearReconnectTimer(sessionEntry) {
+  if (sessionEntry?.reconnectTimer) {
+    clearTimeout(sessionEntry.reconnectTimer);
+    sessionEntry.reconnectTimer = null;
+  }
+}
+
 /* ── Auto-reconnect ──────────────────────── */
 
 function scheduleReconnect(accountId, sessionEntry, onMessage) {
+  if (sessionEntry.reconnectTimer) {
+    logger.info(
+      `Reconnect already scheduled for ${accountId}, skipping duplicate schedule`,
+    );
+    return;
+  }
+
   const attempts = (sessionEntry.reconnectAttempts || 0) + 1;
   sessionEntry.reconnectAttempts = attempts;
+  const generation = (sessionEntry.reconnectGeneration || 0) + 1;
+  sessionEntry.reconnectGeneration = generation;
 
   const delay = Math.min(
     BASE_RECONNECT_DELAY * Math.pow(2, attempts - 1),
@@ -392,9 +491,12 @@ function scheduleReconnect(accountId, sessionEntry, onMessage) {
     `Scheduling auto-reconnect for ${accountId} (attempt ${attempts}) in ${delay / 1000}s`,
   );
 
-  setTimeout(async () => {
+  sessionEntry.reconnectTimer = setTimeout(async () => {
+    sessionEntry.reconnectTimer = null;
+
     const entry = sessions.get(accountId);
     if (!entry || entry.destroyedByUser) return;
+    if (entry.reconnectGeneration !== generation) return;
 
     try {
       try {
@@ -454,7 +556,8 @@ function unwrapMessage(message) {
 
 /* ── Handle outgoing messages sent from the phone ── */
 
-async function handleOutgoingFromPhone(sock, msg, account) {
+async function handleOutgoingFromPhone(sock, msg, account, options = {}) {
+  const { skipMediaDownload = false } = options;
   const waId = msg.key.id;
   const normalized = unwrapMessage(msg.message);
 
@@ -484,31 +587,32 @@ async function handleOutgoingFromPhone(sock, msg, account) {
     return;
 
   const orgId = account.organization_id;
-  const bare = remoteJid
-    .replace("@s.whatsapp.net", "")
-    .replace("@c.us", "")
-    .replace("@lid", "");
+  const bare = remoteJid.replace("@s.whatsapp.net", "").replace("@c.us", "");
   const rawPhone = bare.includes(":") ? bare.split(":")[0] : bare;
+  const normalizedPhone = /^\d{7,15}$/.test(rawPhone) ? rawPhone : null;
 
   // Skip if remote is the connected phone itself
-  if (rawPhone === account.phone_number) return;
+  if (normalizedPhone && normalizedPhone === account.phone_number) return;
 
   const {
-    findOrCreateContact,
+    findContactByPhone,
     findOrCreateConversation,
     resolveMessageType,
   } = require("./whatsapp.message");
 
-  const contact = await findOrCreateContact(orgId, rawPhone, null);
-  const conversation = await findOrCreateConversation(
-    orgId,
-    account.id,
-    contact.id,
-  );
+  const contact = normalizedPhone
+    ? await findContactByPhone(orgId, normalizedPhone)
+    : null;
+  const conversation = await findOrCreateConversation(orgId, account.id, {
+    contactId: contact?.id || null,
+    remoteJid,
+    phoneNumber: normalizedPhone,
+    displayName: msg.pushName || null,
+  });
 
   const msgType = resolveMessageType(normalized);
   let mediaUrl = null;
-  if (msgType !== "text") {
+  if (msgType !== "text" && !skipMediaDownload) {
     try {
       const buffer = await downloadMediaMessage(msg, "buffer", {});
       if (buffer) {

@@ -48,6 +48,12 @@ const createContact = Joi.object({
 });
 
 const updateContact = Joi.object({
+  phoneNumber: Joi.string()
+    .pattern(/^\+?\d{7,15}$/)
+    .messages({
+      "string.pattern.base":
+        "Phone number must contain 7-15 digits, optionally prefixed with +",
+    }),
   name: Joi.string().max(200).allow("", null),
   email: Joi.string().email().allow("", null),
   classification: Joi.string().valid(
@@ -91,6 +97,17 @@ const listConversations = Joi.object({
 const updateConversation = Joi.object({
   status: Joi.string().valid("open", "closed", "pending", "archived"),
   assignedTo: Joi.string().uuid().allow(null),
+});
+
+const saveConversationContact = Joi.object({
+  name: Joi.string().max(200).allow("", null),
+  classification: Joi.string().valid(
+    "new_lead",
+    "interested",
+    "said_no",
+    "bought",
+    "didnt_buy",
+  ),
 });
 
 const listMessages = Joi.object({
@@ -167,6 +184,7 @@ module.exports = {
   assignTags,
   listConversations,
   updateConversation,
+  saveConversationContact,
   listMessages,
   createNote,
   createStage,

@@ -65,6 +65,12 @@ router.patch(
   validate(s.updateConversation),
   ctrl.updateConversation,
 );
+router.post(
+  "/conversations/:id/save-contact",
+  validate(s.idParam, "params"),
+  validate(s.saveConversationContact),
+  ctrl.saveConversationContact,
+);
 
 // ── Messages ────────────────────────────────
 

@@ -33,6 +33,7 @@
     "winston": "^3.17.0"
   },
   "devDependencies": {
+    "dependency-cruiser": "^17.3.9",
     "nodemon": "^3.1.9"
   }
 }
